@@ -43,13 +43,7 @@ import Explore from './componets/Explore';
 import Cart from './componets/cart'
 import Checkout from './componets/checkout';
 import { Order } from './componets/order';
-import { Postaddandremove } from './owner/componetstoowner/postaddandremove';
-import OwnerRoute from './owner/authandroute/owneraut';
-import { Allorder } from './owner/componetstoowner/allorder';
-import { Pendingorder } from './owner/componetstoowner/orderpending';
-import { Ordercancel } from './owner/componetstoowner/ordercancel';
-import { Tocomplete } from './owner/componetstoowner/tocomplete';
-import { OrderComplete } from './owner/componetstoowner/ordercomplete';
+
 import AdminAvailabilityForm from './admin/days';
 import OTPverify from './signup/otpverify';
 import CreatePost from './admincategory/adminlandmark/adminlandmarkcreate';
@@ -65,19 +59,12 @@ function App() {
       <Routes>
         //user email or number for signup
         <Route path='/signup' element={<SignupOne />} />
-        <Route path='/user/otp' element={
+        {/* <Route path='/user/otp' element={
           <ProtectedRouteADMINOTP>
             <OTPverify />
           </ProtectedRouteADMINOTP>
-          } />
+          } /> */}
         //address
-
-       
-         <Route path='/address' element={
-          <ProtectedRoute >
-            <ToAddress />
-          </ProtectedRoute> 
-        }/>
 
         //login
         {/* <Route path='/login' element={<Login />} /> */}
@@ -154,7 +141,9 @@ function App() {
         } />
 
          <Route path='/' element={
+            <ProtectedRoute>
                   <Home /> 
+                  </ProtectedRoute>
           } />
         <Route path='/explore' element={
           <ProtectedRoute><Explore /></ProtectedRoute>
@@ -177,18 +166,22 @@ function App() {
 
           <Route path="/payment-success" element={<PaymentSuccess />} />
 
-
+              <Route path='/address' element={
+          <ProtectedRoute >
+            <ToAddress />
+          </ProtectedRoute> 
+        }/>
         
           
           
 
-          <Route path='/owner/log' element={
+          {/* <Route path='/branch/log' element={
             <Ownerlog />
           } />
-           <Route path='/owner/verify' element={
+           <Route path='/branch/verify' element={
             <Ownerverify />
           } />
-          <Route path='/owner' element={
+          <Route path='/branch' element={
             <OwnerRoute>
               <Ownerdashboard />
             </OwnerRoute>
@@ -226,10 +219,7 @@ function App() {
               <OwnerRoute>
                 <OrderComplete />
               </OwnerRoute>
-          } />
-
-
-
+          } /> */}
 
       </Routes>
      

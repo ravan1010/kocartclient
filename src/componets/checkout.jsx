@@ -12,7 +12,7 @@ export default function Checkout() {
   const navigate = useNavigate();
 
 
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState();
   const [platform, setPlatform] = useState(0);
   const [delivery, setDelivery] = useState(0);
   const [total, setTotal] = useState(0);
@@ -35,13 +35,12 @@ export default function Checkout() {
 
   /* ===================== 💰 PRICE CALCULATION ===================== */
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const subtotal = cartItems?.total
 
   useEffect(() => {
-    setTotal(subtotal + platform + delivery);
+    const prototal = subtotal + platform + delivery
+    const totalper = prototal / 0.97
+    setTotal(totalper.toFixed(2));
   }, [subtotal, platform, delivery]);
 
   /* ===================== 📍 LIVE LOCATION ===================== */
@@ -58,6 +57,7 @@ export default function Checkout() {
       async (pos) => {
         const lat = pos.coords.latitude.toFixed(6);
         const lon = pos.coords.longitude.toFixed(6);
+        console.log(lat, lon)
 
         try {
           const geo = await axios.get(
@@ -105,8 +105,8 @@ export default function Checkout() {
     api
       .get("/api/cart/get", { withCredentials: true })
       .then((res) => {
-        setCartItems(res.data.cart?.items || []);
-        setPlatform(res.data.platform || 0);
+        setCartItems(res.data);
+        setPlatform(11);
       })
       .catch(console.error);
   }, []);
@@ -151,7 +151,7 @@ export default function Checkout() {
       return;
     }
     const { data } = await api.post("/api/order/checkout", {
-      totalAmount: total,
+       total,
     });
 
     const options = {
@@ -297,19 +297,36 @@ export default function Checkout() {
             <h3 className="text-xl font-bold text-gray-800">
               Order Summary
             </h3>
+            <div className="border-b border-t ">
+              {cartItems?.shop.map((shop) => (
+                <div key={shop._id} className="shop-box mb-2 mt-2 rounded">
+                  {shop.items.map((item) => (
+                    <div
+                      key={item._id}
+                      className="flex items-center justify-between "
+                    >
+                      <div>
+                        <img
+                          src={item.productId?.image?.[0]}
+                          alt=""
+                          className="w-16 h-16 object-cover rounded"
+                        />
+                        <div>
+                          <p className="font-semibold">{item.productId?.name}</p>
+                        </div>
+                      </div>
 
-            {cartItems.map(item => (
-              <div key={item._id} className="flex justify-between text-sm text-gray-700">
+                      <div className="text-right">
+                        <p className="font-bold">
+                          ₹{item.price * item.quantity}
+                        </p>
 
-                <span>
-                  <img src={item.productId?.image[0]} className="w-[35%]" /> {item.productId?.name} × {item.quantity}
-                </span>
-                <span>
-                  ₹{item.price * item.quantity}
-                </span>
-              </div>
-            ))}
-
+                      </div>
+                    </div>
+                  ))}
+                </div>
+               ))} 
+             </div> 
             {delivery > 0 && (<>
               <div className="flex justify-between text-sm">
                 <span>Distance</span>
@@ -326,6 +343,10 @@ export default function Checkout() {
             <div className="flex justify-between text-sm">
               <span>Platform Fee</span>
               <span>₹{platform}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span>online pay</span>
+              <span>3%</span>
             </div>
 
             <hr />

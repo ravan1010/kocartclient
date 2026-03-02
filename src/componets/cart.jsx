@@ -24,9 +24,9 @@ export default function Cart() {
     getcart();
   }, []);
 
-  const removeItem = async (id) => {
+  const removeItem = async (itemId, shopId) => {
     try {
-      await api.delete(`/api/remove/${id}`, { withCredentials: true });
+      await api.delete(`/api/remove/${itemId}/${shopId}`, { withCredentials: true });
       getcart(); // 🔥 no reload
     } catch (error) {
       console.error(error);
@@ -63,52 +63,61 @@ export default function Cart() {
 
         {/* Cart Items */}
         <div className="p-2 border">
-        {!loading && cart?.shop.map((shop) => (
-          <div key={shop._id} className="shop-box border p-4 mb-4 rounded">
-            <h3 className="font-bold text-lg">
-              {shop.admin?.companyName}
-            </h3>
+          {!loading && cart?.shop.map((shop) => (
+            <div key={shop._id} className="shop-box border p-4 mb-4 rounded">
+              <h3 className="font-bold text-lg">
+                {shop.admin?.companyName}
+              </h3>
 
-            {shop.items.map((item) => (
-              <div
-                key={item._id}
-                className="flex items-center justify-between border-b py-3"
-              >
-                <div className="flex gap-3">
-                  <img
-                    src={item.productId?.image?.[0]}
-                    alt=""
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                  <div>
-                    <p className="font-semibold">{item.name}</p>
-                    <small>{item.variantName}</small>
-                    <p>Qty: {item.quantity}</p>
+              {shop.items.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex items-center justify-between border-b py-3"
+                >
+                  <div className="flex gap-3">
+                    <img
+                      src={item.productId?.image?.[0]}
+                      alt=""
+                      className="w-16 h-16 object-cover rounded"
+                    />
+                    <div>
+                      <p className="font-semibold">{item.productId?.name}</p>
+                      <small>{item.name}</small>
+                      <p>Qty: {item.quantity}</p>
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="font-bold">
+                      ₹{item.price * item.quantity}
+                    </p>
+                    <button
+                      onClick={() => removeItem(item._id, shop._id)}
+                      className="text-red-500 text-sm"
+                    >
+                      Remove
+                    </button>
                   </div>
                 </div>
+              ))}
 
-                <div className="text-right">
-                  <p className="font-bold">
-                    ₹{item.price * item.quantity}
-                  </p>
-                  <button
-                    onClick={() => removeItem(item._id)}
-                    className="text-red-500 text-sm"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            ))}
-
-            <p className="text-right font-bold mt-2">
-              Shop Total: ₹{shop.subtotal}
-            </p>
-          </div>
-        ))}
-        
+              <p className="text-right font-bold mt-2">
+                Shop Total: ₹{shop.subtotal}
+              </p>
+            </div>
+          ))}
+          { cart ? 
+          <div className="flex items-center justify-between px-4">
+            <p className="text-left font-bold underline"> Total : {cart?.total}</p>
+            <Link to='/checkout'
+              className="p-2 rounded-xl font-semibold transition bg-green-600 hover:bg-green-700 text-white"
+            >Checkout</Link>
+            </div>
+            : <></>
+}
         </div>
       </div>
+
 
       <Footer />
     </>

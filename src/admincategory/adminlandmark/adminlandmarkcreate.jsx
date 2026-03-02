@@ -7,7 +7,7 @@ import api from '../../api';
 const CreatePost = () => {
 
   const [name, setname] = useState('');
-  const [description, setdescription] = useState('');
+  // const [description, setdescription] = useState('');
   const [image, setimage] = useState('');
   const [variantname, setVariantname] = useState('');
   const [error, setError] = useState('');
@@ -35,19 +35,42 @@ const CreatePost = () => {
 
   //image to convert to base64
 
+  const MAX_SIZE_MB = 1;
+  const MAX_SIZE = MAX_SIZE_MB * 1024 * 1024; // 1MB in bytes
+
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
   const handleFiles = async (e) => {
     const files = Array.from(e.target.files);
 
-    if (files.length > 3) {
-      alert("You can only upload up to 3 files.");
-      e.target.value = ''; // Clear the input
+    if (files.length > 1) {
+      alert("You can only upload 1 file.");
+      e.target.value = '';
       return;
     }
-    const base64List = await Promise.all(
-      files.map(file => toBase64(file))
-    );
-    setimage(base64List);
 
+    const file = files[0];
+
+    // ✅ Type validation
+    if (!allowedTypes.includes(file.type)) {
+      alert("Only JPG, PNG, or WEBP allowed.");
+      e.target.value = '';
+      return;
+    }
+
+    // ✅ 1MB validation
+    if (file.size > MAX_SIZE) {
+      alert("Image must be less than 1MB.");
+      e.target.value = '';
+      return;
+    }
+
+    try {
+      const base64 = await toBase64(file);
+      setimage([base64]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const toBase64 = (file) => {
@@ -55,7 +78,7 @@ const CreatePost = () => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
+      reader.onerror = reject;
     });
   };
 
@@ -73,7 +96,7 @@ const CreatePost = () => {
 
       await api.post("/api/admin/post", {
         name: name,
-        description: description,
+        // description: description,
         image: image,
         variants: variants,
         variantname: variantname
@@ -106,7 +129,7 @@ const CreatePost = () => {
       <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl p-6 md:p-10">
 
         <h2 className="text-3xl font-bold text-center text-indigo-700 mb-8">
-          Create 
+          Create
         </h2>
 
         <form
@@ -117,7 +140,7 @@ const CreatePost = () => {
           {/* Name */}
           <div>
             <label htmlFor="name" className="block font-medium text-gray-700 mb-1">
-               Name
+              Name
             </label>
             <input
               id="name"
@@ -131,7 +154,7 @@ const CreatePost = () => {
           </div>
 
           {/* Description */}
-          <div>
+          {/* <div>
             <label htmlFor="description" className="block font-medium text-gray-700 mb-1">
               Description
             </label>
@@ -147,12 +170,15 @@ const CreatePost = () => {
             <p className="text-sm text-gray-400 mt-1">
               {description.length}/200
             </p>
-          </div>
+          </div> */}
 
           {/* Image Upload */}
           <div className="border-2 border-dashed rounded-xl p-6 text-center">
-            <h3 className="font-semibold text-lg mb-3 text-gray-700">
+            <h3 className="font-semibold text-lg text-gray-700">
               Upload Images
+            </h3>
+            <h3 className="font-semibold text-sm mb-3 text-black/50">
+              (Only 1 image allowed, max size 1MB, JPG/PNG/WEBP)
             </h3>
 
             <label
@@ -171,6 +197,9 @@ const CreatePost = () => {
               className="hidden"
             />
           </div>
+          {image && (
+            <img src={image} alt="Preview" className="w-full h-64 object-cover rounded-lg" />
+          )}
 
           {/* Variant Name */}
           <div>
@@ -180,7 +209,7 @@ const CreatePost = () => {
             <input
               id="variant"
               type="text"
-              placeholder="Eg: Ticket Type"
+              placeholder="Eg: Variant Type"
               value={variantname}
               onChange={(e) => setVariantname(e.target.value)}
               required

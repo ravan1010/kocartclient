@@ -1,137 +1,159 @@
-// src/components/OrganizerCard.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Star, MapPin } from 'lucide-react';
-// import isCartEnabled from './cartenable'; 
-import { useState } from 'react';
-
-import api from '../api';
-
+import React, { useState, useMemo } from "react";
+import { MapPin, Plus, Minus } from "lucide-react";
+import api from "../api";
 
 const OrganizerCard = ({ organizer }) => {
-  const [noti, setnoti] = useState()
-  const [quantity, setquantity] = useState(1); // ✅ now setquantity is a real function
-  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [noti, setnoti] = useState(null);
+  const [quantity, setquantity] = useState(1);
+  const [selectedVariant, setSelectedVariant] =
+    useState(organizer.variants?.[0]?._id || null);
 
+  const selectedVariantData = useMemo(() => {
+    return organizer.variants?.find(
+      (v) => v._id === selectedVariant
+    );
+  }, [selectedVariant, organizer.variants]);
 
-  // const reversedID = organizer._id.split("").reverse().join(""); // => "tcaer"
+  const totalPrice = useMemo(() => {
+    return selectedVariantData
+      ? selectedVariantData.price * quantity
+      : 0;
+  }, [selectedVariantData, quantity]);
 
-    const addToCart = async (productId, variantid, quantity = 1, adminId,  ) => {
-      if(!selectedVariant){
-        alert('select variant')
-      }
-      console.log(productId, variantid, quantity)
+  const increase = () => setquantity((prev) => prev + 1);
+  const decrease = () =>
+    setquantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  const addToCart = async (
+    productId,
+    variantid,
+    quantity = 1,
+    adminId
+  ) => {
+    if (!variantid) return;
+
     try {
-      const res = await api.post("/api/cart/add", { productId, quantity, variantid, adminId}, { withCredentials: true });
-      console.log(res.data.message);
-      if(res.data.success){
-        setnoti('Added to cart')
-        setTimeout(() => {
-        setnoti()
-      }, 1000);}
+      const res = await api.post(
+        "/api/cart/add",
+        { productId, quantity, variantid, adminId },
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        setnoti("Added");
+        setTimeout(() => setnoti(null), 1000);
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group">
+    <>
+    {organizer.active && (
+    <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition text-xs border border-gray-200 overflow-hidden relative">
 
-  {/* Image */}
-  <div className="relative">
-    <img
-      className="w-full h-56 object-cover"
-      src={organizer.image[0]}
-      alt={organizer.name}
-    />
+      {/* Closed Overlay */}
+      {!organizer.open && (
+        <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10 text-white font-semibold text-sm">
+          Closed
+        </div>
+      )}
 
-    {/* Gradient overlay */}
-    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+      
+      {/* Image */}
+      <div className="relative">
+        <img
+          className="w-full h-32 object-cover"
+          src={organizer.image?.[0]}
+          alt={organizer.name}
+        />
 
-    {/* City badge */}
-    <div className="absolute top-2 right-2 bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
-      <MapPin size={14} />
-      {organizer.cityTown}
-    </div>
+        <div className="absolute top-2 right-2 bg-indigo-600 text-white px-2 py-0.5 rounded-full text-[10px] flex items-center gap-1">
+          {organizer.name}
+        </div>
+        <div className="absolute bottom-2 left-2 bg-indigo-600 text-white px-2 py-0.5 rounded-full text-[10px] flex items-center gap-1">
+          {organizer.companyName}
+        </div>
 
-    {/* Notification badge */}
-    {noti && (
-      <div className="absolute top-2 left-2 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
-        {noti}
+        {noti && (
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-green-600 text-white px-2 py-0.5 border-6 border-black rounded-md text-[15px] flex items-center justify-center">
+            {noti}
+          </div>
+        )}
       </div>
+
+      {/* Content */}
+      <div className="p-2 space-y-2">
+
+        {/* Variants */}
+        {organizer.variants?.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {organizer.variants.map((variant) => (
+              <button
+                key={variant._id}
+                onClick={() => setSelectedVariant(variant._id)}
+                className={`px-2 py-0.5 rounded-full border text-[10px]
+                  ${
+                    selectedVariant === variant._id
+                      ? "bg-indigo-600 text-white border-indigo-600"
+                      : "bg-gray-100 border-gray-300"
+                  }`}
+              >
+                {variant.name} ₹{variant.price}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Quantity + Price */}
+        <div className="flex items-center justify-between">
+
+          <div className="flex items-center gap-1">
+            <button
+              onClick={decrease}
+              className="bg-gray-200 p-1 rounded-full"
+            >
+              <Minus size={10} />
+            </button>
+
+            <span className="font-medium text-xs">
+              {quantity}
+            </span>
+
+            <button
+              onClick={increase}
+              className="bg-gray-200 p-1 rounded-full"
+            >
+              <Plus size={10} />
+            </button>
+          </div>
+
+          <span className="font-semibold text-green-600 text-xs">
+            ₹{totalPrice}
+          </span>
+        </div>
+
+        {/* Add Button */}
+        <button
+          onClick={() =>
+            addToCart(
+              organizer._id,
+              selectedVariant,
+              quantity,
+              organizer.author
+            )
+          }
+          disabled={!organizer.active || !selectedVariant || !organizer.open}
+          className="w-full py-1 rounded-md text-white text-xs bg-green-600 hover:bg-green-700 disabled:bg-gray-300"
+        >
+          Add
+        </button>
+
+      </div>
+    </div>
     )}
-  </div>
-
-  {/* Content */}
-  <div className="p-4 space-y-2">
-
-    <h3 className="text-lg font-bold text-gray-800 truncate">
-      {organizer.name}
-    </h3>
-
-    <p className="text-sm text-gray-500 line-clamp-2">
-      {organizer.description}
-    </p>
-
-    <div className="flex items-center justify-between mt-2 gap-2">
-      <h4 className="font-semibold text-gray-700 truncate">
-        {organizer.companyName}
-      </h4>
-
-      <select
-        className="border rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
-        value={selectedVariant || ''}
-        onChange={(e) => setSelectedVariant(e.target.value)}
-      >
-        <option value="" disabled>
-          Select Variant
-        </option>
-        {organizer.variants.map((variant) => (
-          <option key={variant._id} value={variant._id}>
-            {variant.name} – ₹{variant.price}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    {/* Quantity */}
-    <div className="flex items-center justify-between">
-      <label htmlFor="quantity" className="text-sm text-gray-600">
-        Quantity
-      </label>
-      <select
-        id="quantity"
-        value={quantity}
-        onChange={(e) => setquantity(Number(e.target.value))}
-        className="border rounded-lg px-2 py-1 text-sm"
-      >
-        {[1, 2, 3, 4, 5].map((num) => (
-          <option key={num} value={num}>
-            {num}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    {/* Button */}
-    <button
-      onClick={() =>
-        addToCart(organizer._id, selectedVariant, quantity, organizer.author)
-      }
-      disabled={!organizer.active}
-      className={`w-full mt-3 py-2 rounded-xl font-semibold transition
-        ${
-          organizer.active
-            ? "bg-green-600 hover:bg-green-700 text-white"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed"
-        }
-      `}
-    >
-      {organizer.active ? "Add to Cart" : "Store Closed"}
-    </button>
-  </div>
-</div>
-
+</>
   );
 };
 

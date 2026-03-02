@@ -70,7 +70,7 @@ const Profile = () => {
       📍 Address List
     </Link>
 
-    {user ? (
+    {/* {user ? (
       <button
         onClick={() => setShowConfirm(true)}
         className="w-full text-left bg-white rounded-xl shadow-sm p-4 text-red-600 font-medium hover:shadow-md transition"
@@ -84,7 +84,7 @@ const Profile = () => {
       >
         🔐 Login / Signup
       </Link>
-    )}
+    )} */}
 
     {admin ? (
       <Link
@@ -105,7 +105,7 @@ const Profile = () => {
   </div>
 
   {/* Logout Modal */}
-  {showConfirm && (
+  {/* {showConfirm && (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl p-6 w-[90%] max-w-sm shadow-xl">
         <h2 className="text-lg font-semibold text-gray-800 mb-2">
@@ -131,7 +131,7 @@ const Profile = () => {
         </div>
       </div>
     </div>
-  )}
+  )} */}
 
   <Footer />
 </div>

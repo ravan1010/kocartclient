@@ -6,6 +6,8 @@ import AdminAvailability from "../../componets/getavailabledayandtime.jsx";
 
 import { ArrowLeft, Calendar, MessageSquare, User, BadgePlus, StickyNote, DoorClosedLocked, DoorOpen, ShieldClose, ShieldCheck } from 'lucide-react';
 import api from '../../api';
+import { generateAndSaveFCMToken } from '../../utili/token.js';
+
 
 const Adminlandmarkdashboard = () => {
 
@@ -17,21 +19,24 @@ const Adminlandmarkdashboard = () => {
   const [open, setopen] = useState()
 
 
-  // const [authorid, setauthorid] = useState('');
+
+  const [authorid, setauthorid] = useState('');
 
 
-  const fetchImages = async () => {
+
+   const fetchImages = async () => {
     const res = await api.get(`/api/admin/dashboard`, { withCredentials: true });
     setpost(res.data.post);
     setproductlist(res.data.productlist)
     setopen(res.data.openORclose)
-    console.log(open)
-    // setauthorid(res.data.author)
+    console.log(res.data.id)
+    setauthorid(res.data.id)
 
   };
 
   useEffect(() => {
     fetchImages();
+    generateAndSaveFCMToken()
   }, [])
 
   const handleToggle = async () => {
@@ -115,6 +120,7 @@ const Adminlandmarkdashboard = () => {
 
   return (
     <>
+  
       <Link to="/" className='h-10 w-[20%] grid mx-auto underline '>Home</Link>
       <div className="bg-gray-100 min-h-screen">
         <div className="container mx-auto p-4 sm:p-6 lg:p-8">
@@ -131,20 +137,7 @@ const Adminlandmarkdashboard = () => {
                   <Link to='/adminlandmark/productcreate' className='border-2 mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl'>Create Event</Link>
                 </div>
               </div>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow">
-              <div className="flex items-center">
-                <div className="p-3 rounded-full bg-blue-100 text-black">
-                  <StickyNote size={24} />
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm text-gray-500">Posts</p>
-                  <p className="text-xl font-bold text-black-600">{productlist}</p>
-                </div>
-                <div className='ml-4'>
-                </div>
-              </div>
-            </div>
+            </div> 
 
             <div className="bg-white p-6 rounded-lg shadow">
               <div className="flex items-center">
@@ -176,6 +169,7 @@ const Adminlandmarkdashboard = () => {
                 <div className="p-3 rounded-full bg-green-100 text-green-600">
                   <MessageSquare size={24} />
                 </div>
+       
                 <div className="ml-4">
                   <Link to={'/admin/order'} className='border-2 mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl'>Orders</Link>
                 </div>
