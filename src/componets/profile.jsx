@@ -7,7 +7,7 @@ import ADMINMainauth from '../admin/auth/adminMainauth';
 import Navbar from './navbar';
 import useAuthCheck from '../signup/auth/atokenauth';
 import Footer from './Footer'
-import { logout } from '../login/logout';
+
 
 const Profile = () => {
 
@@ -15,7 +15,6 @@ const Profile = () => {
     const { admin } = ADMINMainauth();
     const { user } = useAuthCheck()
     const [toadmin, settoadmin] = useState('')
-    const [showConfirm, setShowConfirm] = useState(false);
 
     
      const fetchtoadmin = async () => {

@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../../componets/Footer';
-import AdminAvailability from "../../componets/getavailabledayandtime.jsx";
-
-import { ArrowLeft, Calendar, MessageSquare, User, BadgePlus, StickyNote, DoorClosedLocked, DoorOpen, ShieldClose, ShieldCheck } from 'lucide-react';
+// 
+import { MessageSquare, User, BadgePlus,  DoorClosedLocked, DoorOpen, ShieldClose, ShieldCheck } from 'lucide-react';
 import api from '../../api';
 import { generateAndSaveFCMToken } from '../../utili/token.js';
 
@@ -31,7 +30,6 @@ const Adminlandmarkdashboard = () => {
     setopen(res.data.openORclose)
     console.log(res.data.id)
     setauthorid(res.data.id)
-
   };
 
   useEffect(() => {
