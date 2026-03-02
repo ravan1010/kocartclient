@@ -3,13 +3,13 @@ importScripts("https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compa
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB0mpaO9UQp-a1XLIWxvFme3VMB4H5LZLE",
-  authDomain: "notification-to-branch.firebaseapp.com",
-  projectId: "notification-to-branch",
-  storageBucket: "notification-to-branch.firebasestorage.app",
-  messagingSenderId: "513779357181",
-  appId: "1:513779357181:web:617659c8e24e487dd3f594",
-  measurementId: "G-K0Y7ZLNW9B"
+  apiKey : import.meta.env.API_KEY,
+  authDomain: import.meta.env.AUTH_DOMAIN,
+  projectId: import.meta.env.PROJECT_ID,
+  storageBucket: import.meta.env.STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.MESSAGING_SENDER_ID,
+  appId: import.meta.env.APP_ID,
+  measurementId: import.meta.env.MEASUREMENT_ID
 };
 
 firebase.initializeApp(firebaseConfig)
