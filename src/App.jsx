@@ -68,13 +68,7 @@ function App() {
               </ProtectedRouteADMININFO>
             </ProtectedRoute>
           } />
-          <Route path='/admin/setdate' element={
-            <ProtectedRoute>
-              <ProtectedRouteADMINMain>
-                <AdminAvailabilityForm />
-              </ProtectedRouteADMINMain>
-            </ProtectedRoute>
-          } />
+        
 
 
 //admin dashboard and create, delete based on category
