@@ -35,52 +35,43 @@ const CreatePost = () => {
 
   //image to convert to base64
 
-  const MAX_SIZE_MB = 1;
-  const MAX_SIZE = MAX_SIZE_MB * 1024 * 1024; // 1MB in bytes
+const MAX_SIZE_KB = 25;
+const MAX_SIZE = MAX_SIZE_KB * 1024; // 25KB in bytes
 
-  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
 
-  const handleFiles = async (e) => {
-    const files = Array.from(e.target.files);
+const handleFiles = async (e) => {
+  const files = Array.from(e.target.files);
 
-    if (files.length > 1) {
-      alert("You can only upload 1 file.");
-      e.target.value = '';
-      return;
-    }
+  if (files.length > 1) {
+    alert("You can only upload 1 file.");
+    e.target.value = '';
+    return;
+  }
 
-    const file = files[0];
+  const file = files[0];
 
-    // ✅ Type validation
-    if (!allowedTypes.includes(file.type)) {
-      alert("Only JPG, PNG, or WEBP allowed.");
-      e.target.value = '';
-      return;
-    }
+  // Type validation
+  if (!allowedTypes.includes(file.type)) {
+    alert("Only JPG, PNG, or WEBP allowed.");
+    e.target.value = '';
+    return;
+  }
 
-    // ✅ 1MB validation
-    if (file.size > MAX_SIZE) {
-      alert("Image must be less than 1MB.");
-      e.target.value = '';
-      return;
-    }
+  // 25KB validation
+  if (file.size > MAX_SIZE) {
+    alert("Image must be less than 25KB.");
+    e.target.value = '';
+    return;
+  }
 
-    try {
-      const base64 = await toBase64(file);
-      setimage([base64]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const toBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-    });
-  };
+  try {
+    const base64 = await toBase64(file);
+    setimage([base64]);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 
   //submit handler
@@ -178,7 +169,7 @@ const CreatePost = () => {
               Upload Images
             </h3>
             <h3 className="font-semibold text-sm mb-3 text-black/50">
-              (Only 1 image allowed, max size 1MB, JPG/PNG/WEBP)
+              (Only 1 image allowed, max size 25KB, JPG/PNG/WEBP)
             </h3>
 
             <label
