@@ -27,8 +27,10 @@ const Signup = () => {
     } catch (err) {
       if (err.response) {
         setError(err.response.data.message); // Server error
+        console.error(err.response.data);
       } else {
         setError("Network error"); // Network error
+        console.error(err);
       }
     }
 
