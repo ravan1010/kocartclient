@@ -12,13 +12,13 @@ import { useEffect, useState } from 'react';
 const Home = () => {
 
   const { location, locaError, Loadingloc } = useLocation();
-  const { grocery, restaurant, loading: merchantLoading } =
+  const { grocery, restaurant, Open, loading: merchantLoading } =
     useNearbyMerchants(location);
   const [GroceryData, setGroceryData] = useState([])
   const [ResturantData, setRestaurantData] = useState([])
 
   useEffect(() => {
-    if (grocery && restaurant) {
+    if (grocery || restaurant) {
       setGroceryData(grocery);
       setRestaurantData(restaurant);
       console.log(grocery, restaurant);
@@ -58,7 +58,7 @@ const Home = () => {
                 <div className="grid grid-cols-3 gap-2">
 
                   {GroceryData.map((organizer) => (
-                    <OrganizerCard key={organizer._id} organizer={organizer} />
+                    <OrganizerCard key={organizer._id} organizer={organizer} Open={Open} />
                   ))}
                 </div>
               </div>
@@ -72,7 +72,7 @@ const Home = () => {
                 <div className="grid grid-cols-3 gap-2">
 
                   {ResturantData.map((organizer) => (
-                    <OrganizerCard key={organizer._id} organizer={organizer} />
+                    <OrganizerCard key={organizer._id} organizer={organizer} Open={Open} />
                   ))}
                 </div>
               </div>

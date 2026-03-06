@@ -2,7 +2,8 @@ import React, { useState, useMemo } from "react";
 import { MapPin, Plus, Minus } from "lucide-react";
 import api from "../api";
 
-const OrganizerCard = ({ organizer }) => {
+const OrganizerCard = ({ organizer, Open }) => {
+  console.log(Open)
   const [noti, setnoti] = useState(null);
   const [quantity, setquantity] = useState(1);
   const [selectedVariant, setSelectedVariant] =
@@ -54,7 +55,7 @@ const OrganizerCard = ({ organizer }) => {
     <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition text-xs border border-gray-200 overflow-hidden relative">
 
       {/* Closed Overlay */}
-      {!organizer.open && (
+      {!organizer.open || !Open && (
         <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10 text-white font-semibold text-sm">
           Closed
         </div>
@@ -144,7 +145,7 @@ const OrganizerCard = ({ organizer }) => {
               organizer.author
             )
           }
-          disabled={!organizer.active || !selectedVariant || !organizer.open}
+          disabled={!organizer.active || !selectedVariant || !organizer.open }
           className="w-full py-1 rounded-md text-white text-xs bg-green-600 hover:bg-green-700 disabled:bg-gray-300"
         >
           Add

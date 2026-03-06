@@ -6,6 +6,7 @@ const useNearbyMerchants = (location) => {
   // const [merchants, setMerchants] = useState([]);
   const [grocery, setGrocery] = useState([]);
   const [restaurant, setRestaurant] = useState([]);
+  const [Open, setOpen] = useState();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -19,6 +20,9 @@ const useNearbyMerchants = (location) => {
         );
         setGrocery(res.data.grocery);
         setRestaurant(res.data.restaurant);
+        setOpen(res.data.branch.open);
+        console.log(res.data);
+
       } catch (error) {
         console.error(error);
       }
@@ -28,7 +32,7 @@ const useNearbyMerchants = (location) => {
     fetchMerchants();
   }, [location]);
 
-  return { loading, grocery, restaurant };
+  return { loading, grocery, restaurant, Open };
 };
 
 export default useNearbyMerchants;

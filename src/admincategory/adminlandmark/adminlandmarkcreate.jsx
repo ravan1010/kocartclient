@@ -40,6 +40,15 @@ const MAX_SIZE = MAX_SIZE_KB * 1024; // 25KB in bytes
 
 const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
 
+const toBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+
+
 const handleFiles = async (e) => {
   const files = Array.from(e.target.files);
 
