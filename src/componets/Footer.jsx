@@ -12,15 +12,18 @@ const Footer = () => {
             <p className="mt-2 text-gray-400"></p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold">Explore</h3>
+            <h3 className="text-lg font-semibold">policies</h3>
             <ul className="mt-4 space-y-2">
-              <li><Link to="/" className="text-gray-400 hover:text-white">Home</Link></li>
-              <li><Link to="/explore" className="text-gray-400 hover:text-white">Vendors</Link></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">About</a></li>
+              <li><Link to="/return-refund-policy" className="text-gray-400 hover:text-white">Return & Refund Policy</Link></li>
+              <li><Link to="/privacy-policy" className="text-gray-400 hover:text-white">Privacy Policy</Link></li>
+              <li><Link to="/terms-conditions" className="text-gray-400 hover:text-white">Terms & Conditions</Link></li>
+              <li><Link to="/shipping-policy" className="text-gray-400 hover:text-white">Shipping Policy</Link></li>
+              <li><Link to="/contact-information-policy" className="text-gray-400 hover:text-white">Contact Information Policy</Link></li>
+
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-semibold">For Vendors</h3>
+            <h3 className="text-lg font-semibold">For Marchent</h3>
             <ul className="mt-4 space-y-2">
               <li><Link  className="text-gray-400 hover:text-white">List Your Business</Link></li>
               <li><Link to="/admin" className="text-gray-400 hover:text-white">Partner</Link></li>
@@ -29,9 +32,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold">Follow Us</h3>
             <div className='flex flex-col'> 
-              <a href="#" className="text-gray-400 hover:text-white">Facebook</a>
-              <a href="/" className="text-gray-400 hover:text-white">Instagram</a>
-              <a href="#" className="text-gray-400 hover:text-white">Twitter</a>
+              <a href="https://www.instagram.com/kocart_/" className="text-gray-400 hover:text-white">Instagram</a>
             </div>
           </div>
         </div>

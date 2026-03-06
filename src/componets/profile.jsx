@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ADMINMainauth from '../admin/auth/adminMainauth';
 import Navbar from './navbar';
-import useAuthCheck from '../signup/auth/atokenauth';
+// import useAuthCheck from '../signup/auth/atokenauth';
 import Footer from './Footer'
 
 
@@ -13,7 +13,7 @@ const Profile = () => {
 
     const [number, setnumber] = useState()
     const { admin } = ADMINMainauth();
-    const { user } = useAuthCheck()
+    // const { user } = useAuthCheck()
     const [toadmin, settoadmin] = useState('')
 
     

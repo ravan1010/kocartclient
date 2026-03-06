@@ -36,6 +36,12 @@ import CreatePost from './admincategory/adminlandmark/adminlandmarkcreate';
 import Updatepost from './admincategory/adminlandmark/update';
 import PaymentSuccess from './componets/PaymentSuccess';
 
+import ReturnRefundPolicy from './footer/Return_and_Refund_Policy';
+import PrivacyPolicy from './footer/PrivacyPolicy';
+import TermsConditions from './footer/TermsConditions';
+import ShippingPolicy from './footer/ShippingPolicy';
+import ContactInformationPolicy from './footer/ContactInformationPolicy';
+
 
 function App() {
 
@@ -43,6 +49,11 @@ function App() {
     <>
       <Router>
         <Routes>
+          <Route path="/return-refund-policy" element={<ReturnRefundPolicy />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-conditions" element={<TermsConditions />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
+          <Route path="/contact-information-policy" element={<ContactInformationPolicy />} />
         //user email or number for signup
           <Route path='/signup' element={<SignupOne />} />
 
