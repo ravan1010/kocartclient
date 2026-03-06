@@ -33,7 +33,7 @@ const Adminlandmarkdashboard = () => {
   };
 
   useEffect(() => {
-    fetchImages();
+    fetchImages()
     generateAndSaveFCMToken()
   }, [])
 
