@@ -6,31 +6,40 @@ import OrganizerCard from './OrganizerCard';
 import useLocation from "../LocationContext";
 import useNearbyMerchants from "../useNearbyMerchants";
 import { useEffect, useState } from 'react';
-
 // import ImageSliderforAds from './ads';
 
 const Home = () => {
 
-  const { location, locaError, Loadingloc } = useLocation();
+  const { location, locaError, Loadingloc, turnON } = useLocation();
   const { grocery, restaurant, Open, loading: merchantLoading } =
     useNearbyMerchants(location);
   const [GroceryData, setGroceryData] = useState([])
   const [ResturantData, setRestaurantData] = useState([])
 
   useEffect(() => {
+    const fetchData = () => {
     if (grocery || restaurant) {
       setGroceryData(grocery);
       setRestaurantData(restaurant);
       console.log(grocery, restaurant);
     }
+  }
+    fetchData();
   }, [grocery, restaurant]);
 
   if (Loadingloc) return <p>Detecting location...</p>;
   if (locaError)
     return (
-      <div className="text-center mt-10 text-red-500">
-        Please turn on location to see nearby merchants
-      </div>
+      <>
+        <div className="text-center mt-10 text-red-500">
+          Please turn on location to see nearby merchants
+        </div>
+        <div className='flex items-center justify-center mt-4'> 
+          <button onClick={turnON} className='gap-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition' >📍 Turn on Location </button>
+        </div>
+
+
+      </>
     );
 
   if (merchantLoading) return <p>Finding nearby shops...</p>;

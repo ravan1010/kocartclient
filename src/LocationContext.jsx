@@ -6,7 +6,7 @@ const useLocation = () => {
   const [locaError, setError] = useState(null);
   const [Loadingloc, setLoading] = useState(true);
 
-  useEffect(() => {
+  const turnON = () => {
     if (!navigator.geolocation) {
       setError("Geolocation not supported");
       setLoading(false);
@@ -27,9 +27,18 @@ const useLocation = () => {
         console.log(err);
       }
     );
+}
+
+
+  useEffect(() => {
+    const ON = () => {
+      turnON();
+    }
+
+    ON();
   }, []);
 
-  return { location, locaError, Loadingloc };
+  return { location, locaError, Loadingloc, turnON };
 };
 
 export default useLocation;

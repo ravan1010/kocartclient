@@ -201,7 +201,7 @@ export default function Checkout() {
               className="flex items-center gap-2 border px-4 py-2 rounded-xl font-medium hover:bg-gray-50 transition"
             >
               <LocateFixed />
-              {locationLoading ? "Getting location..." : "Use Live Location"}
+              {locationLoading ? "Getting location..." : "📍 Use Live Location"}
             </button>
 
             <div className="rounded-xl overflow-hidden border">
