@@ -6,6 +6,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white mt-10">
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-lg font-semibold"></h3>
@@ -36,9 +37,16 @@ const Footer = () => {
             </div>
           </div>
         </div>
+          <h1 className="mt-8 text-white text-lg text-center">
+            Kocart is a digital platform that connects customers with nearby local merchants 
+            (restaurants, grocery marts, and clothing stores) within a 3 km radius. 
+            Customers can easily discover, order, and receive products quickly, 
+            while merchants gain more online visibility, orders, and sales through the platform.
+          </h1>
         <div className="mt-8 border-t border-gray-700 pt-8 text-center text-gray-400">
           &copy; {new Date().getFullYear()} Evently. All rights reserved.
         </div>
+
       </div>
     </footer>
   );
