@@ -1,4 +1,3 @@
-// hooks/useLocation.js
 import { useState, useEffect } from "react";
 
 const useLocation = () => {
@@ -7,6 +6,8 @@ const useLocation = () => {
   const [Loadingloc, setLoading] = useState(true);
 
   const turnON = () => {
+    setLoading(true);
+
     if (!navigator.geolocation) {
       setError("Geolocation not supported");
       setLoading(false);
@@ -16,26 +17,23 @@ const useLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setLocation({
-          lat: position.coords.latitude.toFixed(6),
-          lng: position.coords.longitude.toFixed(6),
+          lat: Number(position.coords.latitude.toFixed(6)),
+          lng: Number(position.coords.longitude.toFixed(6)),
         });
+
+        setError(null);
         setLoading(false);
       },
       (err) => {
+        console.log(err);
         setError("Location permission denied");
         setLoading(false);
-        console.log(err);
       }
     );
-}
-
+  };
 
   useEffect(() => {
-    const ON = () => {
-      turnON();
-    }
-
-    ON();
+    turnON();
   }, []);
 
   return { location, locaError, Loadingloc, turnON };

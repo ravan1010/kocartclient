@@ -29,18 +29,22 @@ const Home = () => {
 
   if (Loadingloc) return <p>Detecting location...</p>;
   if (locaError)
-    return (
-      <>
-        <div className="text-center mt-10 text-red-500">
-          Please turn on location to see nearby merchants
-        </div>
-        {/* <div className='flex items-center justify-center mt-4'> 
-          <button onClick={turnON} className='gap-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition' >📍 Turn on Location </button>
-        </div> */}
+  return (
+    <>
+      <div className="text-center mt-10 text-red-500">
+        Please turn on location to see nearby merchants
+      </div>
 
-
-      </>
-    );
+      <div className="flex items-center justify-center mt-4">
+        <button
+          onClick={turnON}
+          className="bg-blue-600 text-white px-4 py-2 rounded-full"
+        >
+          📍 Turn on Location
+        </button>
+      </div>
+    </>
+  );
 
   if (merchantLoading) return <p>Finding nearby shops...</p>;
 
