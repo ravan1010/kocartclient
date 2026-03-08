@@ -32,7 +32,8 @@ const Home = () => {
   return (
     <>
       <div className="text-center mt-10 text-red-500">
-        Please turn on location to see nearby merchants
+        
+        {locaError}
       </div>
 
       <div className="flex items-center justify-center mt-4">

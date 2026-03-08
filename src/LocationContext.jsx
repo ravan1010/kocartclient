@@ -5,7 +5,7 @@ const useLocation = () => {
   const [locaError, setError] = useState(null);
   const [Loadingloc, setLoading] = useState(true);
 
-  const turnON = () => {
+  const turnON = async () => {
     setLoading(true);
 
     if (!navigator.geolocation) {
@@ -13,6 +13,15 @@ const useLocation = () => {
       setLoading(false);
       return;
     }
+
+
+  const permission = await navigator.permissions.query({ name: "geolocation" });
+
+  if (permission.state === "denied") {
+    setError("Location blocked. Please enable it in browser settings.");
+    return;
+  }
+
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
