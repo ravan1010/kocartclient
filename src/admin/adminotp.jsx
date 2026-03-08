@@ -58,7 +58,7 @@ const AdminOTPverify = () => {
                 <h2 className="font-bold text-3xl mt-10"  >OTP</h2>
                     <form action="post" className="items-center p-2 pb-0.5" onSubmit={handleSubmit} >
                         <input 
-                        type='text'
+                        type='tel'
                         name='otp'
                         placeholder='Enter'
                         autoComplete='on'
