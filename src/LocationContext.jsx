@@ -20,8 +20,10 @@ const useLocation = () => {
   if (permission.state === "denied") {
     setError("Location blocked. Please enable it in browser settings.");
     return;
+  } else if (permission.state === "prompt") {
+    setError("Location permission required. Please allow it.");
+    return;
   }
-
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
