@@ -34,9 +34,9 @@ const Home = () => {
         <div className="text-center mt-10 text-red-500">
           Please turn on location to see nearby merchants
         </div>
-        <div className='flex items-center justify-center mt-4'> 
+        {/* <div className='flex items-center justify-center mt-4'> 
           <button onClick={turnON} className='gap-2 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition' >📍 Turn on Location </button>
-        </div>
+        </div> */}
 
 
       </>
