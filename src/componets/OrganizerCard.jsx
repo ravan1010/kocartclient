@@ -87,10 +87,18 @@ const OrganizerCard = ({ organizer, Open }) => {
       {/* Content */}
       <div className="p-2 space-y-2">
 
+        <p className="flex items-center gap-1 text-gray-500">
+          {organizer.variantname}
+        </p>
+
         {/* Variants */}
         {organizer.variants?.length > 0 && (
           <div className="flex flex-wrap gap-1">
+            
             {organizer.variants.map((variant) => (
+              <>
+              <p className="line-through">{variant.mrp}</p>
+              <p>{variant.name}</p>
               <button
                 key={variant._id}
                 onClick={() => setSelectedVariant(variant._id)}
@@ -101,9 +109,9 @@ const OrganizerCard = ({ organizer, Open }) => {
                       : "bg-gray-100 border-gray-300"
                   }`}
               >
-                {variant.name} ₹{variant.price}
+                ₹{variant.price}
               </button>
-            ))}
+           </> ))}
           </div>
         )}
 
