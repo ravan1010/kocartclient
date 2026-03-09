@@ -97,8 +97,9 @@ const OrganizerCard = ({ organizer, Open }) => {
             
             {organizer.variants.map((variant) => (
               <>
-              <p className="line-through">{variant.mrp}</p>
+              <p>mrp</p> <br />
               <p>{variant.name}</p>
+              <p className="line-through">{variant.mrp}</p>
               <button
                 key={variant._id}
                 onClick={() => setSelectedVariant(variant._id)}
