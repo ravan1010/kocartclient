@@ -97,7 +97,7 @@ const OrganizerCard = ({ organizer, Open }) => {
             
             {organizer.variants.map((variant) => (
               <>
-              <p>mrp</p> <br />
+              <p>MRP :</p>
               <p>{variant.name}</p>
               <p className="line-through">{variant.mrp}</p>
               <button
