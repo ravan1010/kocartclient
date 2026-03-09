@@ -10,7 +10,7 @@ const UpdatePost = () => {
   const [description, setdescription] = useState("");
   const [image, setimage] = useState([]); // existing images
   const [variantname, setVariantname] = useState("");
-  const [variants, setVariants] = useState([{ name: "", price: "" }]);
+  const [variants, setVariants] = useState([{ name: "", price: "", mrp: "" }]);
 
   const [error, setError] = useState("");
   const [success, setsuccess] = useState("");
@@ -38,7 +38,7 @@ const UpdatePost = () => {
 
   // 🔹 Variant handlers (same as create)
   const addVariant = () => {
-    setVariants([...variants, { name: "", price: "" }]);
+    setVariants([...variants, { name: "", price: "", mrp: "" }]);
   };
 
   const removeVariant = (index) => {
@@ -137,6 +137,16 @@ const UpdatePost = () => {
                   placeholder="price"
                   onChange={(e) =>
                     updateVariant(i, "price", e.target.value)
+                  }
+                  className="border-2 w-full p-2 mb-2"
+                />
+
+                <input
+                  value={v.mrp}
+                  placeholder="mrp"
+                  type="number"
+                  onChange={(e) =>
+                    updateVariant(i, "mrp", e.target.value)
                   }
                   className="border-2 w-full p-2 mb-2"
                 />
