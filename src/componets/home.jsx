@@ -50,7 +50,6 @@ const Home = () => {
 
   return (
     <>
-
       <div>
         <Navbar />
         {/* Hero Section */}
@@ -91,8 +90,6 @@ const Home = () => {
               </div>
             </>
           )}
-
-
           <Footer />
         </div>
       </div>

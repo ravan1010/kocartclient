@@ -110,21 +110,21 @@ function App() {
           } />
 
           <Route path='/order' element={
-            <ProtectedRoute><Order /></ProtectedRoute>
+            <Order />
           } />
 
           <Route path='/cart' element={
-            <ProtectedRoute><Cart /></ProtectedRoute>
+            <Cart />
           } />
 
           <Route path='/checkout' element={
-            <ProtectedRoute><Checkout /></ProtectedRoute>
+            <ProtectedRoute>
+              <Checkout />
+            </ProtectedRoute>
           } />
 
           <Route path='/' element={
-            <ProtectedRoute>
               <Home />
-            </ProtectedRoute>
           } />
           <Route path='/explore' element={
             <ProtectedRoute><Explore /></ProtectedRoute>
