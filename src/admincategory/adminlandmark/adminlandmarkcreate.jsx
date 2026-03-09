@@ -15,11 +15,11 @@ const CreatePost = () => {
   const navigate = useNavigate();
 
   const [variants, setVariants] = useState([
-    { name: "", price: "" },
+    { name: "", price: "", mrp: "" },
   ]);
 
   const addVariant = () => {
-    setVariants([...variants, { name: "", price: "" }]);
+    setVariants([...variants, { name: "", price: "", mrp: "" }]);
   };
 
   const removeVariant = (index) => {
@@ -238,6 +238,13 @@ const handleFiles = async (e) => {
                   placeholder="Price"
                   type="number"
                   onChange={(e) => updateVariant(i, "price", e.target.value)}
+                  className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                />
+
+                <input
+                  placeholder="MRP"
+                  type="number"
+                  onChange={(e) => updateVariant(i, "mrp", e.target.value)}
                   className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
                 />
 

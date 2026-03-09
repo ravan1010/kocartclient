@@ -132,7 +132,7 @@ const Adminlandmarkdashboard = () => {
                   <BadgePlus size={24} />
                 </div>
                 <div className="ml-4">
-                  <Link to='/adminlandmark/productcreate' className='border-2 mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl'>Create Event</Link>
+                  <Link to='/adminlandmark/productcreate' className='border-2 mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl'>Create Product</Link>
                 </div>
               </div>
             </div> 
