@@ -7,10 +7,10 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
 
+
 export default function Checkout() {
 
   const navigate = useNavigate();
-
 
   const [cartItems, setCartItems] = useState();
   const [platform, setPlatform] = useState(0);
@@ -20,17 +20,15 @@ export default function Checkout() {
   const [selectaddress, setSelectaddress] = useState([]);
   const [saveAddress, setSaveAddress] = useState(null);
   const [mobileNo, setMobileNo] = useState("");
-
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [city, setCity] = useState("");
+
   const [distance, setdistance] = useState('');
   const [locationLoading, setLocationLoading] = useState(false);
   const [error, setError] = useState("");
 
   const [paymentType, setPaymentType] = useState("ONLINE"); // or "COD"
-
-
   const isDisabled = delivery === 0 || !mobileNo || !saveAddress;
 
   /* ===================== 💰 PRICE CALCULATION ===================== */
@@ -144,12 +142,13 @@ export default function Checkout() {
   };
 
   const handlePayment = async () => {
-
     const res = await loadRazorpay();
+
     if (!res) {
       alert("Razorpay SDK failed");
       return;
     }
+
     const { data } = await api.post("/api/order/checkout", {
        total,
     });
