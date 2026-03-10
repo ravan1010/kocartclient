@@ -155,7 +155,6 @@ export default function Checkout() {
     });
 
     const options = {
-
       key: data.razorpayKey,
       amount: data.totalAmount,
       currency: "INR",
