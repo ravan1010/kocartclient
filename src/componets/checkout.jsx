@@ -156,7 +156,7 @@ export default function Checkout() {
 
     const options = {
 
-      key: 'rzp_test_SCVWHulsyItuK9',
+      key: data.razorpayKey,
       amount: data.totalAmount,
       currency: "INR",
       order_id: data.razorOrderId,
