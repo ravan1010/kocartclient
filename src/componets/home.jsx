@@ -6,6 +6,7 @@ import OrganizerCard from './OrganizerCard';
 import useLocation from "../LocationContext";
 import useNearbyMerchants from "../useNearbyMerchants";
 import { useEffect, useState } from 'react';
+
 // import ImageSliderforAds from './ads';
 
 const Home = () => {
@@ -26,6 +27,22 @@ const Home = () => {
   }
     fetchData();
   }, [grocery, restaurant]);
+
+  const RESgroupedByAuthor = ResturantData.reduce((acc, item) => {
+  if (!acc[item.author]) {
+    acc[item.author] = [];
+  }
+  acc[item.author].push(item);
+  return acc;
+}, {});
+
+const GrogroupedByAuthor = GroceryData.reduce((acc, item) => {
+  if (!acc[item.author]) {
+    acc[item.author] = [];
+  }
+  acc[item.author].push(item);
+  return acc;
+}, {});
 
   if (Loadingloc) return <p>Detecting location...</p>;
   if (locaError)
@@ -67,12 +84,25 @@ const Home = () => {
                     Nearby Grocery Shops
                   </h2>
                 }
-                <div className="grid grid-cols-3 gap-2">
+                {Object.entries(GrogroupedByAuthor).map(([author, products]) => (
+  <div key={author} className="mb-6 border-b-2 border-gray-500 pb-4">
 
-                  {GroceryData.map((organizer) => (
-                    <OrganizerCard key={organizer._id} organizer={organizer} Open={Open} />
-                  ))}
-                </div>
+    {/* Author Heading */}
+    
+
+    {/* Product Grid */}
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      {products.map((organizer) => (
+        <OrganizerCard
+          key={organizer._id}
+          organizer={organizer}
+          Open={Open}
+        />
+      ))}
+    </div>
+
+  </div>
+))}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 border-l-2 border-b-2 border-gray-200 lg:grid-cols-3 gap-3 p-2">
@@ -81,12 +111,31 @@ const Home = () => {
                     Nearby Restaurants
                   </h2>
                 }
-                <div className="grid grid-cols-3 gap-2">
+                  {Object.entries(RESgroupedByAuthor).map(([author, products]) => (
+  <div key={author} className="mb-6 border-b-2 border-gray-500 pb-4">
+
+    {/* Author Heading */}
+    
+
+    {/* Product Grid */}
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      {products.map((organizer) => (
+        <OrganizerCard
+          key={organizer._id}
+          organizer={organizer}
+          Open={Open}
+        />
+      ))}
+    </div>
+
+  </div>
+))}
+                {/* <div className="grid grid-cols-2 gap-2">
 
                   {ResturantData.map((organizer) => (
                     <OrganizerCard key={organizer._id} organizer={organizer} Open={Open} />
                   ))}
-                </div>
+                </div> */}
               </div>
             </>
           )}
