@@ -78,58 +78,55 @@ const Home = () => {
           ) : (
             <>
 
-              <div className="bg-black grid grid-cols-1 md:grid-cols-2 border-l-2 border-b-2 border-gray-200 lg:grid-cols-8 gap-3 p-2">
-                {
-                  GroceryData.length != 0 && <h2 className="text-2xl font-bold col-span-full">
-                    Nearby Grocery Shops
-                  </h2>
-                }
-                {Object.entries(GrogroupedByAuthor).map(([author, products]) => (
-                  <div key={author} className="mb-6 border-b-2 border-gray-500 pb-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 border-l-2 border-b-2 border-gray-200 gap-3 p-2">
+  {GroceryData.length !== 0 && (
+    <h2 className="text-2xl font-bold col-span-full">
+      Nearby Grocery Shops
+    </h2>
+  )}
 
-                    {/* Author Heading */}
+  {Object.entries(GrogroupedByAuthor).map(([author, products]) => (
+    <div key={author} className="mb-6 border-b-2 border-gray-500 pb-4 col-span-full">
 
-                    {/* Product Grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-3">
-                      {products.map((organizer) => (
-                        <OrganizerCard
-                          key={organizer._id}
-                          organizer={organizer}
-                          Open={Open}
-                        />
-                      ))}
-                    </div>
+      {/* Product Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
+        {products.map((organizer) => (
+          <OrganizerCard
+            key={organizer._id}
+            organizer={organizer}
+            Open={Open}
+          />
+        ))}
+      </div>
 
-                  </div>
-                ))}
-              </div>
+    </div>
+  ))}
+</div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 border-l-2 border-b-2 border-gray-200 lg:grid-cols-8 gap-3 p-2">
-                {
-                  ResturantData.length != 0 && <h2 className="text-2xl font-bold col-span-full">
-                    Nearby Restaurants
-                  </h2>
-                }
-                {Object.entries(RESgroupedByAuthor).map(([author, products]) => (
-                  <div key={author} className= "mb-6 border-b-2 border-gray-500 pb-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 border-l-2 border-b-2 border-gray-200 gap-3 p-2">
+  {GroceryData.length !== 0 && (
+    <h2 className="text-2xl font-bold col-span-full">
+      Nearby Grocery Shops
+    </h2>
+  )}
 
-                    {/* Author Heading */}
+  {Object.entries(RESgroupedByAuthor).map(([author, products]) => (
+    <div key={author} className="mb-6 border-b-2 border-gray-500 pb-4 col-span-full">
 
+      {/* Product Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3">
+        {products.map((organizer) => (
+          <OrganizerCard
+            key={organizer._id}
+            organizer={organizer}
+            Open={Open}
+          />
+        ))}
+      </div>
 
-                    {/* Product Grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-3">
-                      {products.map((organizer) => (
-                        <OrganizerCard
-                          key={organizer._id}
-                          organizer={organizer}
-                          Open={Open}
-                        />
-                      ))}
-                    </div>
-
-                  </div>
-                ))}
-              </div>
+    </div>
+  ))}
+</div>
             </>
           )}
           <Footer />
