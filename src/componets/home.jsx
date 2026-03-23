@@ -48,6 +48,7 @@ const Home = () => {
   if (locaError)
     return (
       <>
+      <Navbar />
         <div className="text-center mt-10 text-red-500">
           {locaError}
         </div>

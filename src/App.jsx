@@ -103,7 +103,7 @@ function App() {
             </ProtectedRoute>
           } />
 
-          <Route path='/cart' element={
+          <Route path='/local-cart' element={
             <ProtectedRoute>
               <Cart />
             </ProtectedRoute>

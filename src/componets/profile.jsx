@@ -85,7 +85,7 @@ const Profile = () => {
       </Link>
     )} */}
 
-    {/* {admin ? (
+    {admin ? (
       <Link
         to={`/${toadmin}/dashboard`}
         className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
@@ -99,7 +99,7 @@ const Profile = () => {
       >
         🤝 Become a Partner
       </Link>
-    )} */}
+    )}
 
   </div>
 

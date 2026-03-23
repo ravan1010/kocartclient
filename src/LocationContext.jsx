@@ -9,7 +9,7 @@ const useLocation = () => {
     setLoading(true);
 
     if (!navigator.geolocation) {
-      setError("Geolocation not supported");
+      setError("Geolocation not supported"); 
       setLoading(false);
       return;
     }
@@ -19,6 +19,7 @@ const useLocation = () => {
 
   if (permission.state === "denied") {
     setError("Location blocked. Please enable it in browser settings.");
+    setLoading(false)
     return;
   } ;
   
