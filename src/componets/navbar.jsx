@@ -11,7 +11,8 @@ const Navbar = () => {
       ? "text-indigo-600 font-bold"
       : "text-gray-600 hover:text-indigo-600 transition-colors";
 
-  const isHome = location.pathname === "/";
+  const isHome = location.pathname === "/" || "local-cart";
+
 
   return (
     <>
