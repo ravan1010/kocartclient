@@ -59,62 +59,54 @@ function App() {
 
           //admin signup
           <Route path='/admin' element={
-            <ProtectedRoute >
-              <ADMINsignup />
-            </ProtectedRoute>
+            <ADMINsignup />
           } />
 
         //admin otp
           <Route path='/admin/verify' element={
-            <ProtectedRoute >
-              <ProtectedRouteADMINOTP >
-                <AdminOTPverify />
-              </ProtectedRouteADMINOTP>
-            </ProtectedRoute>
+            <ProtectedRouteADMINOTP >
+              <AdminOTPverify />
+            </ProtectedRouteADMINOTP>
           } />
           <Route path='/admin/info' element={
-            <ProtectedRoute>
-              <ProtectedRouteADMININFO>
-                <AdminAddress />
-              </ProtectedRouteADMININFO>
-            </ProtectedRoute>
+            <ProtectedRouteADMININFO>
+              <AdminAddress />
+            </ProtectedRouteADMININFO>
           } />
-        
+
 
 
 //admin dashboard and create, delete based on category
           //admin create adminlandmark product
           <Route path='/adminlandmark/productcreate' element={
-            <ProtectedRoute>
-              <ProtectedRouteADMINMain>
-                <CreatePost />
-              </ProtectedRouteADMINMain>
-            </ProtectedRoute>
+            <ProtectedRouteADMINMain>
+              <CreatePost />
+            </ProtectedRouteADMINMain>
           } />
 
           <Route path='/adminlandmark/update/:id' element={
-            <ProtectedRoute>
-              <ProtectedRouteADMINMain>
-                <Updatepost />
-              </ProtectedRouteADMINMain>
-            </ProtectedRoute>
+            <ProtectedRouteADMINMain>
+              <Updatepost />
+            </ProtectedRouteADMINMain>
           } />
 
          //admin food dashboard
           <Route path='/adminlandmark/dashboard' element={
-            <ProtectedRoute>
-              <ProtectedRouteADMINMain>
-                <Adminlandmarkdashboard />
-              </ProtectedRouteADMINMain>
-            </ProtectedRoute>
+            <ProtectedRouteADMINMain>
+              <Adminlandmarkdashboard />
+            </ProtectedRouteADMINMain>
           } />
 
           <Route path='/order' element={
-            <Order />
+            <ProtectedRoute>
+              <Order />
+            </ProtectedRoute>
           } />
 
           <Route path='/cart' element={
-            <Cart />
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
           } />
 
           <Route path='/checkout' element={
@@ -124,7 +116,7 @@ function App() {
           } />
 
           <Route path='/' element={
-              <Home />
+            <Home />
           } />
           <Route path='/explore' element={
             <ProtectedRoute><Explore /></ProtectedRoute>
@@ -152,7 +144,7 @@ function App() {
               <ToAddress />
             </ProtectedRoute>
           } />
-          
+
         </Routes>
       </Router>
     </>
