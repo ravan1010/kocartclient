@@ -7,6 +7,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import Footer from "./Footer";
 import axios from "axios";
 import { Edit, MapPin, Phone, Truck, User } from "lucide-react";
+import "../utili/fixLeafletIcon";
 
 const ParcelBooking = () => {
 
