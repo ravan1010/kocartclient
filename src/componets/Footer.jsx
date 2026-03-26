@@ -37,7 +37,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-          <h1 className="mt-8 text-white text-lg text-center">
+          {/* <h1 className="mt-8 text-white text-lg text-center">
             Kocart is a digital platform that connects customers with nearby local merchants 
             (restaurants, grocery marts, and clothing stores) within a 3 km radius. 
             Customers can easily discover, order, and receive products quickly, 
@@ -47,7 +47,7 @@ const Footer = () => {
              a ₹11 platform fee per order, 
              and 3% online payment gateway charges for digital payments. 
              This simple pricing model helps keep costs transparent for customers while supporting platform operations and payment processing.
-          </h1>
+          </h1> */}
         <div className="mt-8 border-t border-gray-700 pt-8 text-center text-gray-400">
           &copy; {new Date().getFullYear()} Evently. All rights reserved.
         </div>

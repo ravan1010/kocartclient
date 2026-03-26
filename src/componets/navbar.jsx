@@ -11,8 +11,8 @@ const Navbar = () => {
       ? "text-indigo-600 font-bold"
       : "text-gray-600 hover:text-indigo-600 transition-colors";
 
-  const isHome = location.pathname === "/" || "local-cart";
-
+  const isHome = location.pathname === "/";
+  const isLocalCart = location.pathname === "/local-cart";
 
   return (
     <>
@@ -27,7 +27,7 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
 
-            {isHome && (
+            {(isHome || isLocalCart) && (
               <NavLink to="/local-cart" className={navLinkClasses}>
                 Cart
               </NavLink>
@@ -57,7 +57,7 @@ const Navbar = () => {
             <span>Home</span>
           </NavLink>
 
-          {isHome && (
+          {(isHome || isLocalCart) && (
             <NavLink
               to="/local-cart"
               className={({ isActive }) =>

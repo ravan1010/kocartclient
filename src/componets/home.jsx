@@ -44,7 +44,7 @@ const Home = () => {
     return acc;
   }, {});
 
-  if (Loadingloc) return <p>Detecting location...</p>;
+  if (Loadingloc) return <><Navbar /> <p>Detecting location...</p></>;
   if (locaError)
     return (
       <>
@@ -64,7 +64,7 @@ const Home = () => {
       </>
     );
 
-  if (merchantLoading) return <p>Finding nearby shops...</p>;
+  if (merchantLoading) return <><Navbar /> <p>Finding nearby shops...</p></>;
 
   return (
     <>

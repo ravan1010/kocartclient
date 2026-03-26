@@ -43,7 +43,7 @@ export default function Checkout() {
 
   /* ===================== 📍 LIVE LOCATION ===================== */
 
-  const handleLiveLocation = () => {
+  const handleLiveLocation = async () => {
     if (!navigator.geolocation) {
       setError("Geolocation not supported");
       return;
@@ -71,6 +71,7 @@ export default function Checkout() {
           );
 
           setCity(geo.data.results[0]?.address_line2 || "");
+          // console.log("City:", geo.data.results[0]?.address_line2 || "Not found");
 
           const res = await api.post(
             "/api/delivery-fee",
