@@ -312,7 +312,8 @@ const ParcelBooking = () => {
                                     onChange={(e) => setPickupAddress(e.target.value)}
                                     className="w-full border p-3 rounded-lg"
                                 />
-
+  
+  
                                 <section>
 
 
