@@ -313,17 +313,16 @@ const ParcelBooking = () => {
                                     className="w-full border p-3 rounded-lg"
                                 />
   
-  
                                 <section>
 
 
-                                    {/* <button
+                                    <button
                                         onClick={getLiveLocation}
                                         disabled={locationLoading}
                                         className="mb-3 bg-blue-600 text-white px-4 py-2 rounded-lg"
                                     >
                                         {locationLoading ? "Getting location..." : "Use Live Location"}
-                                    </button> */}
+                                    </button>
 
                                     <MapContainer
                                         center={pickupPosition}
