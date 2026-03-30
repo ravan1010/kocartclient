@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../api";
 import Navbar from "./navbar";
-import useLiveLocation from "../useLocationForm";
+// import useLiveLocation from "../useLocationForm";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import Footer from "./Footer";
@@ -33,10 +33,10 @@ const ParcelBooking = () => {
     const [step, setStep] = useState(1);
 
 
-    const {
-        locationLoading,
-        getLiveLocation
-    } = useLiveLocation();
+    // const {
+    //     locationLoading,
+    //     getLiveLocation
+    // } = useLiveLocation();
 
     const getfromCityCoordinates = async (city) => {
         const res = await axios.get(
