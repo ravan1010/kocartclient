@@ -116,9 +116,9 @@ function App() {
             // </ProtectedRoute>
           } />
 
-          <Route path='/' element={
+          {/* <Route path='/' element={
             <Home />
-          } />
+          } /> */}
           <Route path='/explore' element={
             <ProtectedRoute><Explore /></ProtectedRoute>
           } />
@@ -146,7 +146,7 @@ function App() {
             </ProtectedRoute>
           } />
 
-          <Route path='/long' element={
+          <Route path='/' element={
             // <ProtectedRoute>
               <ParcelBooking />
             // </ProtectedRoute>

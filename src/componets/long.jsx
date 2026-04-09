@@ -3,34 +3,47 @@ import api from "../api";
 import Navbar from "./navbar";
 // import useLiveLocation from "../useLocationForm";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import Footer from "./Footer";
 import axios from "axios";
 import { Edit, MapPin, Phone, Truck, User } from "lucide-react";
 import "../utili/fixLeafletIcon";
 
+function CenterMarker({ setPickupPosition }) {
+    const map = useMapEvents({
+        move: () => {
+            const center = map.getCenter();
+            setPickupPosition([center.lat, center.lng]);
+        },
+    });
+
+    return null;
+}
+
 const ParcelBooking = () => {
 
     const [fromCity, setFromCity] = useState("");
-    const [toCity, setToCity] = useState("");
-    const [cities, setCities] = useState([]);
-    const [routes, setRoutes] = useState([]);
+    // const [toCity, setToCity] = useState("");
+    // const [cities, setCities] = useState([]);
+    // const [routes, setRoutes] = useState([]);
 
     const [pickupName, setPickupName] = useState("");
     const [pickupMobile, setPickupMobile] = useState("");
     const [pickupAddress, setPickupAddress] = useState("");
-    const [pickuplatitude, setPickuplatitude] = useState(null);
-    const [pickuplongitude, setPickuplongitude] = useState(null);
+    const [busRoute, setBusRoute] = useState("");
 
-    const [receiverName, setReceiverName] = useState("");
-    const [receiverMobile, setReceiverMobile] = useState("");
-    const [receiverAddress, setReceiverAddress] = useState("");
-    const [receiverlatitude, setReceiverlatitude] = useState(null);
-    const [receiverlongitude, setReceiverlongitude] = useState(null);
+    // const [pickuplatitude, setPickuplatitude] = useState(null);
+    // const [pickuplongitude, setPickuplongitude] = useState(null);
 
-    const [distanceData, setDistanceData] = useState(null);
+    // const [receiverName, setReceiverName] = useState("");
+    // const [receiverMobile, setReceiverMobile] = useState("");
+    // const [receiverAddress, setReceiverAddress] = useState("");
+    // const [receiverlatitude, setReceiverlatitude] = useState(null);
+    // const [receiverlongitude, setReceiverlongitude] = useState(null);
 
-    const [step, setStep] = useState(1);
+    // const [distanceData, setDistanceData] = useState(null);
+
+    const [step, setStep] = useState(0);
 
 
     // const {
@@ -46,51 +59,50 @@ const ParcelBooking = () => {
         const lat = Number(res?.data?.results?.[0]?.lat.toFixed(6));
         const lon = Number(res?.data?.results?.[0]?.lon.toFixed(6));
 
-        setPickuplatitude(lat)
-        setPickuplongitude(lon)
         setPickupPosition([lat, lon])
+        setStep(2)
 
         console.log(res)
         console.log("Latitude :", lat);
         console.log("Longitude:", lon);
     };
 
-    const getToCityCoordinates = async (city) => {
-        const res = await axios.get(
-            `https://api.geoapify.com/v1/geocode/search?text=${city}&type=city&format=json&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`
-        );
+    // const getToCityCoordinates = async (city) => {
+    //     const res = await axios.get(
+    //         `https://api.geoapify.com/v1/geocode/search?text=${city}&type=city&format=json&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`
+    //     );
 
-        const lat = Number(res?.data?.results?.[0]?.lat.toFixed(6));
-        const lon = Number(res?.data?.results?.[0]?.lon.toFixed(6));
+    //     const lat = Number(res?.data?.results?.[0]?.lat.toFixed(6));
+    //     const lon = Number(res?.data?.results?.[0]?.lon.toFixed(6));
 
-        setReceiverlatitude(lat)
-        setReceiverlongitude(lon)
-        setreciverPosition([lat, lon])
+    //     setReceiverlatitude(lat)
+    //     setReceiverlongitude(lon)
+    //     setreciverPosition([lat, lon])
 
-        console.log(res)
-        console.log("Latitude pi:", lat);
-        console.log("Longitude:", lon);
-    };
+    //     console.log(res)
+    //     console.log("Latitude pi:", lat);
+    //     console.log("Longitude:", lon);
+    // };
 
-    useEffect(() => {
-        fetchCities();
-    }, []);
+    // useEffect(() => {
+    //     fetchCities();
+    // }, []);
 
-    useEffect(() => {
-        if (fromCity) fetchRoutes(fromCity);
-    }, [fromCity]);
+    // useEffect(() => {
+    //     if (fromCity) fetchRoutes(fromCity);
+    // }, [fromCity]);
 
-    const fetchCities = async () => {
-        const { data } = await api.get("/api/cities");
-        setCities(data);
-        console.log(data)
-    };
+    // const fetchCities = async () => {
+    //     const { data } = await api.get("/api/cities");
+    //     setCities(data);
+    //     console.log(data)
+    // };
 
-    const fetchRoutes = async (from) => {
-        const { data } = await api.get(`/api/routes/${from}`);
-        setRoutes(data);
-        console.log(data)
-    };
+    // const fetchRoutes = async (from) => {
+    //     const { data } = await api.get(`/api/routes/${from}`);
+    //     setRoutes(data);
+    //     console.log(data)
+    // };
 
     const [pickupPosition, setPickupPosition] = useState([
         '12.9716',
@@ -104,8 +116,6 @@ const ParcelBooking = () => {
         );
 
         setPickupAddress(geo.data.results[0].address_line1);
-        setPickuplatitude(pickupPosition[0])
-        setPickuplongitude(pickupPosition[1])
 
         console.log(geo.data.results[0].address_line1);
     }
@@ -114,108 +124,141 @@ const ParcelBooking = () => {
         getpickupAddress();
     }, [pickupPosition]);
 
-    const [reciverPosition, setreciverPosition] = useState([
-        '12.9716',
-        '77.5946',
-    ]);
+    // const [reciverPosition, setreciverPosition] = useState([
+    //     '12.9716',
+    //     '77.5946',
+    // ]);
 
-    const getreceiverAddress = async () => {
-        const geo = await axios.get(
-            `https://api.geoapify.com/v1/geocode/reverse?lat=${reciverPosition[0]}&lon=${reciverPosition[1]}&format=json&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`,
-        );
+    // const getreceiverAddress = async () => {
+    //     const geo = await axios.get(
+    //         `https://api.geoapify.com/v1/geocode/reverse?lat=${reciverPosition[0]}&lon=${reciverPosition[1]}&format=json&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`,
+    //     );
 
-        setReceiverAddress(geo.data.results[0].address_line1);
-        setReceiverlatitude(reciverPosition[0]);
-        setReceiverlongitude(reciverPosition[1]);
+    //     setReceiverAddress(geo.data.results[0].address_line1);
+    //     setReceiverlatitude(reciverPosition[0]);
+    //     setReceiverlongitude(reciverPosition[1]);
 
-        console.log(geo.data.results[0].address_line1);
-    }
+    //     console.log(geo.data.results[0].address_line1);
+    // }
 
-    useEffect(() => {
-        getreceiverAddress();
-    }, [reciverPosition]);
+    // useEffect(() => {
+    //     getreceiverAddress();
+    // }, [reciverPosition]);
 
-    const distanceSubmit = async () => {
+    // const distanceSubmit = async () => {
 
-        if (
-            !fromCity || !toCity ||
-            !pickupName || !pickupMobile || !pickupAddress ||
-            !pickuplatitude || !pickuplongitude ||
-            !receiverName || !receiverMobile ||
-            !receiverAddress || !receiverlatitude || !receiverlongitude
-        ) {
-            alert("Fill all fields");
+    //     if (
+    //         !fromCity || !toCity ||
+    //         !pickupName || !pickupMobile || !pickupAddress ||
+    //         !pickuplatitude || !pickuplongitude ||
+    //         !receiverName || !receiverMobile ||
+    //         !receiverAddress || !receiverlatitude || !receiverlongitude
+    //     ) {
+    //         alert("Fill all fields");
+    //         return;
+    //     }
+
+    //     // console.log(`pickup lat: ${pickuplatitude}, lon: ${pickuplongitude} \n receive lat: ${receiverlatitude}, lon: ${receiverlongitude}
+    //     //   ` )
+
+    //     try {
+    //         const res = await api.post('/api/distance',
+    //             {
+    //                 from: fromCity,
+    //                 to: toCity,
+    //                 pickuplat: pickuplatitude.toFixed(6),
+    //                 pickuplon: pickuplongitude.toFixed(6),
+    //                 reciverlat: receiverlatitude.toFixed(6),
+    //                 reciverlon: receiverlongitude.toFixed(6)
+    //             }
+    //         )
+    //         if (res.data.success) {
+    //             setStep(3)
+    //             setDistanceData(res.data);
+
+    //             console.log(res.data)
+    //         }
+
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+
+    // };
+
+    // const OrderParcel = async () => {
+
+    //     try {
+    //         const res = await api.post("/api/parcel/create", {
+    //             fromCity,
+    //             fromlat: distanceData.fromlat,
+    //             fromlon: distanceData.fromlon,
+    //             toCity,
+    //             tolat: distanceData.tolat,
+    //             tolon: distanceData.tolon,
+
+    //             pickupName,
+    //             pickupPhone: pickupMobile,
+    //             pickupAddress,
+    //             pickupLat: pickuplatitude.toFixed(6),
+    //             pickupLng: pickuplongitude.toFixed(6),
+
+    //             receiverName,
+    //             receiverPhone: receiverMobile,
+    //             receiverAddress,
+    //             receiverLat: receiverlatitude.toFixed(6),
+    //             receiverLng: receiverlongitude.toFixed(6),
+
+    //             price: distanceData.totalAmount,
+    //             paymentType: "cod"
+    //         })
+
+    //         if (res.data.success === true) {
+    //             alert(res.data.message)
+    //             setStep(1)
+    //             setFromCity('')
+    //             setToCity('')
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+
+
+
+    const sendWhatsApp = () => {
+
+    if (!pickupPosition || !busRoute || !pickupName || !pickupMobile || !pickupAddress) {
+            alert("Select pickup and enter drop");
             return;
         }
 
-        // console.log(`pickup lat: ${pickuplatitude}, lon: ${pickuplongitude} \n receive lat: ${receiverlatitude}, lon: ${receiverlongitude}
-        //   ` )
+        const mapLink = `https://www.google.com/maps?q=${pickup.lat},${pickup.lng}`;
 
-        try {
-            const res = await api.post('/api/distance',
-                {
-                    from: fromCity,
-                    to: toCity,
-                    pickuplat: pickuplatitude.toFixed(6),
-                    pickuplon: pickuplongitude.toFixed(6),
-                    reciverlat: receiverlatitude.toFixed(6),
-                    reciverlon: receiverlongitude.toFixed(6)
-                }
-            )
-            if (res.data.success) {
-                setStep(3)
-                setDistanceData(res.data);
+        const message =
+            `Parcel Order
 
-                console.log(res.data)
-            }
+            Pickup Name :
+            ${pickupName}
+            Pickup NO :
+            ${pickupMobile}
+            Pickup address :
+            ${pickupAddress}
+        Pickup Location:
+        ${mapLink}
 
-        } catch (error) {
-            console.log(error)
-        }
+        Drop Bus Route:
+        ${busRoute}`;
 
+        const url =
+            `https://wa.me/917349343243?text=${encodeURIComponent(message)}`;
+
+        window.open(url, "_blank");
     };
-
-    const OrderParcel = async () => {
-
-        try {
-            const res = await api.post("/api/parcel/create", {
-                fromCity,
-                fromlat: distanceData.fromlat,
-                fromlon: distanceData.fromlon,
-                toCity,
-                tolat: distanceData.tolat,
-                tolon: distanceData.tolon,
-
-                pickupName,
-                pickupPhone: pickupMobile,
-                pickupAddress,
-                pickupLat: pickuplatitude.toFixed(6),
-                pickupLng: pickuplongitude.toFixed(6),
-
-                receiverName,
-                receiverPhone: receiverMobile,
-                receiverAddress,
-                receiverLat: receiverlatitude.toFixed(6),
-                receiverLng: receiverlongitude.toFixed(6),
-
-                price: distanceData.totalAmount,
-                paymentType: "cod"
-            })
-
-            if (res.data.success === true) {
-                alert(res.data.message)
-                setStep(1)
-                setFromCity('')
-                setToCity('')
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     return (
         <>
-            <Navbar />
+        <Navbar />
             <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-10">
 
                 <div className="bg-white w-full max-w-xl shadow-xl rounded-xl p-6">
@@ -234,17 +277,18 @@ const ParcelBooking = () => {
                             }}
                             className="border p-3 rounded-lg"
                         >
-                            <option>Select From City</option>
+                            <option>Select City</option>
+                            <option value="mysuru">Mysuru</option>
 
-                            {cities.map((city) => (
+                            {/* {cities.map((city) => (
                                 <option value={city} key={city}>
                                     {city}
                                 </option>
-                            ))}
+                            ))} */}
 
                         </select>
 
-                        <select
+                        {/* <select
                             value={toCity}
                             onChange={(e) => {
                                 setToCity(e.target.value);
@@ -262,7 +306,7 @@ const ParcelBooking = () => {
                                 </option>
                             ))}
 
-                        </select>
+                        </select> */}
 
 
 
@@ -270,10 +314,9 @@ const ParcelBooking = () => {
 
                     {/* STEP 1 without to city select */}
 
-                    {step === 1 && (
+                    {step === 0 && (
                         <h1 className="bold "> select from and to city/town </h1>
                     )}
-
                     {/* STEP 2 pickup and reciver */}
 
                     {step === 2 && (
@@ -312,21 +355,10 @@ const ParcelBooking = () => {
                                     onChange={(e) => setPickupAddress(e.target.value)}
                                     className="w-full border p-3 rounded-lg"
                                 />
-  
                                 <section>
-
-
-                                    <button
-                                        onClick={getLiveLocation}
-                                        disabled={locationLoading}
-                                        className="mb-3 bg-blue-600 text-white px-4 py-2 rounded-lg"
-                                    >
-                                        {locationLoading ? "Getting location..." : "Use Live Location"}
-                                    </button>
-
                                     <MapContainer
                                         center={pickupPosition}
-                                        zoom={13}
+                                        zoom={15}
                                         scrollWheelZoom={true}
                                         className="h-[150px] w-full"
                                     >
@@ -334,30 +366,21 @@ const ParcelBooking = () => {
                                             attribution="OpenStreetMap"
                                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         />
-                                        <RecenterMap position={pickupPosition} />
 
-                                        <Marker position={pickupPosition}
-                                            draggable={true}
-                                            eventHandlers={{
-                                                dragend: (e) => {
-                                                    const marker = e.target;
-                                                    const newPosition = marker.getLatLng();
-                                                    setPickupPosition([newPosition.lat, newPosition.lng]);
-                                                    console.log("New Position:", newPosition.lat, newPosition.lng);
-                                                },
-                                            }}>
-                                            <Popup>
-                                                A pretty CSS3 popup. <br /> Easily customizable.
-                                            </Popup>
-                                        </Marker>
+                                        {/* Track center movement */}
+                                        <CenterMarker setPickupPosition={setPickupPosition} />
 
+                                        {/* Fixed marker at center */}
+                                        <Marker position={pickupPosition} />
                                     </MapContainer>
-
                                 </section>
+
+                        <button className="w-full mb-4 bg-indigo-600 text-white py-2 rounded-lg"
+                        onClick={sendWhatsApp} >Confirm</button>
 
                             </div>
 
-                            <div className="space-y-3 border p-4 mb-3 rounded-lg shadow bg-gray-50">
+                            {/* <div className="space-y-3 border p-4 mb-3 rounded-lg shadow bg-gray-50">
 
                                 <h2 className="text-lg font-semibold">
                                     Receiver Details
@@ -433,109 +456,109 @@ const ParcelBooking = () => {
                                 className="w-full mb-4 bg-indigo-600 text-white py-2 rounded-lg"
                             >
                                 Next
-                            </button>
+                            </button> */}
                         </>
                     )}
-                    {step === 3 && (
-                        <div className="bg-white shadow-xl border rounded-xl p-6 space-y-5">
 
-                            {/* HEADER */}
-                            <div className="flex justify-between items-center">
-                                <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                                    <Truck className="text-indigo-600" size={22} />
-                                    Parcel Summary
-                                </h2>
+                    {step === 3 && (<></>
+                        // <div className="bg-white shadow-xl border rounded-xl p-6 space-y-5">
 
-                                <button
-                                    onClick={() => setStep(2)}
-                                    className="flex items-center gap-1 text-sm bg-yellow-400 hover:bg-yellow-500 px-3 py-1 rounded-lg"
-                                >
-                                    <Edit size={16} />
-                                    Edit
-                                </button>
-                            </div>
+                        //     {/* HEADER */}
+                        //     <div className="flex justify-between items-center">
+                        //         <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                        //             <Truck className="text-indigo-600" size={22} />
+                        //             Parcel Summary
+                        //         </h2>
 
-                            {/* PICKUP */}
-                            <div className="bg-gray-50 rounded-lg p-4 space-y-1">
+                        //         <button
+                        //             onClick={() => setStep(2)}
+                        //             className="flex items-center gap-1 text-sm bg-yellow-400 hover:bg-yellow-500 px-3 py-1 rounded-lg"
+                        //         >
+                        //             <Edit size={16} />
+                        //             Edit
+                        //         </button>
+                        //     </div>
 
-                                <h3 className="font-semibold text-gray-700 flex items-center gap-2">
-                                    <MapPin size={18} className="text-green-600" />
-                                    Pickup Details
-                                </h3>
+                        //     {/* PICKUP */}
+                        //     <div className="bg-gray-50 rounded-lg p-4 space-y-1">
 
-                                <p className="flex items-center gap-2">
-                                    <User size={16} /> {pickupName}
-                                </p>
+                        //         <h3 className="font-semibold text-gray-700 flex items-center gap-2">
+                        //             <MapPin size={18} className="text-green-600" />
+                        //             Pickup Details
+                        //         </h3>
 
-                                <p className="flex items-center gap-2">
-                                    <Phone size={16} /> {pickupMobile}
-                                </p>
+                        //         <p className="flex items-center gap-2">
+                        //             <User size={16} /> {pickupName}
+                        //         </p>
 
-                                <p className="text-sm text-gray-600">
-                                    {pickupAddress}
-                                </p>
+                        //         <p className="flex items-center gap-2">
+                        //             <Phone size={16} /> {pickupMobile}
+                        //         </p>
 
-                            </div>
+                        //         <p className="text-sm text-gray-600">
+                        //             {pickupAddress}
+                        //         </p>
 
-                            {/* RECEIVER */}
-                            <div className="bg-gray-50 rounded-lg p-4 space-y-1">
+                        //     </div>
 
-                                <h3 className="font-semibold text-gray-700 flex items-center gap-2">
-                                    <MapPin size={18} className="text-red-600" />
-                                    Receiver Details
-                                </h3>
+                        //     {/* RECEIVER */}
+                        //     <div className="bg-gray-50 rounded-lg p-4 space-y-1">
 
-                                <p className="flex items-center gap-2">
-                                    <User size={16} /> {receiverName}
-                                </p>
+                        //         <h3 className="font-semibold text-gray-700 flex items-center gap-2">
+                        //             <MapPin size={18} className="text-red-600" />
+                        //             Receiver Details
+                        //         </h3>
 
-                                <p className="flex items-center gap-2">
-                                    <Phone size={16} /> {receiverMobile}
-                                </p>
+                        //         <p className="flex items-center gap-2">
+                        //             <User size={16} /> {receiverName}
+                        //         </p>
 
-                                <p className="text-sm text-gray-600">
-                                    {receiverAddress}
-                                </p>
+                        //         <p className="flex items-center gap-2">
+                        //             <Phone size={16} /> {receiverMobile}
+                        //         </p>
 
-                            </div>
+                        //         <p className="text-sm text-gray-600">
+                        //             {receiverAddress}
+                        //         </p>
 
-                            {/* DISTANCE */}
-                            <div className="bg-blue-50 p-4 rounded-lg text-center">
+                        //     </div>
 
-                                <p className="text-gray-700">
-                                    Delivery Distance
-                                </p>
+                        //     {/* DISTANCE */}
+                        //     <div className="bg-blue-50 p-4 rounded-lg text-center">
 
-                                <p className="text-lg font-semibold text-blue-600">
-                                    {distanceData.totalDistance} km
-                                </p>
+                        //         <p className="text-gray-700">
+                        //             Delivery Distance
+                        //         </p>
 
-                            </div>
+                        //         <p className="text-lg font-semibold text-blue-600">
+                        //             {distanceData.totalDistance} km
+                        //         </p>
 
-                            {/* PRICE */}
-                            <div className="bg-green-50 p-4 rounded-lg text-center">
+                        //     </div>
 
-                                <p className="text-gray-600 text-sm">
-                                    Total (Delivery + Platform + Handling)
-                                </p>
+                        //     {/* PRICE */}
+                        //     <div className="bg-green-50 p-4 rounded-lg text-center">
 
-                                <p className="text-3xl font-bold text-green-600">
-                                    ₹{distanceData.totalAmount}
-                                </p>
+                        //         <p className="text-gray-600 text-sm">
+                        //             Total (Delivery + Platform + Handling)
+                        //         </p>
 
-                            </div>
+                        //         <p className="text-3xl font-bold text-green-600">
+                        //             ₹{distanceData.totalAmount}
+                        //         </p>
 
-                            {/* CONFIRM BUTTON */}
-                            <button
-                                onClick={OrderParcel}
-                                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition"
-                            >
-                                Confirm Parcel
-                            </button>
+                        //     </div>
 
-                        </div>
+                        //     {/* CONFIRM BUTTON */}
+                        //     <button
+                        //         onClick={OrderParcel}
+                        //         className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition"
+                        //     >
+                        //         Confirm Parcel
+                        //     </button>
+
+                        // </div>
                     )}
-
                     <Footer />
                 </div>
             </div>
