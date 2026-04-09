@@ -27,28 +27,6 @@ function RecenterMap({ position }) {
     return null;
 }
 
-function CenterMarker({ setPickupPosition, pickupPosition }) {
-
-    useMapEvents({
-        moveend: (e) => {
-            const map = e.target;
-            const center = map.getCenter();
-
-            const lat = Number(center.lat.toFixed(6));
-            const lng = Number(center.lng.toFixed(6));
-
-            // ✅ ONLY update if changed
-            if (
-                lat !== pickupPosition[0] ||
-                lng !== pickupPosition[1]
-            ) {
-                setPickupPosition([lat, lng]);
-            }
-        },
-    });
-
-    return null;
-}
 
 const ParcelBooking = () => {
 
@@ -94,9 +72,9 @@ const ParcelBooking = () => {
         setPickupPosition([lat, lon])
         setStep(2)
 
-        if(city === "mysuru"){
+        if (city === "mysuru") {
             setMOBNumber('7349343243')
-        }else if( city === 'bengaluru' ){
+        } else if (city === 'bengaluru') {
             setMOBNumber('7349343243')
         }
 
@@ -158,13 +136,13 @@ const ParcelBooking = () => {
         console.log(geo.data.results[0].address_line1);
     }
 
-   useEffect(() => {
-    const timeout = setTimeout(() => {
-        getpickupAddress();
-    }, 500);
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            getpickupAddress();
+        }, 500);
 
-    return () => clearTimeout(timeout);
-}, [pickupPosition]);
+        return () => clearTimeout(timeout);
+    }, [pickupPosition]);
 
     // const [reciverPosition, setreciverPosition] = useState([
     //     '12.9716',
@@ -267,7 +245,7 @@ const ParcelBooking = () => {
 
     const sendWhatsApp = () => {
 
-    if (!pickupPosition || !busRoute || !pickupName || !pickupMobile || !pickupAddress) {
+        if (!pickupPosition || !busRoute || !pickupName || !pickupMobile || !pickupAddress) {
             alert("Select pickup and enter drop");
             return;
         }
@@ -275,7 +253,7 @@ const ParcelBooking = () => {
         const mapLink = `https://www.google.com/maps?q=${pickupPosition[0]},${pickupPosition[1]}`;
 
         const message =
-        `Parcel Order
+            `Parcel Order
             Pickup Name : ${pickupName}
             Pickup NO : ${pickupMobile}
             Pickup address : ${pickupAddress}
@@ -290,7 +268,7 @@ const ParcelBooking = () => {
 
     return (
         <>
-        <Navbar />
+            <Navbar />
             <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-10">
 
                 <div className="bg-white w-full max-w-xl shadow-xl rounded-xl p-6">
@@ -389,7 +367,8 @@ const ParcelBooking = () => {
                                     onChange={(e) => setPickupAddress(e.target.value)}
                                     className="w-full border p-3 rounded-lg"
                                 />
-                                <section>
+                                   <section>
+
                                     <MapContainer
                                         center={pickupPosition}
                                         zoom={13}
@@ -403,15 +382,24 @@ const ParcelBooking = () => {
 
                                         <RecenterMap position={pickupPosition} />
 
-                                        {/* Track center movement */}
-<CenterMarker
-  setPickupPosition={setPickupPosition}
-  pickupPosition={pickupPosition}
-/>
-                                        {/* Fixed marker at center */}
-                                        <Marker position={pickupPosition} />
+                                        <Marker position={pickupPosition}
+                                            draggable={true}
+                                            eventHandlers={{
+                                                dragend: (e) => {
+                                                    const marker = e.target;
+                                                    const newPosition = marker.getLatLng();
+                                                    setPickupPosition([newPosition.lat, newPosition.lng]);
+
+                                                    console.log("New Position:", newPosition.lat, newPosition.lng);
+                                                },
+                                            }}>
+                                            <Popup>
+                                                A pretty CSS3 popup. <br /> Easily customizable.
+                                            </Popup>
+                                        </Marker>
+
                                     </MapContainer>
-                                </section>
+                                    </section>
 
                                 <input
                                     type="text"
@@ -422,8 +410,8 @@ const ParcelBooking = () => {
                                     required
                                 />
 
-                        <button className="w-full mb-4 bg-indigo-600 text-white py-2 rounded-lg"
-                        onClick={sendWhatsApp} >Confirm</button>
+                                <button className="w-full mb-4 bg-indigo-600 text-white py-2 rounded-lg"
+                                    onClick={sendWhatsApp} >Confirm</button>
 
                             </div>
 
