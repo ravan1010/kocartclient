@@ -23,6 +23,7 @@ function CenterMarker({ setPickupPosition }) {
 const ParcelBooking = () => {
 
     const [fromCity, setFromCity] = useState("");
+
     // const [toCity, setToCity] = useState("");
     // const [cities, setCities] = useState([]);
     // const [routes, setRoutes] = useState([]);
@@ -31,6 +32,7 @@ const ParcelBooking = () => {
     const [pickupMobile, setPickupMobile] = useState("");
     const [pickupAddress, setPickupAddress] = useState("");
     const [busRoute, setBusRoute] = useState("");
+    const [MOBNumber, setMOBNumber] = useState("")
 
     // const [pickuplatitude, setPickuplatitude] = useState(null);
     // const [pickuplongitude, setPickuplongitude] = useState(null);
@@ -61,6 +63,12 @@ const ParcelBooking = () => {
 
         setPickupPosition([lat, lon])
         setStep(2)
+
+        if(city === "mysuru"){
+            setMOBNumber('7349343243')
+        }else if( city === 'bengaluru' ){
+            setMOBNumber('7349343243')
+        }
 
         console.log(res)
         console.log("Latitude :", lat);
@@ -223,7 +231,15 @@ const ParcelBooking = () => {
     //     }
     // }
 
+    function RecenterMap({ position }) {
+    const map = useMap();
 
+    useEffect(() => {
+        map.setView(position, 15); // force move map
+    }, [position]);
+
+    return null;
+}
 
 
     const sendWhatsApp = () => {
@@ -233,7 +249,7 @@ const ParcelBooking = () => {
             return;
         }
 
-        const mapLink = `https://www.google.com/maps?q=${pickup.lat},${pickup.lng}`;
+        const mapLink = `https://www.google.com/maps?q=${pickupPosition[0]},${pickupPosition[1]}`;
 
         const message =
             `Parcel Order
@@ -251,7 +267,7 @@ const ParcelBooking = () => {
         ${busRoute}`;
 
         const url =
-            `https://wa.me/917349343243?text=${encodeURIComponent(message)}`;
+            `https://wa.me/+91${MOBNumber}?text=${encodeURIComponent(message)}`;
 
         window.open(url, "_blank");
     };
@@ -279,6 +295,8 @@ const ParcelBooking = () => {
                         >
                             <option>Select City</option>
                             <option value="mysuru">Mysuru</option>
+                            <option value="bengaluru">Bengaluru</option>
+
 
                             {/* {cities.map((city) => (
                                 <option value={city} key={city}>
@@ -367,6 +385,8 @@ const ParcelBooking = () => {
                                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         />
 
+                                        <RecenterMap position={pickupPosition} />
+
                                         {/* Track center movement */}
                                         <CenterMarker setPickupPosition={setPickupPosition} />
 
@@ -374,6 +394,15 @@ const ParcelBooking = () => {
                                         <Marker position={pickupPosition} />
                                     </MapContainer>
                                 </section>
+
+                                <input
+                                    type="text"
+                                    placeholder="busRoute"
+                                    value={busRoute}
+                                    onChange={(e) => setBusRoute(e.target.value)}
+                                    className="w-full border p-3 rounded-lg"
+                                    required
+                                />
 
                         <button className="w-full mb-4 bg-indigo-600 text-white py-2 rounded-lg"
                         onClick={sendWhatsApp} >Confirm</button>
