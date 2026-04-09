@@ -9,11 +9,41 @@ import axios from "axios";
 import { Edit, MapPin, Phone, Truck, User } from "lucide-react";
 import "../utili/fixLeafletIcon";
 
-function CenterMarker({ setPickupPosition }) {
-    const map = useMapEvents({
-        move: () => {
+function RecenterMap({ position }) {
+    const map = useMap();
+
+    useEffect(() => {
+        const center = map.getCenter();
+
+        // ✅ Only move if different
+        if (
+            center.lat.toFixed(6) !== position[0].toFixed(6) ||
+            center.lng.toFixed(6) !== position[1].toFixed(6)
+        ) {
+            map.setView(position, map.getZoom());
+        }
+    }, [position]);
+
+    return null;
+}
+
+function CenterMarker({ setPickupPosition, pickupPosition }) {
+
+    useMapEvents({
+        moveend: (e) => {
+            const map = e.target;
             const center = map.getCenter();
-            setPickupPosition([center.lat, center.lng]);
+
+            const lat = Number(center.lat.toFixed(6));
+            const lng = Number(center.lng.toFixed(6));
+
+            // ✅ ONLY update if changed
+            if (
+                lat !== pickupPosition[0] ||
+                lng !== pickupPosition[1]
+            ) {
+                setPickupPosition([lat, lng]);
+            }
         },
     });
 
@@ -113,8 +143,8 @@ const ParcelBooking = () => {
     // };
 
     const [pickupPosition, setPickupPosition] = useState([
-        '12.9716',
-        '77.5946',
+        12.9716,
+        77.5946,
     ]);
 
     const getpickupAddress = async () => {
@@ -128,9 +158,13 @@ const ParcelBooking = () => {
         console.log(geo.data.results[0].address_line1);
     }
 
-    useEffect(() => {
+   useEffect(() => {
+    const timeout = setTimeout(() => {
         getpickupAddress();
-    }, [pickupPosition]);
+    }, 500);
+
+    return () => clearTimeout(timeout);
+}, [pickupPosition]);
 
     // const [reciverPosition, setreciverPosition] = useState([
     //     '12.9716',
@@ -231,17 +265,6 @@ const ParcelBooking = () => {
     //     }
     // }
 
-    function RecenterMap({ position }) {
-    const map = useMap();
-
-    useEffect(() => {
-        map.setView(position, 15); // force move map
-    }, [position]);
-
-    return null;
-}
-
-
     const sendWhatsApp = () => {
 
     if (!pickupPosition || !busRoute || !pickupName || !pickupMobile || !pickupAddress) {
@@ -333,7 +356,7 @@ const ParcelBooking = () => {
                     {/* STEP 1 without to city select */}
 
                     {step === 0 && (
-                        <h1 className="bold "> select from and to city/town </h1>
+                        <h1 className="bold "> select city  </h1>
                     )}
                     {/* STEP 2 pickup and reciver */}
 
@@ -376,9 +399,9 @@ const ParcelBooking = () => {
                                 <section>
                                     <MapContainer
                                         center={pickupPosition}
-                                        zoom={15}
+                                        zoom={13}
                                         scrollWheelZoom={true}
-                                        className="h-[150px] w-full"
+                                        className="h-[250px] w-full"
                                     >
                                         <TileLayer
                                             attribution="OpenStreetMap"
@@ -388,8 +411,10 @@ const ParcelBooking = () => {
                                         <RecenterMap position={pickupPosition} />
 
                                         {/* Track center movement */}
-                                        <CenterMarker setPickupPosition={setPickupPosition} />
-
+<CenterMarker
+  setPickupPosition={setPickupPosition}
+  pickupPosition={pickupPosition}
+/>
                                         {/* Fixed marker at center */}
                                         <Marker position={pickupPosition} />
                                     </MapContainer>
@@ -595,14 +620,5 @@ const ParcelBooking = () => {
     );
 };
 
-function RecenterMap({ position }) {
-    const map = useMap();
-
-    useEffect(() => {
-        map.setView(position);
-    }, [position]);
-
-    return null;
-}
 
 export default ParcelBooking;
