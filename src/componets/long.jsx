@@ -275,19 +275,12 @@ const ParcelBooking = () => {
         const mapLink = `https://www.google.com/maps?q=${pickupPosition[0]},${pickupPosition[1]}`;
 
         const message =
-            `Parcel Order
-
-            Pickup Name :
-            ${pickupName}
-            Pickup NO :
-            ${pickupMobile}
-            Pickup address :
-            ${pickupAddress}
-        Pickup Location:
-        ${mapLink}
-
-        Drop Bus Route:
-        ${busRoute}`;
+        `Parcel Order
+            Pickup Name : ${pickupName}
+            Pickup NO : ${pickupMobile}
+            Pickup address : ${pickupAddress}
+            Pickup Location : ${mapLink}
+            Drop Bus Route : ${busRoute}`;
 
         const url =
             `https://wa.me/+91${MOBNumber}?text=${encodeURIComponent(message)}`;
