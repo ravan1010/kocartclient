@@ -440,7 +440,7 @@ const ParcelBooking = () => {
                                         center={reciverPosition}
                                         zoom={13}
                                         scrollWheelZoom={true}
-                                        className="h-[150px] w-full"
+                                        className="h-[250px] w-full"
                                     >
                                         <TileLayer
                                             attribution="OpenStreetMap"
