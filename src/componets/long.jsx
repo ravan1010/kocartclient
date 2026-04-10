@@ -130,8 +130,8 @@ const ParcelBooking = () => {
     }, [pickupPosition]);
 
     const [reciverPosition, setreciverPosition] = useState([
-        '12.9716',
-        '77.5946',
+        12.9716,
+        77.5946,
     ]);
 
     const getreceiverAddress = async () => {
@@ -238,7 +238,7 @@ const ParcelBooking = () => {
         }
 
         const pickupmapLink = `https://www.google.com/maps?q=${pickupPosition[0]},${pickupPosition[1]}`;
-        const receivermapLink = `https://www.google.com/maps?q=${receiverPosition[0]},${receiverPosition[1]}`;
+        const receivermapLink = `https://www.google.com/maps?q=${reciverPosition[0]},${reciverPosition[1]}`;
 
         const message =
             `Parcel Order
