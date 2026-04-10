@@ -17,8 +17,8 @@ function RecenterMap({ position }) {
 
         // ✅ Only move if different
         if (
-            center.lat.toFixed(6) !== position[0].toFixed(6) ||
-            center.lng.toFixed(6) !== position[1].toFixed(6)
+            center.lat.toFixed(6) !== position[0] ||
+            center.lng.toFixed(6) !== position[1]
         ) {
             map.setView(position, map.getZoom());
         }
@@ -31,35 +31,22 @@ function RecenterMap({ position }) {
 const ParcelBooking = () => {
 
     const [fromCity, setFromCity] = useState("");
-
-    // const [toCity, setToCity] = useState("");
-    // const [cities, setCities] = useState([]);
-    // const [routes, setRoutes] = useState([]);
+    const [toCity, setToCity] = useState("");
 
     const [pickupName, setPickupName] = useState("");
     const [pickupMobile, setPickupMobile] = useState("");
     const [pickupAddress, setPickupAddress] = useState("");
-    const [busRoute, setBusRoute] = useState("");
+
+    const [receiverName, setReceiverName] = useState("");
+    const [receiverMobile, setReceiverMobile] = useState("");
+    const [receiverAddress, setReceiverAddress] = useState("");
+
     const [MOBNumber, setMOBNumber] = useState("")
-
-    // const [pickuplatitude, setPickuplatitude] = useState(null);
-    // const [pickuplongitude, setPickuplongitude] = useState(null);
-
-    // const [receiverName, setReceiverName] = useState("");
-    // const [receiverMobile, setReceiverMobile] = useState("");
-    // const [receiverAddress, setReceiverAddress] = useState("");
-    // const [receiverlatitude, setReceiverlatitude] = useState(null);
-    // const [receiverlongitude, setReceiverlongitude] = useState(null);
 
     // const [distanceData, setDistanceData] = useState(null);
 
     const [step, setStep] = useState(0);
 
-
-    // const {
-    //     locationLoading,
-    //     getLiveLocation
-    // } = useLiveLocation();
 
     const getfromCityCoordinates = async (city) => {
         const res = await axios.get(
@@ -75,7 +62,7 @@ const ParcelBooking = () => {
         if (city === "mysuru") {
             setMOBNumber('7349343243')
         } else if (city === 'bengaluru') {
-            setMOBNumber('7349343243')
+            setMOBNumber('8088303214')
         }
 
         console.log(res)
@@ -83,22 +70,20 @@ const ParcelBooking = () => {
         console.log("Longitude:", lon);
     };
 
-    // const getToCityCoordinates = async (city) => {
-    //     const res = await axios.get(
-    //         `https://api.geoapify.com/v1/geocode/search?text=${city}&type=city&format=json&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`
-    //     );
+    const getToCityCoordinates = async (city) => {
+        const res = await axios.get(
+            `https://api.geoapify.com/v1/geocode/search?text=${city}&type=city&format=json&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`
+        );
 
-    //     const lat = Number(res?.data?.results?.[0]?.lat.toFixed(6));
-    //     const lon = Number(res?.data?.results?.[0]?.lon.toFixed(6));
+        const lat = Number(res?.data?.results?.[0]?.lat.toFixed(6));
+        const lon = Number(res?.data?.results?.[0]?.lon.toFixed(6));
 
-    //     setReceiverlatitude(lat)
-    //     setReceiverlongitude(lon)
-    //     setreciverPosition([lat, lon])
+        setreciverPosition([lat, lon])
 
-    //     console.log(res)
-    //     console.log("Latitude pi:", lat);
-    //     console.log("Longitude:", lon);
-    // };
+        console.log(res)
+        console.log("Latitude pi:", lat);
+        console.log("Longitude:", lon);
+    };
 
     // useEffect(() => {
     //     fetchCities();
@@ -144,26 +129,24 @@ const ParcelBooking = () => {
         return () => clearTimeout(timeout);
     }, [pickupPosition]);
 
-    // const [reciverPosition, setreciverPosition] = useState([
-    //     '12.9716',
-    //     '77.5946',
-    // ]);
+    const [reciverPosition, setreciverPosition] = useState([
+        '12.9716',
+        '77.5946',
+    ]);
 
-    // const getreceiverAddress = async () => {
-    //     const geo = await axios.get(
-    //         `https://api.geoapify.com/v1/geocode/reverse?lat=${reciverPosition[0]}&lon=${reciverPosition[1]}&format=json&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`,
-    //     );
+    const getreceiverAddress = async () => {
+        const geo = await axios.get(
+            `https://api.geoapify.com/v1/geocode/reverse?lat=${reciverPosition[0]}&lon=${reciverPosition[1]}&format=json&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`,
+        );
 
-    //     setReceiverAddress(geo.data.results[0].address_line1);
-    //     setReceiverlatitude(reciverPosition[0]);
-    //     setReceiverlongitude(reciverPosition[1]);
+        setReceiverAddress(geo.data.results[0].address_line1);
 
-    //     console.log(geo.data.results[0].address_line1);
-    // }
+        console.log(geo.data.results[0].address_line1);
+    }
 
-    // useEffect(() => {
-    //     getreceiverAddress();
-    // }, [reciverPosition]);
+    useEffect(() => {
+        getreceiverAddress();
+    }, [reciverPosition]);
 
     // const distanceSubmit = async () => {
 
@@ -243,22 +226,33 @@ const ParcelBooking = () => {
     //     }
     // }
 
+
+
     const sendWhatsApp = () => {
 
-        if (!pickupPosition || !busRoute || !pickupName || !pickupMobile || !pickupAddress) {
+        if (!pickupPosition || !pickupName || !pickupMobile || !pickupAddress
+            || !receiverName || !receiverMobile || !receiverAddress
+        ) {
             alert("Select pickup and enter drop");
             return;
         }
 
-        const mapLink = `https://www.google.com/maps?q=${pickupPosition[0]},${pickupPosition[1]}`;
+        const pickupmapLink = `https://www.google.com/maps?q=${pickupPosition[0]},${pickupPosition[1]}`;
+        const receivermapLink = `https://www.google.com/maps?q=${receiverPosition[0]},${receiverPosition[1]}`;
 
         const message =
             `Parcel Order
+            pickup city : ${fromCity}
+            drop city : ${toCity}
             Pickup Name : ${pickupName}
             Pickup NO : ${pickupMobile}
             Pickup address : ${pickupAddress}
-            Pickup Location : ${mapLink}
-            Drop Bus Route : ${busRoute}`;
+            Pickup Location : ${pickupmapLink}
+            Receiver Name : ${receiverName}
+            Receiver Mobile : ${receiverMobile}
+            Receiver Address : ${receiverAddress}
+            Receiver Location : ${receivermapLink}`;
+
 
         const url =
             `https://wa.me/+91${MOBNumber}?text=${encodeURIComponent(message)}`;
@@ -291,8 +285,8 @@ const ParcelBooking = () => {
                             <option value="mysuru">Mysuru</option>
                             <option value="bengaluru">Bengaluru</option>
 
-
-                            {/* {cities.map((city) => (
+{/* 
+                            {cities.map((city) => (
                                 <option value={city} key={city}>
                                     {city}
                                 </option>
@@ -300,7 +294,7 @@ const ParcelBooking = () => {
 
                         </select>
 
-                        {/* <select
+                        <select
                             value={toCity}
                             onChange={(e) => {
                                 setToCity(e.target.value);
@@ -311,14 +305,16 @@ const ParcelBooking = () => {
                         >
 
                             <option>Select To City</option>
+                                <option value="mysuru">Mysuru</option>
+                                <option value="bengaluru">Bengaluru</option>
 
-                            {routes.map((route) => (
+                            {/* {routes.map((route) => (
                                 <option key={route._id} value={route.to}>
                                     {route.to}
                                 </option>
-                            ))}
+                            ))} */}
 
-                        </select> */}
+                        </select> 
 
 
 
@@ -401,21 +397,9 @@ const ParcelBooking = () => {
                                     </MapContainer>
                                     </section>
 
-                                <input
-                                    type="text"
-                                    placeholder="busRoute"
-                                    value={busRoute}
-                                    onChange={(e) => setBusRoute(e.target.value)}
-                                    className="w-full border p-3 rounded-lg"
-                                    required
-                                />
-
-                                <button className="w-full mb-4 bg-indigo-600 text-white py-2 rounded-lg"
-                                    onClick={sendWhatsApp} >Confirm</button>
-
                             </div>
 
-                            {/* <div className="space-y-3 border p-4 mb-3 rounded-lg shadow bg-gray-50">
+                            <div className="space-y-3 border p-4 mb-3 rounded-lg shadow bg-gray-50">
 
                                 <h2 className="text-lg font-semibold">
                                     Receiver Details
@@ -487,11 +471,11 @@ const ParcelBooking = () => {
 
                             </div>
                             <button
-                                onClick={distanceSubmit}
+                                onClick={sendWhatsApp}
                                 className="w-full mb-4 bg-indigo-600 text-white py-2 rounded-lg"
                             >
-                                Next
-                            </button> */}
+                                confirm order
+                            </button>
                         </>
                     )}
 

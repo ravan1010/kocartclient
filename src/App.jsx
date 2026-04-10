@@ -42,6 +42,7 @@ import TermsConditions from './footer/TermsConditions';
 import ShippingPolicy from './footer/ShippingPolicy';
 import ContactInformationPolicy from './footer/ContactInformationPolicy';
 import ParcelBooking from './componets/long';
+import ParcelBus from './componets/tobus';
 
 
 function App() {
@@ -148,8 +149,12 @@ function App() {
 
           <Route path='/' element={
             // <ProtectedRoute>
-              <ParcelBooking />
+              <ParcelBus />
             // </ProtectedRoute>
+          } />
+
+          <Route path='/long' element={
+            <ParcelBooking />
           } />
 
         </Routes>

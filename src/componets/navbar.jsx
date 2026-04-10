@@ -5,12 +5,12 @@ import { Home, ShoppingCart, Package, User, Map  } from "lucide-react";
 
 
 const Navbar = () => {
-  // const location = useLocation();
+  const location = useLocation();
 
-  // const navLinkClasses = ({ isActive }) =>
-  //   isActive
-  //     ? "text-indigo-600 font-bold"
-  //     : "text-gray-600 hover:text-indigo-600 transition-colors";
+  const navLinkClasses = ({ isActive }) =>
+    isActive
+      ? "text-indigo-600 font-bold"
+      : "text-gray-600 hover:text-indigo-600 transition-colors";
 
   // const isHome = location.pathname === "/";
   // const isLocalCart = location.pathname === "/local-cart";
@@ -26,7 +26,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          {/* <div className="hidden md:flex items-center space-x-8"> */}
+          <div className="hidden md:flex items-center space-x-8"> */}
 
             {/* {(isHome || isLocalCart) && (
               <NavLink to="/local-cart" className={navLinkClasses}>
@@ -34,29 +34,29 @@ const Navbar = () => {
               </NavLink>
             )} */}
 
-            {/* <NavLink to="/" className={navLinkClasses}>Home</NavLink>
+            <NavLink to="/" className={navLinkClasses}>Home</NavLink>
             <NavLink to="/long" className={navLinkClasses}>Long</NavLink>
-            <NavLink to="/profile" className={navLinkClasses}>Profile</NavLink> */}
+            {/* <NavLink to="/profile" className={navLinkClasses}>Profile</NavLink>  */}
 
-          {/* </div> */}
+          </div>
         </div>
       </nav>
 
       {/* MOBILE BOTTOM NAV */}
-       {/* <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-50">
-       <div className="flex justify-around items-center h-16"> */}
+       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-50">
+       <div className="flex justify-around items-center h-16">
 
-        {/* <NavLink
+        <NavLink
            to="/"
            className={({ isActive }) =>
             `flex flex-col items-center text-xs ${
                 isActive ? "text-indigo-600" : "text-gray-500"
                }`
             }
-           > */}
-           {/* <Home size={22} />
+           >
+           <Home size={22} />
              <span>Home</span>
-           </NavLink> */}
+           </NavLink>
 
            {/* {(isHome || isLocalCart) && (
              <NavLink
@@ -73,7 +73,7 @@ const Navbar = () => {
 
            )} */}
 
-            {/* <NavLink
+            <NavLink
                to="/long"
                className={({ isActive }) =>
                  `flex flex-col items-center text-xs ${
@@ -83,7 +83,7 @@ const Navbar = () => {
              >
                <Map size={22} />
                <span>long</span>
-             </NavLink> */}
+             </NavLink>
 
            {/* <NavLink
              to="/order"
@@ -109,8 +109,8 @@ const Navbar = () => {
              <span>Profile</span>
            </NavLink> */}
 
-         {/* </div>
-       </div> */}
+         </div>
+       </div>
     </>
   );
 };
