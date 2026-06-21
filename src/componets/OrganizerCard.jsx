@@ -63,7 +63,7 @@ const OrganizerCard = ({ organizer, Open }) => {
               Closed
             </div>
           )}
-
+ 
 
           {/* Image */}
           <div className="relative">

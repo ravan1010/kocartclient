@@ -105,7 +105,7 @@ export default function Checkout() {
       .get("/api/cart/get", { withCredentials: true })
       .then((res) => {
         setCartItems(res.data);
-        setPlatform(11);
+        setPlatform(6);
       })
       .catch(console.error);
   }, []);
@@ -179,6 +179,29 @@ export default function Checkout() {
 
     const rzp = new window.Razorpay(options);
     rzp.open();
+  };
+
+   const handleCOD = async () => {
+    // Handle COD payment logic here
+    try {
+      const response = await api.post("/api/order/cod", {
+        items: cartItems,
+        addressId: saveAddress,
+        delivery,
+        Number: mobileNo,
+        totalAmount: total
+      });
+
+      if (response.data.success) {
+        navigate("/order-confirmation");
+      } else {
+        alert("Failed to place order");
+      }
+    } catch (error) {
+      console.error("Error placing COD order:", error);
+      alert("An error occurred while placing the order.");
+    }
+
   };
 
   return (
@@ -286,6 +309,17 @@ export default function Checkout() {
               <span>Online Payment</span>
 
             </label>
+
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="radio"
+                name="paymentType"
+                value="COD"
+                checked={paymentType === "COD"}
+                onChange={() => setPaymentType("COD")}
+              />
+              <span>Cash on Delivery (COD)</span>
+            </label>
           </div>
 
 
@@ -361,7 +395,7 @@ export default function Checkout() {
         {/* ✅ Pay Button */}
         <button
           disabled={isDisabled}
-          onClick={handlePayment}
+          onClick={paymentType === "ONLINE" ? handlePayment : handleCOD}
           className={`w-full mt-6 py-3 rounded-xl text-lg font-semibold transition
         ${isDisabled
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"

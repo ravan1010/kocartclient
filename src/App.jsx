@@ -4,20 +4,8 @@ import Home from './componets/home';
 
 //og
 import SignupOne from './signup/signup';
-import ProtectedRoute from './signup/auth/authroute/atokenroute';
-
-//admin
-import ADMINsignup from './admin/adminsignup';
-//admin otp to verify
-import ProtectedRouteADMINOTP from './admin/auth/adminauthroute/adminotproute';
-import AdminOTPverify from './admin/adminotp';
 //admin info
 import AdminAddress from './admin/admininfo';
-import ProtectedRouteADMININFO from './admin/auth/adminauthroute/admininforoute'
-import ProtectedRouteADMINMain from './admin/auth/adminauthroute/adminMainroute';
-
-//adminlandmark dashboard and product create route
-import Adminlandmark from './admincategory/adminlandmark/adminlandmarkcreate';
 import Adminlandmarkdashboard from './admincategory/adminlandmark/adminlandmarkdashboard';
 
 
@@ -43,6 +31,13 @@ import ShippingPolicy from './footer/ShippingPolicy';
 import ContactInformationPolicy from './footer/ContactInformationPolicy';
 import ParcelBooking from './componets/long';
 import ParcelBus from './componets/tobus';
+import Clientverify from './signup/otpverify';
+import ProtectedClient from './signup/auth/authroute';
+import MARCHENTverify from './admin/adminotp';
+import MarchentSignup from './admin/adminsignup';
+import ProtectedMarchent from './admin/auth/admiarouteauth';
+import Confirmation from './componets/cod';
+import Adminorder from './admincategory/adminlandmark/adminorder';
 
 
 function App() {
@@ -56,107 +51,105 @@ function App() {
           <Route path="/terms-conditions" element={<TermsConditions />} />
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
           <Route path="/contact-information-policy" element={<ContactInformationPolicy />} />
+
+
+          <Route path='/' element={
+              // <ProtectedRoute>
+              <Home />
+              // </ProtectedRoute>
+            } />
+
         //user email or number for signup
           <Route path='/signup' element={<SignupOne />} />
+          <Route path='/client-auth-success' element={<Clientverify />} />
+
+          <Route element={<ProtectedClient />}>
 
           //admin signup
-          <Route path='/admin' element={
-            <ADMINsignup />
-          } />
-
+            <Route path='/admin' element={<MarchentSignup />} />
         //admin otp
-          <Route path='/admin/verify' element={
-            <ProtectedRouteADMINOTP >
-              <AdminOTPverify />
-            </ProtectedRouteADMINOTP>
-          } />
-          <Route path='/admin/info' element={
-            <ProtectedRouteADMININFO>
-              <AdminAddress />
-            </ProtectedRouteADMININFO>
-          } />
+    
+            <Route path='marchent-auth-success' element={
+                <MARCHENTverify />
+            } />
+
+            <Route path='/admin/info' element={
+                <AdminAddress />
+            } />
+
+            <Route element={<ProtectedMarchent />}>
+            //admin create adminlandmark product
+            <Route path='/adminlandmark/productcreate' element={
+              
+                <CreatePost />
+            } />
+
+            <Route path='/adminlandmark/update/:id' element={
+                <Updatepost />
+            } />
+
+         //admin food dashboard
+            <Route path='/adminlandmark/dashboard' element={
+                <Adminlandmarkdashboard />
+            } />
+            </Route>
+
+            <Route path='/admin/orders' element={
+                <Adminorder />
+            } />
 
 
 
 //admin dashboard and create, delete based on category
-          //admin create adminlandmark product
-          <Route path='/adminlandmark/productcreate' element={
-            <ProtectedRouteADMINMain>
-              <CreatePost />
-            </ProtectedRouteADMINMain>
-          } />
 
-          <Route path='/adminlandmark/update/:id' element={
-            <ProtectedRouteADMINMain>
-              <Updatepost />
-            </ProtectedRouteADMINMain>
-          } />
+          
 
-         //admin food dashboard
-          <Route path='/adminlandmark/dashboard' element={
-            <ProtectedRouteADMINMain>
-              <Adminlandmarkdashboard />
-            </ProtectedRouteADMINMain>
-          } />
+            <Route path='/order' element={
+                <Order />
+            } />
 
-          <Route path='/order' element={
-            <ProtectedRoute>
-              <Order />
-            </ProtectedRoute>
-          } />
+            <Route path='/local-cart' element={
+                <Cart />
+            } />
 
-          <Route path='/local-cart' element={
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute>
-          } />
-
-          <Route path='/checkout' element={
-            // <ProtectedRoute>
+            <Route path='/checkout' element={
+              // <ProtectedRoute>
               <Checkout />
-            // </ProtectedRoute>
-          } />
+              // </ProtectedRoute>
+            } />
 
-          {/* <Route path='/' element={
+            {/* <Route path='/' element={
             <Home />
           } /> */}
-          <Route path='/explore' element={
-            <ProtectedRoute><Explore /></ProtectedRoute>
-          } />
-          <Route path='/events' element={
-            <ProtectedRoute>
-              <CategoryPage />
-            </ProtectedRoute>
-          } />
+            <Route path='/explore' element={
+                <Explore />
+            } />
+            <Route path='/events' element={
+                <CategoryPage />
+            } />
 
-          <Route path='/profile' element={
-            <Profile />
-          } />
+            <Route path='/profile' element={
+              <Profile />
+            } />
 
-          <Route path='/address-list' element={
-            <ProtectedRoute>
-              <Addresslist />
-            </ProtectedRoute>
-          } />
+            <Route path='/address-list' element={
+                <Addresslist />
+            } />
 
-          <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/order-confirmation" element={<Confirmation />} />
 
-          <Route path='/address' element={
-            <ProtectedRoute >
-              <ToAddress />
-            </ProtectedRoute>
-          } />
+            <Route path='/address' element={
+                <ToAddress />
+            } />
 
-          <Route path='/' element={
-            // <ProtectedRoute>
-              <ParcelBus />
-            // </ProtectedRoute>
-          } />
+            
 
-          <Route path='/long' element={
-            <ParcelBooking />
-          } />
-
+            <Route path='/long' element={
+              <ParcelBooking />
+            } />
+          </Route>
+          
         </Routes>
       </Router>
     </>

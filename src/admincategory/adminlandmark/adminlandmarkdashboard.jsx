@@ -16,6 +16,7 @@ const Adminlandmarkdashboard = () => {
   const [productlist, setproductlist] = useState('');
   const [adminId, setadminId] = useState('')
   const [open, setopen] = useState()
+  const [marchent, setmarchent] = useState([])
 
 
 
@@ -28,7 +29,9 @@ const Adminlandmarkdashboard = () => {
     setpost(res.data.post);
     setproductlist(res.data.productlist)
     setopen(res.data.openORclose)
-    console.log(res.data.id)
+    setmarchent(res.data.marchent)
+
+    console.log(res.data.id, res.data.marchent)
     setauthorid(res.data.id)
   };
 
@@ -122,7 +125,16 @@ const Adminlandmarkdashboard = () => {
       <Link to="/" className='h-10 w-[20%] grid mx-auto underline '>Home</Link>
       <div className="bg-gray-100 min-h-screen">
         <div className="container mx-auto p-4 sm:p-6 lg:p-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
+          <div className='flex justify-between' >
+            <h1 className="text-3xl font-bold text-gray-800 mb-6 ">
+            Dashboard
+            </h1>
+
+            <h1 className="text-3xl font-bold text-gray-800 mb-6">
+              {marchent.platformcommission}Rs
+            </h1>
+
+          </div>
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -169,7 +181,7 @@ const Adminlandmarkdashboard = () => {
                 </div>
        
                 <div className="ml-4">
-                  <Link to={'/admin/order'} className='border-2 mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl'>Orders</Link>
+                  <Link to={'/admin/orders'} className='border-2 mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl'>Orders</Link>
                 </div>
               </div>
             </div>
@@ -342,4 +354,4 @@ const Adminlandmarkdashboard = () => {
   )
 }
 
-export default Adminlandmarkdashboard
+export default Adminlandmarkdashboard  

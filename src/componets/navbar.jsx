@@ -12,8 +12,8 @@ const Navbar = () => {
       ? "text-indigo-600 font-bold"
       : "text-gray-600 hover:text-indigo-600 transition-colors";
 
-  // const isHome = location.pathname === "/";
-  // const isLocalCart = location.pathname === "/local-cart";
+  const isHome = location.pathname === "/";
+  const isLocalCart = location.pathname === "/local-cart";
 
   return (
     <>
@@ -28,15 +28,15 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8"> 
 
-            {/* {(isHome || isLocalCart) && (
+            {(isHome || isLocalCart) && (
               <NavLink to="/local-cart" className={navLinkClasses}>
                 Cart
               </NavLink>
-            )} */}
+            )}
 
             <NavLink to="/" className={navLinkClasses}>Home</NavLink>
-            <NavLink to="/long" className={navLinkClasses}>Long</NavLink>
-            {/* <NavLink to="/profile" className={navLinkClasses}>Profile</NavLink>  */}
+            {/* <NavLink to="/long" className={navLinkClasses}>Long</NavLink> */}
+            <NavLink to="/profile" className={navLinkClasses}>Profile</NavLink> 
 
           </div>
         </div>
@@ -58,7 +58,7 @@ const Navbar = () => {
              <span>Home</span>
            </NavLink>
 
-           {/* {(isHome || isLocalCart) && (
+           {(isHome || isLocalCart) && (
              <NavLink
                to="/local-cart"
                className={({ isActive }) =>
@@ -71,9 +71,9 @@ const Navbar = () => {
                <span>cart</span>
             </NavLink>
 
-           )} */}
+           )}
 
-            <NavLink
+            {/* <NavLink
                to="/long"
                className={({ isActive }) =>
                  `flex flex-col items-center text-xs ${
@@ -83,9 +83,9 @@ const Navbar = () => {
              >
                <Map size={22} />
                <span>long</span>
-             </NavLink>
+             </NavLink> */}
 
-           {/* <NavLink
+           <NavLink
              to="/order"
              className={({ isActive }) =>
                `flex flex-col items-center text-xs ${
@@ -95,9 +95,9 @@ const Navbar = () => {
            >
              <Package size={22} />
              <span>Orders</span>
-           </NavLink> */}
+           </NavLink> 
 
-           {/* <NavLink
+           <NavLink
              to="/profile"
              className={({ isActive }) =>
                `flex flex-col items-center text-xs ${
@@ -107,7 +107,7 @@ const Navbar = () => {
            >
              <User size={22} />
              <span>Profile</span>
-           </NavLink> */}
+           </NavLink>
 
          </div>
        </div>

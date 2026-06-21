@@ -7,7 +7,6 @@ import axios from "axios";
 const AdminAddress = () => {
 
   //inputs
-
   const [companyName, setcompanyName] = useState('');
   const [category, setcategory] = useState('foodANDbeverages');
   const [FHBCA, setFHBCA] = useState('');
@@ -100,6 +99,8 @@ const AdminAddress = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    
+console.log('Submitting form with data:')
     if (!latitude) {
       return setError('location requied')
     }
@@ -147,7 +148,7 @@ const AdminAddress = () => {
   return (
     <div>
       <div className="h-screen flex flex-col items-center ">
-        <h1>Kzone admins</h1>
+        <h1>Kocart admins</h1>
         <div className="flex flex-col md:w-150 h-auto rounded px-5 p-4 border-1 ">
           <form action="post" className="items-center md:w-full p-2 pb-0.5" onSubmit={handleSubmit} >
             <h2 className="font-bold text-2xl mt-4 mb-3 float-right mr-10"   >Name and Category</h2>
@@ -174,14 +175,14 @@ const AdminAddress = () => {
                 className="w-full px-3 py-0 border-1 outline-none overflow-scroll mb-0 h-10"
               >
                 <option value="FoodANDbeverages">Food & Beverages</option>
-                <option value="groceryFruitsANDvegetables">grocery fruits and vegetables</option>
+                {/* <option value="groceryFruitsANDvegetables">grocery fruits and vegetables</option>
                 <option value="BooksANDStationery">Books & Stationery</option>
                 <option value="FashionANDApparel">Fashion & Apparel</option>
                 <option value="ElectronicsANDGadgets">Electronics & Gadgets</option>
                 <option value="BeautyANDPersonalCare">Beauty & Personal Care</option>
                 <option value="HomeANDLiving">Home & Living</option>
                 <option value="SportsANDOutdoors">Sports & Outdoors</option>
-                <option value="ToysANDGames">Toys & Games</option>
+                <option value="ToysANDGames">Toys & Games</option> */}
               </select>
 
               <button

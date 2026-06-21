@@ -130,10 +130,50 @@ export const Order = () => {
                       ))}
                     </div>
 
+                      <div className="flex justify-between items-center px-5 py-4 bg-gray-50 border-t">
+                      
+
+                    </div>
+
+                      {/* Payment Status */}
+                     <div className="flex justify-between items-center px-5 py-4 bg-gray-50 border-t">
+                      <p className="text-sm font-medium text-gray-600">
+                        Payment Method
+                      </p>
+
+                      <span
+                        className={`px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide
+                    ${orderItem.paymentMethod === "Online"
+                            ? "bg-green-100 text-green-700"
+                            : orderItem.paymentMethod === "COD"
+                              ? "bg-yellow-100 text-yellow-700"
+                              : "bg-blue-100 text-blue-700"
+                          }`}
+                      >
+                        {orderItem.paymentMethod}
+                      </span>
+                      </div>
+
                     {/* Order Footer */}
                     <div className="flex justify-between items-center px-5 py-4 bg-gray-50 border-t">
                       <p className="text-sm font-medium text-gray-600">
-                        Status
+                        Payment Status
+                      </p>
+
+                      <span
+                        className={`px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide
+                    ${orderItem.paymentStatus === "Paid"
+                            ? "bg-green-100 text-green-700"
+                            : orderItem.paymentStatus === "Pending"
+                              ? "bg-yellow-100 text-yellow-700"
+                              : "bg-blue-100 text-blue-700"
+                          }`}
+                      >
+                        {orderItem.paymentStatus}
+                      </span>
+
+                      <p className="text-sm font-medium text-gray-600">
+                        Order Status
                       </p>
 
                       <span
