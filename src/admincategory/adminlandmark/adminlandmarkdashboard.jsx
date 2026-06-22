@@ -132,94 +132,91 @@ const Adminlandmarkdashboard = () => {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white p-6 rounded-lg shadow">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Merchant Amount */}
-                <div className="flex items-center p-4 bg-white rounded-xl shadow">
-                  <div className="p-3 rounded-full bg-blue-100 text-black">
-                    <BanknoteArrowDown size={24} />
+              {/* Merchant Amount */}
+              <div className="bg-white p-4 rounded-xl shadow">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-blue-100">
+                    <BanknoteArrowDown />
                   </div>
-
-                  <div className="ml-4">
-                    <p className="text-sm text-gray-500">Merchant Amount</p>
-                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+                  <div className="ml-3">
+                    <p className="text-xs text-gray-500">Merchant Amount</p>
+                    <h2 className="text-xl md:text-2xl font-bold">
                       ₹{marchent.amount || 0}
-                    </h1>
+                    </h2>
                   </div>
                 </div>
+              </div>
 
-                {/* Platform Commission */}
-                <div className="flex items-center p-4 bg-white rounded-xl shadow">
-                  <div className="p-3 rounded-full bg-green-100 text-black">
-                    <BanknoteArrowUp size={24} />
+              {/* Commission */}
+              <div className="bg-white p-4 rounded-xl shadow">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-green-100">
+                    <BanknoteArrowUp />
                   </div>
-
-                  <div className="ml-4">
-                    <p className="text-sm text-gray-500">Platform Commission</p>
-                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+                  <div className="ml-3">
+                    <p className="text-xs text-gray-500">Commission</p>
+                    <h2 className="text-xl md:text-2xl font-bold">
                       ₹{marchent.platformcommision || 0}
-                    </h1>
+                    </h2>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow">
-                <div className="flex items-center">
-                  <div className="p-3 rounded-full bg-blue-100 text-black">
-                    <BadgePlus size={24} />
-                  </div>
-                  <div className="ml-4">
-                    <Link to='/adminlandmark/productcreate' className='border-2 mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl'>Create Product</Link>
-                  </div>
-                </div>
+              {/* Create Product */}
+              <div className="bg-white p-4 rounded-xl shadow flex items-center justify-center">
+                <Link
+                  to="/adminlandmark/productcreate"
+                  className="w-full text-center bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg"
+                >
+                  Create Product
+                </Link>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow">
-                <div className="flex items-center">
-                  <div className="p-4 flex rounded-full bg-green-100 text-green-600 ">
-                    {open === false ? <>
-                      <DoorClosedLocked size={24} />
-                      <p className='mx-2'>close</p>
-                    </>
-                      :
+              {/* Orders */}
+              <div className="bg-white p-4 rounded-xl shadow flex items-center justify-center">
+                <Link
+                  to="/admin/orders"
+                  className="w-full text-center bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg"
+                >
+                  Orders
+                </Link>
+              </div>
+
+              {/* Shop Status */}
+              <div className="bg-white p-4 rounded-xl shadow">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    {open ? (
                       <>
-                        <DoorOpen size={24} />
-                        <p className='mx-2'>open</p>
+                        <DoorOpen className="text-green-600" />
+                        <span className="ml-2">Open</span>
                       </>
-                    }
+                    ) : (
+                      <>
+                        <DoorClosedLocked className="text-red-600" />
+                        <span className="ml-2">Closed</span>
+                      </>
+                    )}
                   </div>
-                  <div className="ml-8">
-                    <input
-                      type="checkbox"
-                      checked={open}
-                      onChange={handleToggle}
-                      className='w-6 h-6 border'
-                    />
-                  </div>
+
+                  <input
+                    type="checkbox"
+                    checked={open}
+                    onChange={handleToggle}
+                    className="w-6 h-6"
+                  />
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow">
+              {/* Account */}
+              <div className="bg-white p-4 rounded-xl shadow">
                 <div className="flex items-center">
-                  <div className="p-3 rounded-full bg-green-100 text-green-600">
-                    <MessageSquare size={24} />
-                  </div>
-
-                  <div className="ml-4">
-                    <Link to={'/admin/orders'} className='border-2 mx-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl'>Orders</Link>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white p-6 rounded-lg shadow">
-                <div className="flex items-center">
-                  <div className="p-3 rounded-full bg-indigo-100 text-indigo-600">
-                    <User size={24} />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm text-gray-500">Account Status</p>
-                    <p className="text-xl font-bold text-green-600">Verified</p>
+                  <User className="text-indigo-600" />
+                  <div className="ml-3">
+                    <p className="text-xs text-gray-500">Account Status</p>
+                    <p className="font-bold text-green-600">Verified</p>
                   </div>
                 </div>
               </div>
