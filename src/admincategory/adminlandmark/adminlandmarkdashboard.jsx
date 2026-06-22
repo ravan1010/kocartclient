@@ -131,7 +131,7 @@ const Adminlandmarkdashboard = () => {
 
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"> */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
               {/* Merchant Amount */}
@@ -224,8 +224,6 @@ const Adminlandmarkdashboard = () => {
             </div>
 
             {/*event posts*/}
-
-
             <div className="w-full mt-10 p-5 hidden md:flex flex-col">
               {Array.isArray(post) &&
                 post.map((item) => (
@@ -371,7 +369,7 @@ const Adminlandmarkdashboard = () => {
             <Footer />
             {/* Recent Bookings Table */}
 
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </>
