@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function Signup() {
   const handleGoogleLogin = () => {
-    window.open("http://localhost:5001/auth/google/client", "_self");
+    window.open("https://serverside.kocart.online/auth/google/client", "_self");
   }; 
 
   return (
