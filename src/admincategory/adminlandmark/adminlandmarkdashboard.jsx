@@ -30,7 +30,7 @@ const Adminlandmarkdashboard = () => {
     setopen(res.data.openORclose)
     setmarchent(res.data.marchent)
 
-    console.log(res.data.id, res.data.marchent)
+    // console.log(res.data.id, res.data.marchent)
     // setauthorid(res.data.id)
   };
 
