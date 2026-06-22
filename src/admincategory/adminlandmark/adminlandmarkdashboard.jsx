@@ -17,7 +17,7 @@ const Adminlandmarkdashboard = () => {
   const [adminId, setadminId] = useState('')
   const [open, setopen] = useState()
   const [marchent, setmarchent] = useState([])
-
+  const [loading, setloading] = useState(true)
 
 
   // const [authorid, setauthorid] = useState('');
@@ -25,10 +25,13 @@ const Adminlandmarkdashboard = () => {
 
 
   const fetchImages = async () => {
+
     const res = await api.get(`/api/admin/dashboard`, { withCredentials: true });
     setpost(res.data.post);
     setopen(res.data.openORclose)
     setmarchent(res.data.marchent)
+
+    setloading(false)
 
     // console.log(res.data.id, res.data.marchent)
     // setauthorid(res.data.id)
@@ -117,6 +120,43 @@ const Adminlandmarkdashboard = () => {
     admin()
   }, [adminId])
 
+  if(loading){
+    return(
+       <div className="fixed inset-0 flex items-center justify-center z-50">
+      
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black opacity-50"></div>
+
+      {/* Loader */}
+      <div className="z-10 flex flex-col items-center">
+        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-white mt-3">Loading...</p>
+      </div>
+    </div>
+    )
+  }
+
+   if(!marchent.active){
+    return(
+      <div className="fixed inset-0 flex items-center justify-center z-50">
+      
+                    {/* Overlay */}
+            <div 
+              className="absolute inset-0 bg-black opacity-60"
+            ></div>
+            {/* Popup Content */}
+            <div className="bg-white rounded-2xl shadow-lg text-center z-10 w-96 p-6">
+              <h1 className="text-red-500 mb-5">
+                ACTIVATE YOUR ACCOUNT
+              </h1>
+              <p>
+                contact (7349343243) or (8088303214) <br /> to active 
+              </p>
+            
+            </div>
+          </div>
+    )
+  }
 
   return (
     <>
