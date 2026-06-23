@@ -29,7 +29,7 @@ export default function Checkout() {
   const [error, setError] = useState("");
 
   const [paymentType, setPaymentType] = useState("ONLINE"); // or "COD"
-  const isDisabled = delivery === 0 || !mobileNo || !saveAddress;
+  const isDisabled = delivery === -1 || !mobileNo || !saveAddress;
 
   /* ===================== 💰 PRICE CALCULATION ===================== */
 
