@@ -23,6 +23,7 @@ const Profile = () => {
 
         if (adminRes.data.success) {
           setToadmin(adminRes.data.slug || "adminlandmark");
+          console.log(toadmin)
         }
       } catch (error) {
         console.error(error);
@@ -53,14 +54,13 @@ const Profile = () => {
           </Link>
 
           {isAdmin ? (
-            toadmin && (
               <Link
-                to={`/${toadmin}/dashboard`}
+                to={`/adminlandmark/dashboard`}
                 className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
               >
                 🧑‍💼 Partner Dashboard
               </Link>
-            )
+            
           ) : (
             <Link
               to="/admin"
