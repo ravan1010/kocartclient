@@ -80,7 +80,6 @@ function App() {
             <Route element={<ProtectedMarchent />}>
             //admin create adminlandmark product
             <Route path='/adminlandmark/productcreate' element={
-              
                 <CreatePost />
             } />
 
