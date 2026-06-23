@@ -360,7 +360,7 @@ export default function Checkout() {
                 </div>
                ))} 
              </div> 
-            {delivery > 0 && (<>
+            {delivery > -1 && (<>
               <div className="flex justify-between text-sm">
                 <span>Distance</span>
                 <span>{distance}km</span>
