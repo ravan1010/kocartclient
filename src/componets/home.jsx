@@ -16,7 +16,6 @@ const Home = () => {
     useNearbyMerchants(location);
   const [GroceryData, setGroceryData] = useState([])
   const [ResturantData, setRestaurantData] = useState([])
-  const [filteredPosts, setFilteredPosts] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState("all");
 
   useEffect(() => {
