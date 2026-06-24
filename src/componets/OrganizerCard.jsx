@@ -53,197 +53,198 @@ const OrganizerCard = ({ organizer, Open }) => {
     }
   };
 
-  return (
-    <>
-      {organizer.active && (
-        <div className="bg-white rounded-lg shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-300 text-xs border border-gray-200 overflow-hidden relative">
-          {/* Closed Overlay */}
-          {!organizer.open || !Open && (
-            <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10 text-white font-semibold text-sm">
+ return (
+  <>
+    {organizer.active && (
+      <div className="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative">
+
+        {/* Closed Overlay */}
+        {(!organizer.open || !Open) && (
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-20">
+            <div className="bg-red-600 text-white px-5 py-2 rounded-xl font-bold">
               Closed
             </div>
+          </div>
+        )}
+
+        {/* Image */}
+        <div className="relative">
+          <img
+            src={organizer.image?.[0]}
+            alt={organizer.name}
+            className="w-full h-44 object-cover"
+          />
+
+          <div className="absolute top-3 left-3 bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+            {organizer.companyName}
+          </div>
+
+          <div className="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+            ₹{selectedVariantData.price}
+          </div>
+
+          {noti && (
+            <div className="absolute inset-0 bg-green-600/90 flex items-center justify-center text-white font-bold text-lg">
+              {noti}
+            </div>
           )}
- 
-
-          {/* Image */}
-          <div className="relative">
-            <img
-              className="w-full h-32 object-cover"
-              src={organizer.image?.[0]}
-              alt={organizer.name}
-            />
-
-            <div className="absolute top-2 right-2 bg-indigo-600 text-white px-2 py-0.5 rounded-full text-[10px] flex items-center gap-1">
-              {organizer.name}
-            </div>
-            <div className="absolute bottom-2 left-2 bg-indigo-600 text-white px-2 py-0.5 rounded-full text-[10px] flex items-center gap-1">
-              {organizer.companyName}
-            </div>
-
-            {noti && (
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-green-600 text-white rounded-md text-[15px] flex items-center justify-center animate-bounce">                {noti}
-              </div>
-            )}
-          </div>
-
-          {/* Content */}
-          <div className="p-2 space-y-2">
-
-            <div className="flex justify-between gap-1 ">
-              <p className="flex items-center gap-1 text-gray-500">
-                {organizer.variantname}
-              </p>
-              <p className="text-md font-bold line-through">
-                MRP : {selectedVariantData.mrp * quantity}
-              </p>
-            </div>
-
-            {/* Variants */}
-            {!showVariants && organizer.variants?.length > 0 && (
-              <button
-                onClick={() => setShowVariants(true)}
-                className="w-full py-1 text-xs bg-indigo-600 text-white rounded-md"
-              >
-                Select Variant
-              </button>
-            )}
-            {showVariants && organizer.variants?.length > 0 && (
-              <button
-                className="w-full py-1 text-xs bg-gray-300 text-gray-700 rounded-md cursor-not-allowed"
-              >
-                Selecting Variant
-              </button>
-            )}
-
-            {showVariants && (
-              <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 animate-fadeIn">
-                <div className="bg-white w-full max-w-md rounded-t-xl p-3 space-y-2 animate-slideUp">
-                  {/* Header */}
-                  <div className="flex justify-between items-center border-b pb-2">
-                    <p className="text-sm font-semibold">Select Variant</p>
-
-                    <button
-                      onClick={() => setShowVariants(false)}
-                      className="text-gray-500 text-xs"
-                    >
-                      Close
-                    </button>
-                  </div>
-
-                  {/* Variants */}
-                  <div className="space-y-2 max-h-60 overflow-y-auto">
-                    {organizer.variants.map((variant) => (
-                      <div
-                        key={variant._id}
-                        onClick={() => {
-                          setSelectedVariant(variant._id);
-                          setShowVariants(false);
-                        }}
-                        className={`flex items-center justify-between px-2 py-2 rounded-md border cursor-pointer
-            ${selectedVariant === variant._id
-                            ? "border-indigo-600 bg-indigo-50"
-                            : "border-gray-200"
-                          }`}
-                      >
-                        <div>
-                          <p className="text-sm font-medium">{variant.name}</p>
-
-                          <p className="text-xs line-through text-gray-400">
-                            ₹{variant.mrp}
-                          </p>
-                        </div>
-
-                        <p className="text-sm font-semibold text-green-600">
-                          ₹{variant.price}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-
-                </div>
-
-              </div>
-            )}
-            {/* {organizer.variants?.length > 0 && (
-          <div className="flex flex-col gap-1">
-            
-            {organizer.variants.map((variant) => (
-              <>
-              <div className="text-gray-500 text-[10px] px-1 ">
-              <p >{variant.name}</p>
-              </div>
-              <div >
-              <p >MRP : {variant.mrp}</p>
-              </div>
-              <button
-                key={variant._id}
-                onClick={() => setSelectedVariant(variant._id)}
-                className={`px-2 py-0.5 rounded-full border text-[10px]
-                  ${
-                    selectedVariant === variant._id
-                      ? "bg-indigo-600 text-white border-indigo-600"
-                      : "bg-gray-100 border-gray-300"
-                  }`}
-              >
-                ₹{variant.price}
-              </button>
-              <br />
-           </> ))}
-          </div>
-        )} */}
-
-            {/* Variants */}
-
-
-            {/* Quantity + Price */}
-            <div className="flex items-center justify-between">
-
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={decrease}
-                  className="bg-gray-200 p-1 rounded-full"
-                >
-                  <Minus size={10} />
-                </button>
-
-                <span className="font-medium text-xs">
-                  {quantity}
-                </span>
-
-                <button
-                  onClick={increase}
-                  className="bg-gray-200 p-1 rounded-full"
-                >
-                  <Plus size={10} />
-                </button>
-              </div>
-
-              <span className="font-semibold text-green-600 text-xs flex items-center gap-1">
-                <p className="text-black"> {selectedVariantData.name} </p> : ₹{totalPrice}
-              </span>
-            </div>
-
-            {/* Add Button */}
-            <button
-              onClick={() =>
-                addToCart(
-                  organizer._id,
-                  selectedVariant,
-                  quantity,
-                  organizer.author
-                )
-              }
-              disabled={!organizer.active || !selectedVariant || !organizer.open}
-              className="w-full py-1 rounded-md text-white text-xs bg-green-600 hover:bg-green-700 disabled:bg-gray-300"
-            >
-              Add
-            </button>
-
-          </div>
         </div>
-      )}
-    </>
-  );
+
+        {/* Content */}
+        <div className="p-4 space-y-4">
+
+          {/* Product */}
+          <div>
+            <h3 className="text-lg font-bold text-gray-800 line-clamp-1">
+              {organizer.name}
+            </h3>
+
+            <p className="text-sm text-gray-500">
+              {selectedVariantData.name}
+            </p>
+          </div>
+
+          {/* Price */}
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="text-xl font-bold text-green-600">
+                ₹{totalPrice}
+              </p>
+
+              <p className="text-xs text-gray-400 line-through">
+                MRP ₹{selectedVariantData.mrp * quantity}
+              </p>
+            </div>
+
+            <div className="bg-green-50 px-3 py-2 rounded-xl">
+              <p className="text-green-700 text-xs font-semibold">
+                Save ₹
+                {(selectedVariantData.mrp -
+                  selectedVariantData.price) * quantity}
+              </p>
+            </div>
+          </div>
+
+          {/* Variant Button */}
+          {organizer.variants?.length > 0 && (
+            <button
+              onClick={() => setShowVariants(true)}
+              className="w-full py-2 bg-indigo-600 text-white rounded-xl font-medium"
+            >
+              Change Variant
+            </button>
+          )}
+
+          {/* Quantity */}
+          <div className="flex items-center justify-between">
+
+            <div className="flex items-center gap-3 bg-gray-100 rounded-xl px-2 py-2">
+
+              <button
+                onClick={decrease}
+                className="w-8 h-8 bg-white rounded-lg shadow flex items-center justify-center"
+              >
+                <Minus size={14} />
+              </button>
+
+              <span className="font-semibold min-w-[24px] text-center">
+                {quantity}
+              </span>
+
+              <button
+                onClick={increase}
+                className="w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center"
+              >
+                <Plus size={14} />
+              </button>
+
+            </div>
+
+            <span className="text-sm font-medium text-gray-600">
+              {organizer.variantname}
+            </span>
+          </div>
+
+          {/* Add Button */}
+          <button
+            onClick={() =>
+              addToCart(
+                organizer._id,
+                selectedVariant,
+                quantity,
+                organizer.author
+              )
+            }
+            disabled={
+              !organizer.active ||
+              !selectedVariant ||
+              !organizer.open
+            }
+            className="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold shadow-lg disabled:bg-gray-300"
+          >
+            🛒 Add to Cart
+          </button>
+        </div>
+
+        {/* Variant Modal */}
+        {showVariants && (
+          <div className="fixed inset-0 z-50 bg-black/50 flex items-end justify-center">
+
+            <div className="bg-white w-full max-w-md rounded-t-3xl p-4">
+
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-bold text-lg">
+                  Select Variant
+                </h3>
+
+                <button
+                  onClick={() => setShowVariants(false)}
+                  className="text-gray-500"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="space-y-3 max-h-72 overflow-y-auto">
+
+                {organizer.variants.map((variant) => (
+                  <div
+                    key={variant._id}
+                    onClick={() => {
+                      setSelectedVariant(variant._id);
+                      setShowVariants(false);
+                    }}
+                    className={`p-3 rounded-xl border cursor-pointer flex justify-between items-center
+                    ${
+                      selectedVariant === variant._id
+                        ? "border-indigo-600 bg-indigo-50"
+                        : "border-gray-200"
+                    }`}
+                  >
+                    <div>
+                      <p className="font-medium">
+                        {variant.name}
+                      </p>
+
+                      <p className="text-xs text-gray-400 line-through">
+                        ₹{variant.mrp}
+                      </p>
+                    </div>
+
+                    <p className="font-bold text-green-600">
+                      ₹{variant.price}
+                    </p>
+                  </div>
+                ))}
+
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    )}
+  </>
+);
 };
 
 export default OrganizerCard;
