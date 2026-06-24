@@ -14,6 +14,8 @@ const ToAddress = () => {
     const [cityTown, setcityTown] = useState('');
     const [state, setstate] = useState('karnataka');
 
+    const [oneclick, setOneclick] = useState(false)
+
   
     // const [suggestionsCity, setSuggestionsCity] = useState([]);
     const [success, setsuccess] = useState('');
@@ -28,6 +30,8 @@ const ToAddress = () => {
         e.preventDefault();
 
     try {
+
+      setOneclick(true)
 
         await api.post("/api/to/address",{ 
             Fullname : Fullname,
@@ -49,6 +53,7 @@ const ToAddress = () => {
               setLandmark('')
               setcityTown('')
               setpincode('')
+              setOneclick(false)
             }
             
          })
@@ -195,10 +200,15 @@ const ToAddress = () => {
 
       {/* Button */}
       <button
+        disabled = {oneclick}
         type="submit"
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md transition"
-      >
-        Next
+        className={`w-full mt-6 py-3 rounded-xl text-lg font-semibold transition
+        ${oneclick
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-green-600 text-white hover:bg-green-700"
+            }`}
+            >
+        Save
       </button>
 
     </form>

@@ -8,6 +8,9 @@ import "leaflet/dist/leaflet.css";
 import axios from "axios";
 
 
+
+// Fix Marker Icon
+
 export default function Checkout() {
 
   const navigate = useNavigate();
@@ -22,14 +25,17 @@ export default function Checkout() {
   const [mobileNo, setMobileNo] = useState("");
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+
   const [city, setCity] = useState("");
+  const [oneclick, setOneclick] = useState(1);
 
   const [distance, setdistance] = useState('');
   const [locationLoading, setLocationLoading] = useState(false);
   const [error, setError] = useState("");
 
+
   const [paymentType, setPaymentType] = useState("ONLINE"); // or "COD"
-  const isDisabled = delivery === -1 || !mobileNo || !saveAddress;
+  const isDisabled = delivery === -1 || !mobileNo || !saveAddress || oneclick !== 1;
 
   /* ===================== 💰 PRICE CALCULATION ===================== */
 
@@ -48,6 +54,8 @@ export default function Checkout() {
       setError("Geolocation not supported");
       return;
     }
+
+    // Reverse Geocode
 
     setLocationLoading(true);
 
@@ -71,7 +79,7 @@ export default function Checkout() {
           );
 
           setCity(geo.data.results[0]?.address_line2 || "");
-          // console.log("City:", geo.data.results[0]?.address_line2 || "Not found");
+          console.log("City:", geo.data.results[0]?.address_line2 || "Not found");
 
           const res = await api.post(
             "/api/delivery-fee",
@@ -96,6 +104,29 @@ export default function Checkout() {
       },
       { enableHighAccuracy: true }
     );
+  };
+
+  const getLocationName = async (lat, lng) => {
+    try {
+      const res = await axios.get(
+        "https://api.geoapify.com/v1/geocode/reverse",
+        {
+          params: {
+            lat,
+            lon: lng,
+            apiKey: `9101d57bd3a34d2194bb8222a55a6a3f`,
+          },
+        }
+      );
+
+      setCity(
+        res.data.features?.[0]?.properties?.formatted ||
+        "Unknown Location"
+      );
+
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   /* ===================== 🛒 CART ===================== */
@@ -144,6 +175,7 @@ export default function Checkout() {
 
   const handlePayment = async () => {
     const res = await loadRazorpay();
+    setOneclick(2)
 
     if (!res) {
       alert("Razorpay SDK failed");
@@ -151,7 +183,7 @@ export default function Checkout() {
     }
 
     const { data } = await api.post("/api/order/checkout", {
-       total,
+      total,
     });
 
     const options = {
@@ -169,6 +201,7 @@ export default function Checkout() {
           totalAmount: total
         }).then((res) => {
           if (res.data.success) {
+            setOneclick(1)
             navigate("/payment-success");
           } else {
             alert("Payment verification failed");
@@ -181,7 +214,9 @@ export default function Checkout() {
     rzp.open();
   };
 
-   const handleCOD = async () => {
+  const handleCOD = async () => {
+
+    setOneclick(2)
     // Handle COD payment logic here
     try {
       const response = await api.post("/api/order/cod", {
@@ -193,6 +228,7 @@ export default function Checkout() {
       });
 
       if (response.data.success) {
+        setOneclick(1)
         navigate("/order-confirmation");
       } else {
         alert("Failed to place order");
@@ -228,6 +264,7 @@ export default function Checkout() {
 
             <div className="rounded-xl overflow-hidden border">
               {latitude && longitude ? (
+
                 <>
                   <MapContainer
                     center={[latitude, longitude]}
@@ -236,16 +273,36 @@ export default function Checkout() {
                     className="h-[250px] w-full"
                   >
                     <TileLayer
-                      attribution='<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                      attribution='&copy; OpenStreetMap'
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[latitude, longitude]}>
-                      <Popup>You are here 📍</Popup>
+
+                    <Marker
+                      position={[latitude, longitude]}
+                      draggable={true}
+                      eventHandlers={{
+                        dragend: async (e) => {
+                          const marker = e.target;
+                          const pos = marker.getLatLng();
+
+                          setLatitude(pos.lat);
+                          setLongitude(pos.lng);
+
+                          // Optional: reverse geocode
+                          await getLocationName(pos.lat, pos.lng);
+                        },
+                      }}
+                    >
+                      <Popup>
+                        📍 Drag me to adjust location
+                      </Popup>
                     </Marker>
                   </MapContainer>
 
                   <p className="text-sm text-gray-600 px-2 py-1">
-                    {locationLoading ? "Detecting location..." : `${city} 📍`}
+                    {locationLoading
+                      ? "Detecting location..."
+                      : `${city} 📍`}
                   </p>
                 </>
               ) :
@@ -353,13 +410,12 @@ export default function Checkout() {
                         <p className="font-bold">
                           ₹{item.price * item.quantity}
                         </p>
-
                       </div>
                     </div>
                   ))}
                 </div>
-               ))} 
-             </div> 
+              ))}
+            </div>
             {delivery > -1 && (<>
               <div className="flex justify-between text-sm">
                 <span>Distance</span>
@@ -388,6 +444,8 @@ export default function Checkout() {
               <span>Total</span>
               <span>₹{total}</span>
             </div>
+                          <span>₹{error}</span>
+
           </section>
 
         </div>
@@ -411,3 +469,4 @@ export default function Checkout() {
 
   );
 }
+
