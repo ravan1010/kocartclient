@@ -10,7 +10,6 @@ import { generateAndSaveFCMToken } from '../../utili/token.js';
 
 const Adminlandmarkdashboard = () => {
 
-
   const navigate = useNavigate()
   const [post, setpost] = useState('');
   // const [productlist, setproductlist] = useState('');
