@@ -2,12 +2,12 @@ import React, { useState, useMemo } from "react";
 import { MapPin, Plus, Minus } from "lucide-react";
 import api from "../api";
 import useClientauth from "../signup/auth/atokenauth.jsx"
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const OrganizerCard = ({ organizer, Open }) => {
 
   const { isAdmin } = useClientauth();
-  const { navigate } = Navigate()
+  const navigate = useNavigate();
 
   const [noti, setnoti] = useState(null);
   const [quantity, setquantity] = useState(1);

@@ -21,7 +21,6 @@ const Home = () => {
   useEffect(() => {
     const fetchData = () => {
       if (grocery || restaurant) {
-        setGroceryData(grocery);
         setRestaurantData(restaurant);
         console.log(grocery, restaurant);
       }
