@@ -15,8 +15,8 @@ const Adminlandmarkdashboard = () => {
   // const [productlist, setproductlist] = useState('');
   const [adminId, setadminId] = useState('')
   const [open, setopen] = useState()
-  // const [marchent, setmarchent] = useState([])
-  // const [loading, setloading] = useState(true)
+  const [marchent, setmarchent] = useState([])
+  const [loading, setloading] = useState(true)
 
 
   // const [authorid, setauthorid] = useState('');
@@ -119,21 +119,21 @@ const Adminlandmarkdashboard = () => {
     admin()
   }, [adminId])
 
-  // if(loading){
-  //   return(
-  //      <div className="fixed inset-0 flex items-center justify-center z-50">
+  if(loading){
+    return(
+       <div className="fixed inset-0 flex items-center justify-center z-50">
       
-  //     {/* Overlay */}
-  //     <div className="absolute inset-0 bg-black opacity-50"></div>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black opacity-50"></div>
 
-  //     {/* Loader */}
-  //     <div className="z-10 flex flex-col items-center">
-  //       <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-  //       <p className="text-white mt-3">Loading...</p>
-  //     </div>
-  //   </div>
-  //   )
-  // }
+      {/* Loader */}
+      <div className="z-10 flex flex-col items-center">
+        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-white mt-3">Loading...</p>
+      </div>
+    </div>
+    )
+  }
 
   //  if(!marchent.active){
   //   return(
