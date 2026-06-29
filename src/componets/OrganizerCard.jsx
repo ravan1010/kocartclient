@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from "react";
 import { MapPin, Plus, Minus } from "lucide-react";
 import api from "../api";
-import useClientauth from "../signup/auth/atokenauth.jsx"
+// import useClientauth from "../signup/auth/atokenauth.jsx"
 import { useNavigate } from "react-router-dom";
 
 const OrganizerCard = ({ organizer, Open }) => {
 
-  const { isAdmin } = useClientauth();
+  // const { isAdmin } = useClientauth();
   const navigate = useNavigate();
 
   const [noti, setnoti] = useState(null);
@@ -171,7 +171,6 @@ const OrganizerCard = ({ organizer, Open }) => {
             </div>
 
             {/* Add Button */}
-            {isAdmin ?
               <button
                 onClick={() =>
                   addToCart(
@@ -190,21 +189,7 @@ const OrganizerCard = ({ organizer, Open }) => {
               >
                 🛒 Add to Cart
               </button>
-              :
-              <button
-                onClick={() =>
-                  navigate('/signup')
-                }
-                disabled={
-                  !organizer.active ||
-                  !selectedVariant ||
-                  !organizer.open
-                }
-                className="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold shadow-lg disabled:bg-gray-300"
-              >
-                🛒 Add to Cart
-              </button>
-            }
+            
           </div>
 
           {/* Variant Modal */}

@@ -132,8 +132,6 @@ const handleFiles = async (e) => {
 
   };
 
- 
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex justify-center py-10">
       <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl p-6 md:p-10">
