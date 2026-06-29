@@ -22,7 +22,7 @@ const OrganizerCard = ({ organizer, Open }) => {
   }, [selectedVariant, organizer.variants]);
 
   const totalPrice = useMemo(() => {
-    return selectedVariantDatart
+    return selectedVariantData
       ? selectedVariantData.price * quantity
       : 0;
   }, [selectedVariantData, quantity]);
