@@ -135,27 +135,27 @@ const Adminlandmarkdashboard = () => {
     )
   }
 
-  //  if(!marchent.active){
-  //   return(
-  //     <div className="fixed inset-0 flex items-center justify-center z-50">
+   if(!marchent.active){
+    return(
+      <div className="fixed inset-0 flex items-center justify-center z-50">
       
-  //                   {/* Overlay */}
-  //           <div 
-  //             className="absolute inset-0 bg-black opacity-60"
-  //           ></div>
-  //           {/* Popup Content */}
-  //           <div className="bg-white rounded-2xl shadow-lg text-center z-10 w-96 p-6">
-  //             <h1 className="text-red-500 mb-5">
-  //               ACTIVATE YOUR ACCOUNT
-  //             </h1>
-  //             <p>
-  //               contact (7349343243) or (8088303214) <br /> to active 
-  //             </p>
+                    {/* Overlay */}
+            <div 
+              className="absolute inset-0 bg-black opacity-60"
+            ></div>
+            {/* Popup Content */}
+            <div className="bg-white rounded-2xl shadow-lg text-center z-10 w-96 p-6">
+              <h1 className="text-red-500 mb-5">
+                ACTIVATE YOUR ACCOUNT
+              </h1>
+              <p>
+                contact (7349343243) or (8088303214) <br /> to active 
+              </p>
             
-  //           </div>
-  //         </div>
-  //   )
-  // }
+            </div>
+          </div>
+    )
+  }
 
   return (
     <>
