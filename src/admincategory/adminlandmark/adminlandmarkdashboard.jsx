@@ -11,30 +11,33 @@ import { generateAndSaveFCMToken } from '../../utili/token.js';
 const Adminlandmarkdashboard = () => {
 
   const navigate = useNavigate()
-  const [post, setpost] = useState('');
+  const [post, setpost] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+
   // const [productlist, setproductlist] = useState('');
   const [adminId, setadminId] = useState('')
   const [open, setopen] = useState()
   const [marchent, setmarchent] = useState([])
   const [loading, setloading] = useState(true)
 
+  const [selectedVariant, setSelectedVariant] = useState("all");
+
 
   // const [authorid, setauthorid] = useState('');
 
 
 
-  const fetchImages = async () => {
+ const fetchImages = async () => {
+  const res = await api.get("/api/admin/dashboard", {
+    withCredentials: true,
+  });
 
-    const res = await api.get(`/api/admin/dashboard`, { withCredentials: true });
-    setpost(res.data.post);
-    setopen(res.data.openORclose)
-    setmarchent(res.data.marchent)
-
-    setloading(false)
-
-    // console.log(res.data.id, res.data.marchent)
-    // setauthorid(res.data.id)
-  };
+  setpost(res.data.post);
+  setFilteredPosts(res.data.post); // ✅ Initialize filtered list
+  setopen(res.data.openORclose);
+  setmarchent(res.data.marchent);
+  setloading(false);
+};
 
   useEffect(() => {
     fetchImages()
@@ -115,9 +118,30 @@ const Adminlandmarkdashboard = () => {
       } catch (error) {
         console.log(error)
       }
-    }
-    admin()
+    };
+    admin();
   }, [adminId])
+
+  // Filter Posts
+  const handleFilter = (variant) => {
+  setSelectedVariant(variant);
+
+  if (variant === "all") {
+    setFilteredPosts(post);
+    return;
+  }
+
+  setFilteredPosts(
+    post.filter((item) => item.variantname === variant)
+  );
+};
+
+const uniqueEvents = [
+  "all",
+  ...new Set(
+    post.map((post) => post.variantname) || []
+  ),
+];
 
   if(loading){
     return(
@@ -262,10 +286,40 @@ const Adminlandmarkdashboard = () => {
 
             </div>
 
+
+ {/* Filter Buttons */}
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide py-2 px-1 mb-8">
+          {uniqueEvents.map((event, index) => (
+            <button
+              key={index}
+              onClick={() => handleFilter(event)}
+              className={`
+                whitespace-nowrap
+                px-5 py-2
+                rounded-full
+                border
+                font-medium
+                transition-all
+                duration-300
+                shadow-sm
+                hover:scale-105
+                ${
+                  selectedVariant === event
+                    ? "bg-gradient-to-r from-pink-500 to-yellow-500 text-white border-transparent shadow-lg"
+                    : "bg-white text-gray-700 hover:bg-gray-100 border-gray-300"
+                }
+              `}
+            >
+              {event}
+            </button>
+          ))}
+        </div>
+
+
             {/*event posts*/}
             <div className="w-full mt-10 p-5 hidden md:flex flex-col">
-              {Array.isArray(post) &&
-                post.map((item) => (
+              {Array.isArray(filteredPosts) &&
+                filteredPosts.map((item) => (
                   <div
                     key={item._id}
                     className="border p-3 m-2 flex w-full rounded-lg items-center"
@@ -334,8 +388,8 @@ const Adminlandmarkdashboard = () => {
 
 
             <div className="w-full mt-2 flex flex-col p-4 lg:hidden md:hidden ">
-              {Array.isArray(post) &&
-                post.map((item) => (
+              {Array.isArray(filteredPosts) &&
+                filteredPosts.map((item) => (
                   <div
                     key={item._id}
                     className="w-full border rounded-xl p-3 mb-3 shadow-sm bg-white"

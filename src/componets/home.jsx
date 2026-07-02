@@ -44,7 +44,7 @@ const Home = () => {
         (item) => item.variantname === selectedEvent
       );
 
-
+ 
 
 
   const RESgroupedByAuthor = filteredRestaurants.reduce((acc, item) => {
