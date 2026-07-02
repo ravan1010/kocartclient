@@ -8,6 +8,7 @@ const UpdatePost = () => {
 
   const [name, setname] = useState("");
   const [description, setdescription] = useState("");
+  const [locationLink, setlocationLink] = useState("");
   const [image, setimage] = useState([]); // existing images
   const [variantname, setVariantname] = useState("");
   const [variants, setVariants] = useState([{ name: "", price: "", mrp: "" }]);
@@ -28,6 +29,7 @@ const UpdatePost = () => {
         setimage(res.data.image);
         setVariantname(res.data.variantname);
         setVariants(res.data.variants);
+        setVariants(res.data.locationLink);
       } catch (err) {
         setError("Failed to load post", err);
       }
@@ -63,6 +65,7 @@ const UpdatePost = () => {
           description,
           variants,
           variantname,
+          locationLink
         },
         { withCredentials: true }
       );
@@ -88,6 +91,14 @@ const UpdatePost = () => {
           <input
             value={name}
             onChange={(e) => setname(e.target.value)}
+            className="w-full px-3 py-3 border-2 h-10"
+          />
+
+          {/* locationLink */}
+          <label>locationLink</label>
+          <input
+            value={locationLink}
+            onChange={(e) => setlocationLink(e.target.value)}
             className="w-full px-3 py-3 border-2 h-10"
           />
 

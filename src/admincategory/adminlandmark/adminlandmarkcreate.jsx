@@ -6,6 +6,7 @@ const CreatePost = () => {
 
   const [name, setname] = useState('');
   // const [description, setdescription] = useState('');
+  const [locationLink, setlocationLink] = useState('')
   const [image, setimage] = useState('');
   const [variantname, setVariantname] = useState('');
   const [error, setError] = useState('');
@@ -105,6 +106,7 @@ const handleFiles = async (e) => {
       await api.post("/api/admin/post", {
         name: name,
         // description: description,
+        locationLink: locationLink,
         image: image,
         variants: variants,
         variantname: variantname
@@ -156,6 +158,21 @@ const handleFiles = async (e) => {
               placeholder="Enter name"
               value={name}
               onChange={(e) => setname(e.target.value)}
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+            <div>
+            <label htmlFor="locationLink" className="block font-medium text-gray-700 mb-1">
+              locationLink
+            </label>
+            <input
+              id="locationLink"
+              type="text"
+              placeholder="Enter name"
+              value={locationLink}
+              onChange={(e) => setlocationLink(e.target.value)}
               required
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
