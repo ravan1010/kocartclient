@@ -61,8 +61,8 @@ export default function Checkout() {
 
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
-        const lat = pos.coords.latitude.toFixed(6);
-        const lon = pos.coords.longitude.toFixed(6);
+        const lat = pos.coords.latitude.toFixed(8);
+        const lon = pos.coords.longitude.toFixed(8);
         console.log(lat, lon)
 
         try {
@@ -106,28 +106,28 @@ export default function Checkout() {
     );
   };
 
-  const getLocationName = async (lat, lng) => {
-    try {
-      const res = await axios.get(
-        "https://api.geoapify.com/v1/geocode/reverse",
-        {
-          params: {
-            lat,
-            lon: lng,
-            apiKey: `9101d57bd3a34d2194bb8222a55a6a3f`,
-          },
-        }
-      );
+  // const getLocationName = async (lat, lng) => {
+  //   try {
+  //     const res = await axios.get(
+  //       "https://api.geoapify.com/v1/geocode/reverse",
+  //       {
+  //         params: {
+  //           lat,
+  //           lon: lng,
+  //           apiKey: `9101d57bd3a34d2194bb8222a55a6a3f`,
+  //         },
+  //       }
+  //     );
 
-      setCity(
-        res.data.features?.[0]?.properties?.formatted ||
-        "Unknown Location"
-      );
+  //     setCity(
+  //       res.data.features?.[0]?.properties?.formatted ||
+  //       "Unknown Location"
+  //     );
 
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   /* ===================== 🛒 CART ===================== */
 
@@ -277,7 +277,7 @@ export default function Checkout() {
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
 
-                    <Marker
+                    {/* <Marker
                       position={[latitude, longitude]}
                       draggable={true}
                       eventHandlers={{
@@ -296,7 +296,10 @@ export default function Checkout() {
                       <Popup>
                         📍 Drag me to adjust location
                       </Popup>
-                    </Marker>
+                    </Marker> */}
+                    <Marker position={[latitude, longitude]}>
+  <Popup>📍 Your Location</Popup>
+</Marker>
                   </MapContainer>
 
                   <p className="text-sm text-gray-600 px-2 py-1">

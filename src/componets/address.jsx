@@ -16,6 +16,8 @@ const ToAddress = () => {
 
     const [oneclick, setOneclick] = useState(false)
 
+
+
   
     // const [suggestionsCity, setSuggestionsCity] = useState([]);
     const [success, setsuccess] = useState('');
@@ -73,9 +75,12 @@ const ToAddress = () => {
   <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-5">
 
     {/* Back */}
-    <Link to="/profile" className="inline-flex items-center mb-3 text-gray-600 hover:text-black">
+    <button
+      onClick={() => navigate(-1)}
+      className="inline-flex items-center mb-3 text-gray-600 hover:text-black"
+    >
       <ArrowLeft size={22} />
-    </Link>
+    </button>
 
     <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">
       Address Details
