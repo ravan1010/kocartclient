@@ -30,9 +30,6 @@ const UpdatePost = () => {
         setVariantname(res.data.variantname);
         setVariants(res.data.variants );
         setlocationLink(res.data.locationLink || "");
-
-   
-      
       } catch (err) {
 
 console.error(err);
