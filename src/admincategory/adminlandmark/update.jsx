@@ -28,12 +28,15 @@ const UpdatePost = () => {
         setdescription(res.data.description);
         setimage(res.data.image);
         setVariantname(res.data.variantname);
-        setVariants(res.data.variants);
-        setVariants(res.data.locationLink || 'not available');
+        setVariants(res.data.variants );
+        setlocationLink(res.data.locationLink || "");
+
+   
       
       } catch (err) {
-        setError("Failed to load post", err);
-      }
+
+console.error(err);
+setError("Failed to load post");      }
     };
 
     fetchPost();
