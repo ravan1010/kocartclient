@@ -29,7 +29,8 @@ const UpdatePost = () => {
         setimage(res.data.image);
         setVariantname(res.data.variantname);
         setVariants(res.data.variants);
-        setVariants(res.data.locationLink);
+        setVariants(res.data.locationLink || 'not available');
+      
       } catch (err) {
         setError("Failed to load post", err);
       }
