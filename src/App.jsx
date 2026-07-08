@@ -38,6 +38,7 @@ import MarchentSignup from './admin/adminsignup';
 import ProtectedMarchent from './admin/auth/admiarouteauth';
 import Confirmation from './componets/cod';
 import Adminorder from './admincategory/adminlandmark/adminorder';
+import Grocery from './componets/grocery';
 
 
 function App() {
@@ -58,6 +59,10 @@ function App() {
               <Home />
               // </ProtectedRoute>
             } />
+
+           <Route path='/gro' element={
+            <Grocery />
+           } />
 
         //user email or number for signup
           <Route path='/signup' element={<SignupOne />} />

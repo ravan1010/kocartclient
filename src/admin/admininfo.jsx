@@ -175,14 +175,14 @@ console.log('Submitting form with data:')
                 className="w-full px-3 py-0 border-1 outline-none overflow-scroll mb-0 h-10"
               >
                 <option value="FoodANDbeverages">Food & Beverages</option>
-                {/* <option value="groceryFruitsANDvegetables">grocery fruits and vegetables</option>
-                <option value="BooksANDStationery">Books & Stationery</option>
+                <option value="groceryFruitsANDvegetables">grocery fruits and vegetables</option>
+                {/* <option value="BooksANDStationery">Books & Stationery</option>
                 <option value="FashionANDApparel">Fashion & Apparel</option>
                 <option value="ElectronicsANDGadgets">Electronics & Gadgets</option>
                 <option value="BeautyANDPersonalCare">Beauty & Personal Care</option>
                 <option value="HomeANDLiving">Home & Living</option>
                 <option value="SportsANDOutdoors">Sports & Outdoors</option>
-                <option value="ToysANDGames">Toys & Games</option> */}
+                <option value="ToysANDGames">Toys & Games</option>  */}
               </select>
 
               <button

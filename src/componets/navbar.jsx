@@ -12,19 +12,23 @@ const Navbar = () => {
       ? "text-indigo-600 font-bold"
       : "text-gray-600 hover:text-indigo-600 transition-colors";
 
+  const category = ({ isActive }) =>
+    isActive
+      ? "text-indigo-600 font-bold"
+      : "text-gray-600 hover:text-indigo-600 transition-colors";
+
   const isHome = location.pathname === "/";
   const isLocalCart = location.pathname === "/local-cart";
+  const grocery = location.pathname === "/gro";
 
   return (
     <>
       {/* TOP NAVBAR */}
       <nav className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 h-16 flex justify-between items-center">
-          
           <Link to="/" className="text-2xl font-bold text-gray-800">
             KOCART
           </Link>
-
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8"> 
 
@@ -35,12 +39,45 @@ const Navbar = () => {
             )}
 
             <NavLink to="/" className={navLinkClasses}>Home</NavLink>
-            {/* <NavLink to="/long" className={navLinkClasses}>Long</NavLink> */}
+            <NavLink to="/order" className={navLinkClasses}>Orders</NavLink>
             <NavLink to="/profile" className={navLinkClasses}>Profile</NavLink> 
 
           </div>
         </div>
       </nav>
+       {(isHome || isLocalCart || grocery) && (
+  <nav className="bg-white shadow-sm sticky top-16 z-40 border-b">
+    <div className="container mx-auto px-4 py-2 flex gap-3">
+
+      <NavLink
+        to="/"
+        className={({ isActive }) =>
+          `px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+            isActive
+              ? "bg-indigo-600 text-white shadow-md"
+              : "bg-gray-100 text-gray-700 hover:bg-indigo-100 hover:text-indigo-600"
+          }`
+        }
+      >
+        🍔 Food
+      </NavLink>
+
+      <NavLink
+        to="/gro"
+        className={({ isActive }) =>
+          `px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+            isActive
+              ? "bg-green-600 text-white shadow-md"
+              : "bg-gray-100 text-gray-700 hover:bg-green-100 hover:text-green-600"
+          }`
+        }
+      >
+        🛒 Grocery
+      </NavLink>
+
+    </div>
+  </nav>
+)}
 
       {/* MOBILE BOTTOM NAV */}
        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-50">
@@ -58,7 +95,7 @@ const Navbar = () => {
              <span>Home</span>
            </NavLink>
 
-           {(isHome || isLocalCart) && (
+           {(isHome || isLocalCart || grocery) && (
              <NavLink
                to="/local-cart"
                className={({ isActive }) =>

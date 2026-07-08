@@ -9,38 +9,38 @@ import { useEffect, useState } from 'react';
 
 // import ImageSliderforAds from './ads';
 
-const Home = () => {
+const Grocery = () => {
 
   const { location, locaError, Loadingloc, turnON } = useLocation();
-  const { restaurant, Open, loading: merchantLoading } =
+  const { grocery, Open, loading: merchantLoading } =
     useNearbyMerchants(location);
-  const [ResturantData, setRestaurantData] = useState([])
-  const [selectedEvent, setSelectedEvent] = useState("all");
+  const [groceryData, setgroceryData] = useState([])
+  const [selectedgrocery, setSelectedgrocery] = useState("all");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchData = () => {
-      if (restaurant) {
-        setRestaurantData(restaurant);
-        console.log(restaurant);
+      if (grocery) {
+        setgroceryData(grocery);
+        console.log(grocery);
       }
     }
     fetchData();
-  }, [restaurant]);
+  }, [grocery]);
 
   // Unique Restaurant Names
   const uniqueEvents = [
     "all",
     ...new Set(
-      ResturantData.map((item) => item.variantname)
+      groceryData.map((item) => item.variantname)
     ),
   ];
 
   // Filter Restaurants
-  const filteredRestaurants = ResturantData.filter((item) => {
+  const filteredRestaurants = groceryData.filter((item) => {
     const categoryMatch =
-      selectedEvent === "all" ||
-      item.variantname === selectedEvent;
+      selectedgrocery === "all" ||
+      item.variantname === selectedgrocery;
 
     const searchMatch =
       item.name?.toLowerCase().includes(search.toLowerCase()) ||
@@ -51,7 +51,7 @@ const Home = () => {
   });
 
 
-  const RESgroupedByAuthor = filteredRestaurants.reduce((acc, item) => {
+  const grocerygroupedByAuthor = filteredRestaurants.reduce((acc, item) => {
     if (!acc[item.author]) {
       acc[item.author] = [];
     }
@@ -79,7 +79,7 @@ const Home = () => {
       </>
     );
 
-  if (merchantLoading) return <><Navbar /> <p>Finding nearby Resturant...</p></>;
+  if (merchantLoading) return <><Navbar /> <p>Finding nearby mart...</p></>;
 
   return (
     <>
@@ -88,7 +88,7 @@ const Home = () => {
       <div className="min-h-screen bg-gray-50">
 
 
-        {ResturantData.length === 0 ? (
+        {groceryData.length === 0 ? (
           <p className="text-center mt-4 text-red-500">
             Not found within 3km
           </p>
@@ -115,7 +115,7 @@ const Home = () => {
               {uniqueEvents.map((event) => (
                 <button
                   key={event}
-                  onClick={() => setSelectedEvent(event)}
+                  onClick={() => setSelectedgrocery(event)}
                   className={`
                   whitespace-nowrap
                   px-5 py-2
@@ -124,7 +124,7 @@ const Home = () => {
                   transition-all
                   duration-300
                   border
-                  ${selectedEvent === event
+                  ${selectedgrocery === event
                       ? "bg-indigo-600 text-white border-indigo-600"
                       : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
                     }
@@ -137,7 +137,7 @@ const Home = () => {
             </div>
 
             {/* Products */}
-            {Object.entries(RESgroupedByAuthor).map(
+            {Object.entries(grocerygroupedByAuthor).map(
               ([author, products]) => (
                 <div
                   key={author}
@@ -169,4 +169,4 @@ const Home = () => {
   )
 }
 
-export default Home;
+export default Grocery;
