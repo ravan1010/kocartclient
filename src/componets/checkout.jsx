@@ -38,7 +38,7 @@ export default function Checkout() {
   const isDisabled =
     !latitude ||
     !longitude ||
-    delivery <= 0 ||
+    delivery <= -1 ||
     !mobileNo ||
     !saveAddress ||
     oneclick !== 1;
