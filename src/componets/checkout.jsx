@@ -447,7 +447,7 @@ export default function Checkout() {
               <span>Total</span>
               <span>₹{total}</span>
             </div>
-                          <span>₹{error}</span>
+                          <span>{error}</span>
 
           </section>
 
