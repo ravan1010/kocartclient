@@ -153,15 +153,17 @@ const Adminorder = () => {
 
                   {/* Product Details */}
                   <div className="flex-1">
-                    <p className="font-semibold">
-                      {item.productId?.name}
-                    </p>
+                    
 
-                    <p className="font-semibold">
+                    <p className="font-bold">
                       {item.variantName}
                     </p>
 
                     <p className="font-semibold">
+                      {item.productId?.name}
+                    </p>
+
+                    <p className="text-sm">
                       {item.name}
                     </p>
 
