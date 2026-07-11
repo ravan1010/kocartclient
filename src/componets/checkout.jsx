@@ -35,13 +35,7 @@ export default function Checkout() {
 
 
   const [paymentType, setPaymentType] = useState("ONLINE"); // or "COD"
-  const isDisabled =
-    !latitude ||
-    !longitude ||
-    delivery <= -1 ||
-    !mobileNo ||
-    !saveAddress ||
-    oneclick !== 1;
+ const isDisabled = delivery === -1 || !mobileNo || !saveAddress || oneclick !== 1;
   /* ===================== 💰 PRICE CALCULATION ===================== */
 
   const subtotal = cartItems?.total
