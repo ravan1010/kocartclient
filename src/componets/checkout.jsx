@@ -35,8 +35,13 @@ export default function Checkout() {
 
 
   const [paymentType, setPaymentType] = useState("ONLINE"); // or "COD"
-  const isDisabled = delivery === -1 || !mobileNo || !saveAddress || oneclick !== 1;
-
+  const isDisabled =
+    !latitude ||
+    !longitude ||
+    delivery <= 0 ||
+    !mobileNo ||
+    !saveAddress ||
+    oneclick !== 1;
   /* ===================== 💰 PRICE CALCULATION ===================== */
 
   const subtotal = cartItems?.total
@@ -174,6 +179,10 @@ export default function Checkout() {
   };
 
   const handlePayment = async () => {
+    if (!latitude || !longitude) {
+      setError("Please enable live location before placing the order.");
+      return;
+    }
     const res = await loadRazorpay();
     setOneclick(2)
 
@@ -216,6 +225,10 @@ export default function Checkout() {
 
   const handleCOD = async () => {
 
+    if (!latitude || !longitude) {
+      setError("Please enable live location before placing the order.");
+      return;
+    }
     setOneclick(2)
     // Handle COD payment logic here
     try {
@@ -261,6 +274,11 @@ export default function Checkout() {
               <LocateFixed />
               {locationLoading ? "Getting location..." : "📍 Use Live Location"}
             </button>
+            {!latitude && (
+              <p className="text-red-600 text-sm font-medium">
+                📍 Please enable live location to place your order.
+              </p>
+            )}
 
             <div className="rounded-xl overflow-hidden border">
               {latitude && longitude ? (
@@ -385,7 +403,7 @@ export default function Checkout() {
 
           {/* 💰 Amount Summary */}
 
-       <section className="bg-white rounded-2xl shadow-md p-4 space-y-3 md:col-span-2">
+          <section className="bg-white rounded-2xl shadow-md p-4 space-y-3 md:col-span-2">
 
             <h3 className="text-xl font-bold text-gray-800">
               Order Summary
@@ -447,7 +465,7 @@ export default function Checkout() {
               <span>Total</span>
               <span>₹{total}</span>
             </div>
-                          <span>{error}</span>
+            <span>{error}</span>
 
           </section>
 
@@ -465,8 +483,13 @@ export default function Checkout() {
               : "bg-green-600 text-white hover:bg-green-700"
             }`}
         >
-          {isDisabled ? "Complete required steps" : (paymentType === "COD" ? "Place Order" : "Pay Online")
-          }
+          {!latitude
+            ? "Enable Live Location"
+            : isDisabled
+              ? "Complete required steps"
+              : paymentType === "COD"
+                ? "Place Order"
+                : "Pay Online"}
         </button>
 
       </div>
