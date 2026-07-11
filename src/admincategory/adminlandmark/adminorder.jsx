@@ -157,6 +157,14 @@ const Adminorder = () => {
                       {item.productId?.name}
                     </p>
 
+                    <p className="font-semibold">
+                      {item.variantName}
+                    </p>
+
+                    <p className="font-semibold">
+                      {item.name}
+                    </p>
+
                     <p className="text-sm text-gray-500">
                       Qty: {item.quantity}
                     </p>

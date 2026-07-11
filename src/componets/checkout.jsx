@@ -298,8 +298,8 @@ export default function Checkout() {
                       </Popup>
                     </Marker> */}
                     <Marker position={[latitude, longitude]}>
-  <Popup>📍 Your Location</Popup>
-</Marker>
+                      <Popup>📍 Your Location</Popup>
+                    </Marker>
                   </MapContainer>
 
                   <p className="text-sm text-gray-600 px-2 py-1">
@@ -385,7 +385,7 @@ export default function Checkout() {
 
           {/* 💰 Amount Summary */}
 
-          <section className="bg-white rounded-2xl shadow-md p-4 space-y-3 md:col-span-2">
+       <section className="bg-white rounded-2xl shadow-md p-4 space-y-3 md:col-span-2">
 
             <h3 className="text-xl font-bold text-gray-800">
               Order Summary
@@ -450,6 +450,8 @@ export default function Checkout() {
                           <span>{error}</span>
 
           </section>
+
+
 
         </div>
 
