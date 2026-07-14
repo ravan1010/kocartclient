@@ -243,9 +243,20 @@ const isDisabled =
         alert("Failed to place order");
       }
     } catch (error) {
-      console.error("Error placing COD order:", error);
-      alert("An error occurred while placing the order.");
-    }
+  console.error("Error placing COD order:", error);
+
+  const message =
+    error.response?.data?.message ||
+    error.response?.data?.error ||
+    error.message ||
+    "An error occurred while placing the order.";
+
+  alert(message);
+
+  setError(message);
+
+  setOneclick(1);
+}
 
   };
 
