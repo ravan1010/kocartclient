@@ -9,8 +9,9 @@ const Adminorder = () => {
     const [pendingOrders, setPendingOrders] = useState([]);
     const [acceptedOrders, setAcceptedOrders] = useState([]);
     const [assigned, setAssigned] = useState([]);
+    const [pickup, setpickup] = useState([]);
     const [completedOrders, setCompletedOrders] = useState([]);
-    const [cancelledOrders, setCancelledOrders] = useState([]);
+    const [cancelledOrders, setCancelledOrders] = useState([]); 
     const [step, setstep] = useState(1);
 
     const fetchOrders = async () => {
@@ -21,7 +22,8 @@ const Adminorder = () => {
                 setAcceptedOrders(response.data.acceptedOrders);
                 setCompletedOrders(response.data.completedOrders);
                 setCancelledOrders(response.data.cancelledOrders);
-                setAssigned(response.data.assignedOrders)
+                setAssigned(response.data.assignedOrders);
+                setpickup(response.data.pickupOrders);
             });
         } catch (error) {
             console.error('Error fetching orders:', error);
@@ -80,6 +82,16 @@ const Adminorder = () => {
             : "bg-gray-100 text-gray-700"}`}
       >
         Accepted ({acceptedOrders.length})
+      </button>
+
+      <button
+        onClick={() => setstep(6)}
+        className={`px-4 py-2 rounded-lg font-medium transition
+        ${step === 2
+            ? "bg-green-600 text-white"
+            : "bg-gray-100 text-gray-700"}`}
+      >
+        pickup ({pickup.length})
       </button>
 
       <button
@@ -322,6 +334,32 @@ const Adminorder = () => {
       ) : (
         <div className="bg-white p-6 rounded-xl text-center">
           No assigned Orders
+        </div>
+      )}
+    </div>
+  )}
+
+{/* pickup */}
+  {step === 5 && (
+    <div className="space-y-3">
+      {pickup.length > 0 ? (
+        pickup.map((order) => (
+          <div
+            key={order._id}
+            className="bg-white rounded-xl shadow p-4"
+          >
+            <div className="flex justify-between items-center">
+              <p className="break-all">{order._id}</p>
+
+              <span className="bg-100-00 text-green-700 px-3 py-1 rounded-full text-sm">
+                {order.status}
+              </span>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div className="bg-white p-6 rounded-xl text-center">
+          No pickup Orders
         </div>
       )}
     </div>
