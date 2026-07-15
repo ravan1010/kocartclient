@@ -54,7 +54,7 @@ const Profile = () => {
           </Link>
 
           <a
-            href="https://expo.dev/artifacts/eas/CGqk7laCaV8kMaKBjMeQZH9CMt2Qrw2C2s4DmeX9ABg.apk"
+            href="https://expo.dev/artifacts/eas/qJiqLQB6fTNh6sAIzXZuo-r2m9EPT0RHHPE1AfTCQJc.apk"
             className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
           >
             Download
