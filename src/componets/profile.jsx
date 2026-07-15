@@ -53,6 +53,13 @@ const Profile = () => {
             📍 Address List
           </Link>
 
+          <a
+            href="https://expo.dev/artifacts/eas/CGqk7laCaV8kMaKBjMeQZH9CMt2Qrw2C2s4DmeX9ABg.apk"
+            className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
+          >
+            Download
+          </a>
+
           {isAdmin ? (
               <Link
                 to={`/adminlandmark/dashboard`}

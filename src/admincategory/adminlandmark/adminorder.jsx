@@ -87,7 +87,7 @@ const Adminorder = () => {
       <button
         onClick={() => setstep(6)}
         className={`px-4 py-2 rounded-lg font-medium transition
-        ${step === 2
+        ${step === 6
             ? "bg-green-600 text-white"
             : "bg-gray-100 text-gray-700"}`}
       >
