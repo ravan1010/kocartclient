@@ -142,7 +142,7 @@ const Adminorder = () => {
                   Order ID
                 </p>
                 <p className="text-gray-600 break-all">
-                  {order._id.slice(0, 8)}...{order._id.slice(-4)}
+                  {order.orderId || `kocart`}
                   </p>
               </div>
 
