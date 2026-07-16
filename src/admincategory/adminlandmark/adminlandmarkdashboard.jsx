@@ -197,14 +197,14 @@ const uniqueEvents = [
           {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"> */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
-              {/* Merchant Amount */}
+              {/* Sales Amount */}
               <div className="bg-white p-4 rounded-xl shadow">
                 <div className="flex items-center">
                   <div className="p-3 rounded-full bg-blue-100">
                     <BanknoteArrowDown />
                   </div>
                   <div className="ml-3">
-                    <p className="text-xs text-gray-500">Merchant Amount</p>
+                    <p className="text-xs text-gray-500">Sales Amount</p>
                     <h2 className="text-xl md:text-2xl font-bold">
                       ₹{marchent.amount || 0}
                     </h2>
@@ -222,6 +222,21 @@ const uniqueEvents = [
                     <p className="text-xs text-gray-500">Commission</p>
                     <h2 className="text-xl md:text-2xl font-bold">
                       ₹{marchent.platformcommision || 0}
+                    </h2>
+                  </div>
+                </div>
+              </div>
+
+              {/* Merchant Amount */}
+              <div className="bg-white p-4 rounded-xl shadow">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-blue-100">
+                    <BanknoteArrowDown />
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-xs text-gray-500">Merchant Amount</p>
+                    <h2 className="text-xl md:text-2xl font-bold">
+                      ₹{marchent.amount - marchent.platformcommision || 0}
                     </h2>
                   </div>
                 </div>
