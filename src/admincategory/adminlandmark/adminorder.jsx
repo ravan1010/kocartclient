@@ -204,8 +204,6 @@ const Adminorder = () => {
               </p>
               </div>
           </div>
-
-
               <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm w-fit">
                 {order.status}
               </span>
@@ -243,9 +241,65 @@ const Adminorder = () => {
               <div>
                 <p className="font-semibold">Order ID</p>
                 <p className="text-gray-600 break-all">
-                  {order._id}
+                  {order.orderId || `kocart`}
                 </p>
               </div>
+
+              <div className="mt-4 space-y-3">
+            {order.shop?.map((shop) =>
+              shop.items?.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex items-center gap-3 border rounded-lg p-3"
+                >
+                  {/* Image */}
+                  <img
+                    src={item.productId?.image?.[0]}
+                                  alt={item.productId?.name || "Product"}
+                                  className="w-16 h-16 rounded-lg object-cover"
+                  />
+
+                  {/* Product Details */}
+                  <div className="flex-1">
+                    
+
+                    <p className="font-bold">
+                      {item.variantName}
+                    </p>
+
+                    <p className="font-semibold">
+                      {item.productId?.name}
+                    </p>
+
+                    <p className="text-sm">
+                      {item.name}
+                    </p>
+
+                    <p className="text-sm text-gray-500">
+                      Qty: {item.quantity}
+                    </p>
+
+                    <p className="text-sm font-medium text-green-600">
+                      ₹{item.price}
+                    </p>
+                  </div>
+
+                  {/* Total */}
+                  <div className="text-right">
+                    <p className="font-bold">
+                      ₹{item.price * item.quantity}
+                    </p>
+                  </div>
+                </div>
+              ))
+
+            )}
+            <div className="flex justify-end mt-2">
+              <p className="text-lg font-bold">
+                Total: ₹{order.shop?.reduce((acc, shop) => acc + shop.items.reduce((shopAcc, item) => shopAcc + (item.price * item.quantity), 0), 0)}
+              </p>
+              </div>
+          </div>
 
               <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
                 {order.status}
@@ -271,7 +325,63 @@ const Adminorder = () => {
             className="bg-white rounded-xl shadow p-4"
           >
             <div className="flex justify-between items-center">
-              <p className="break-all">{order._id}</p>
+              <p className="break-all">{order.orderId || `kocart`}</p>
+
+              <div className="mt-4 space-y-3">
+            {order.shop?.map((shop) =>
+              shop.items?.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex items-center gap-3 border rounded-lg p-3"
+                >
+                  {/* Image */}
+                  <img
+                    src={item.productId?.image?.[0]}
+                                  alt={item.productId?.name || "Product"}
+                                  className="w-16 h-16 rounded-lg object-cover"
+                  />
+
+                  {/* Product Details */}
+                  <div className="flex-1">
+                    
+
+                    <p className="font-bold">
+                      {item.variantName}
+                    </p>
+
+                    <p className="font-semibold">
+                      {item.productId?.name}
+                    </p>
+
+                    <p className="text-sm">
+                      {item.name}
+                    </p>
+
+                    <p className="text-sm text-gray-500">
+                      Qty: {item.quantity}
+                    </p>
+
+                    <p className="text-sm font-medium text-green-600">
+                      ₹{item.price}
+                    </p>
+                  </div>
+
+                  {/* Total */}
+                  <div className="text-right">
+                    <p className="font-bold">
+                      ₹{item.price * item.quantity}
+                    </p>
+                  </div>
+                </div>
+              ))
+
+            )}
+            <div className="flex justify-end mt-2">
+              <p className="text-lg font-bold">
+                Total: ₹{order.shop?.reduce((acc, shop) => acc + shop.items.reduce((shopAcc, item) => shopAcc + (item.price * item.quantity), 0), 0)}
+              </p>
+              </div>
+          </div>
 
               <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">
                 {order.status}
@@ -297,7 +407,7 @@ const Adminorder = () => {
             className="bg-white rounded-xl shadow p-4"
           >
             <div className="flex justify-between items-center">
-              <p className="break-all">{order._id}</p>
+              <p className="break-all">{order.orderId || `kocart`}</p>
 
               <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">
                 {order.status}
@@ -323,7 +433,63 @@ const Adminorder = () => {
             className="bg-white rounded-xl shadow p-4"
           >
             <div className="flex justify-between items-center">
-              <p className="break-all">{order._id}</p>
+              <p className="break-all">{order.orderId || `kocart`}</p>
+
+              <div className="mt-4 space-y-3">
+            {order.shop?.map((shop) =>
+              shop.items?.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex items-center gap-3 border rounded-lg p-3"
+                >
+                  {/* Image */}
+                  <img
+                    src={item.productId?.image?.[0]}
+                                  alt={item.productId?.name || "Product"}
+                                  className="w-16 h-16 rounded-lg object-cover"
+                  />
+
+                  {/* Product Details */}
+                  <div className="flex-1">
+                    
+
+                    <p className="font-bold">
+                      {item.variantName}
+                    </p>
+
+                    <p className="font-semibold">
+                      {item.productId?.name}
+                    </p>
+
+                    <p className="text-sm">
+                      {item.name}
+                    </p>
+
+                    <p className="text-sm text-gray-500">
+                      Qty: {item.quantity}
+                    </p>
+
+                    <p className="text-sm font-medium text-green-600">
+                      ₹{item.price}
+                    </p>
+                  </div>
+
+                  {/* Total */}
+                  <div className="text-right">
+                    <p className="font-bold">
+                      ₹{item.price * item.quantity}
+                    </p>
+                  </div>
+                </div>
+              ))
+
+            )}
+            <div className="flex justify-end mt-2">
+              <p className="text-lg font-bold">
+                Total: ₹{order.shop?.reduce((acc, shop) => acc + shop.items.reduce((shopAcc, item) => shopAcc + (item.price * item.quantity), 0), 0)}
+              </p>
+              </div>
+          </div>
 
               <span className="bg-100-00 text-green-700 px-3 py-1 rounded-full text-sm">
                 {order.status}
@@ -340,7 +506,7 @@ const Adminorder = () => {
   )}
 
 {/* pickup */}
-  {step === 5 && (
+  {step === 6 && (
     <div className="space-y-3">
       {pickup.length > 0 ? (
         pickup.map((order) => (
@@ -349,7 +515,63 @@ const Adminorder = () => {
             className="bg-white rounded-xl shadow p-4"
           >
             <div className="flex justify-between items-center">
-              <p className="break-all">{order._id}</p>
+              <p className="break-all">{order.orderId || `kocart`}</p>
+
+              <div className="mt-4 space-y-3">
+            {order.shop?.map((shop) =>
+              shop.items?.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex items-center gap-3 border rounded-lg p-3"
+                >
+                  {/* Image */}
+                  <img
+                    src={item.productId?.image?.[0]}
+                                  alt={item.productId?.name || "Product"}
+                                  className="w-16 h-16 rounded-lg object-cover"
+                  />
+
+                  {/* Product Details */}
+                  <div className="flex-1">
+                    
+
+                    <p className="font-bold">
+                      {item.variantName}
+                    </p>
+
+                    <p className="font-semibold">
+                      {item.productId?.name}
+                    </p>
+
+                    <p className="text-sm">
+                      {item.name}
+                    </p>
+
+                    <p className="text-sm text-gray-500">
+                      Qty: {item.quantity}
+                    </p>
+
+                    <p className="text-sm font-medium text-green-600">
+                      ₹{item.price}
+                    </p>
+                  </div>
+
+                  {/* Total */}
+                  <div className="text-right">
+                    <p className="font-bold">
+                      ₹{item.price * item.quantity}
+                    </p>
+                  </div>
+                </div>
+              ))
+
+            )}
+            <div className="flex justify-end mt-2">
+              <p className="text-lg font-bold">
+                Total: ₹{order.shop?.reduce((acc, shop) => acc + shop.items.reduce((shopAcc, item) => shopAcc + (item.price * item.quantity), 0), 0)}
+              </p>
+              </div>
+          </div>
 
               <span className="bg-100-00 text-green-700 px-3 py-1 rounded-full text-sm">
                 {order.status}
