@@ -237,7 +237,7 @@ const Adminorder = () => {
             key={order._id}
             className="bg-white rounded-xl shadow p-4"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between flex-col items-center">
               <div>
                 <p className="font-semibold">Order ID</p>
                 <p className="text-gray-600 break-all">
