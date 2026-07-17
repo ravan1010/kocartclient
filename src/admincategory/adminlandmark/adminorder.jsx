@@ -326,7 +326,7 @@ const Adminorder = () => {
             key={order._id}
             className="bg-white rounded-xl shadow p-4"
           >
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col border p-2">
               <p className="break-all">{order.orderId || `kocart`}</p>
 
           <div className="mt-4 space-y-3">
@@ -409,7 +409,7 @@ const Adminorder = () => {
             key={order._id}
             className="bg-white rounded-xl shadow p-4"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col border p-2">
               <p className="break-all">{order.orderId || `kocart`}</p>
 
               <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">
@@ -435,7 +435,7 @@ const Adminorder = () => {
             key={order._id}
             className="bg-white rounded-xl shadow p-4"
           >
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col border p-2">
               <p className="break-all">{order.orderId || `kocart`}</p>
 
               <div className="mt-4 space-y-3">
@@ -517,7 +517,7 @@ const Adminorder = () => {
             key={order._id}
             className="bg-white rounded-xl shadow p-4"
           >
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col border p-2">
               <p className="break-all">{order.orderId || `kocart`}</p>
 
               <div className="mt-4 space-y-3">
