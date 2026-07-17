@@ -327,7 +327,7 @@ const Adminorder = () => {
             <div className="flex justify-between items-center">
               <p className="break-all">{order.orderId || `kocart`}</p>
 
-              <div className="mt-4 space-y-3">
+          <div className="mt-4 space-y-3">
             {order.shop?.map((shop) =>
               shop.items?.map((item) => (
                 <div
@@ -386,6 +386,8 @@ const Adminorder = () => {
               <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">
                 {order.status}
               </span>
+              <p className="break-all">{order.deliveryBoy.name || `kocart`}</p>
+
             </div>
           </div>
         ))
@@ -576,6 +578,8 @@ const Adminorder = () => {
               <span className="bg-100-00 text-green-700 px-3 py-1 rounded-full text-sm">
                 {order.status}
               </span>
+                            <p className="break-all">{order.deliveryBoy.name || `kocart`}</p>
+
             </div>
           </div>
         ))
