@@ -237,7 +237,7 @@ const Adminorder = () => {
             key={order._id}
             className="bg-white rounded-xl shadow p-4"
           >
-            <div className="flex justify-between flex-col items-center">
+            <div className="flex flex-col items-center">
               <div>
                 <p className="font-semibold">Order ID</p>
                 <p className="text-gray-600 break-all">
@@ -294,17 +294,18 @@ const Adminorder = () => {
               ))
 
             )}
-            <div className="flex justify-end mt-2">
+            <div className="flex justify-between mt-2">
               <p className="text-lg font-bold">
                 Total: ₹{order.shop?.reduce((acc, shop) => acc + shop.items.reduce((shopAcc, item) => shopAcc + (item.price * item.quantity), 0), 0)}
                 {/* total : {order.shop?.subtotal || `10`} */}
               </p>
+               <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+                {order.status}
+              </span>
               </div>
           </div>
 
-              <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
-                {order.status}
-              </span>
+             
             </div>
           </div>
         ))
@@ -325,7 +326,7 @@ const Adminorder = () => {
             key={order._id}
             className="bg-white rounded-xl shadow p-4"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col items-center">
               <p className="break-all">{order.orderId || `kocart`}</p>
 
           <div className="mt-4 space-y-3">
@@ -377,16 +378,15 @@ const Adminorder = () => {
               ))
 
             )}
-            <div className="flex justify-end mt-2">
+            <div className="flex justify-between mt-2">
               <p className="text-lg font-bold">
                 Total: ₹{order.shop?.reduce((acc, shop) => acc + shop.items.reduce((shopAcc, item) => shopAcc + (item.price * item.quantity), 0), 0)}
               </p>
-              </div>
-          </div>
-
               <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">
                 {order.status}
               </span>
+              </div>
+              </div>
               <p className="break-all">{order.deliveryBoy.name || `kocart`}</p>
 
             </div>
@@ -435,7 +435,7 @@ const Adminorder = () => {
             key={order._id}
             className="bg-white rounded-xl shadow p-4"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col items-center">
               <p className="break-all">{order.orderId || `kocart`}</p>
 
               <div className="mt-4 space-y-3">
@@ -487,16 +487,16 @@ const Adminorder = () => {
               ))
 
             )}
-            <div className="flex justify-end mt-2">
+            <div className="flex justify-between mt-2">
               <p className="text-lg font-bold">
                 Total: ₹{order.shop?.reduce((acc, shop) => acc + shop.items.reduce((shopAcc, item) => shopAcc + (item.price * item.quantity), 0), 0)}
               </p>
-              </div>
-          </div>
 
               <span className="bg-100-00 text-green-700 px-3 py-1 rounded-full text-sm">
                 {order.status}
               </span>
+              </div>
+              </div>
             </div>
           </div>
         ))
@@ -517,7 +517,7 @@ const Adminorder = () => {
             key={order._id}
             className="bg-white rounded-xl shadow p-4"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col items-center">
               <p className="break-all">{order.orderId || `kocart`}</p>
 
               <div className="mt-4 space-y-3">
@@ -573,13 +573,13 @@ const Adminorder = () => {
               <p className="text-lg font-bold">
                 Total: ₹{order.shop?.reduce((acc, shop) => acc + shop.items.reduce((shopAcc, item) => shopAcc + (item.price * item.quantity), 0), 0)}
               </p>
-              </div>
-          </div>
 
               <span className="bg-100-00 text-green-700 px-3 py-1 rounded-full text-sm">
                 {order.status}
               </span>
-                            <p className="break-all">{order.deliveryBoy.name || `kocart`}</p>
+              </div>
+              </div>
+              <p className="break-all">{order.deliveryBoy.name || `kocart`}</p>
 
             </div>
           </div>
