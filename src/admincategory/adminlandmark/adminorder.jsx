@@ -580,7 +580,6 @@ const Adminorder = () => {
               </div>
               </div>
               <p className="break-all">{order.deliveryBoy.name || `kocart`}</p>
-
             </div>
           </div>
         ))
