@@ -72,6 +72,7 @@ setError("Failed to load post");      }
       );
 
       setsuccess("Post updated successfully");
+      
 
       setTimeout(() => {
         navigate("/adminlandmark/dashboard");

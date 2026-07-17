@@ -40,7 +40,7 @@ const Adminorder = () => {
             {}
           )
             .then((res) => {
-              if (res.data.success) {
+              if(res.data.success) {
                 alert(res.data.message)
                 fetchOrders()
               }
@@ -296,8 +296,8 @@ const Adminorder = () => {
             )}
             <div className="flex justify-end mt-2">
               <p className="text-lg font-bold">
-                {/* Total: ₹{order.shop?.reduce((acc, shop) => acc + shop.items.reduce((shopAcc, item) => shopAcc + (item.price * item.quantity), 0), 0)} */}
-                total : {order.shop.subtotal || `10`}
+                Total: ₹{order.shop?.reduce((acc, shop) => acc + shop.items.reduce((shopAcc, item) => shopAcc + (item.price * item.quantity), 0), 0)}
+                {/* total : {order.shop?.subtotal || `10`} */}
               </p>
               </div>
           </div>
