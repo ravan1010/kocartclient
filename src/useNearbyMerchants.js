@@ -21,7 +21,7 @@ const useNearbyMerchants = (location) => {
         setGrocery(res.data.grocery);
         setRestaurant(res.data.restaurant);
         setOpen(res.data.branch.open);
-        console.log(res.data);
+        console.log(res.data.grocery);
 
       } catch (error) {
         console.error(error);

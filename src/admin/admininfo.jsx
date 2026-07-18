@@ -8,6 +8,7 @@ const AdminAddress = () => {
 
   //inputs
   const [companyName, setcompanyName] = useState('');
+  const [number, setnumber] = useState(null)
   const [category, setcategory] = useState('foodANDbeverages');
   const [FHBCA, setFHBCA] = useState('');
   const [ASSV, setASSV] = useState('');
@@ -114,6 +115,7 @@ console.log('Submitting form with data:')
       await api.post("/api/admin/info", {
         companyName: companyName,
         category: category,
+        number: number,
         FHBCA: FHBCA,
         ASSV: ASSV,
         Landmark: Landmark,
@@ -163,6 +165,19 @@ console.log('Submitting form with data:')
                 maxLength={25}
                 value={companyName}
                 onChange={(e) => setcompanyName(e.target.value)}
+                required
+                className="w-full px-3 py-3 border-1 outline-none mb-4 h-10"
+              />
+
+                <input
+                type="tel"
+                name='mobile number'
+                placeholder='mobile number '
+                autoComplete='on'
+                maxLength={10}
+                minLength={10}
+                value={number}
+                onChange={(e) => setnumber(e.target.value)}
                 required
                 className="w-full px-3 py-3 border-1 outline-none mb-4 h-10"
               />
