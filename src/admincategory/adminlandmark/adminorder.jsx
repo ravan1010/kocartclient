@@ -2,6 +2,7 @@ import React from 'react'
 // import axios from 'axios';
 import api from '../../api.js'
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 const Adminorder = () => {
 
@@ -14,25 +15,32 @@ const Adminorder = () => {
     const [cancelledOrders, setCancelledOrders] = useState([]); 
     const [step, setstep] = useState(1);
 
-    const fetchOrders = async () => {
-        try {
-            await api.get('/api/admin/orders').then((response) => {
-                console.log('Orders fetched:', response.data.pendingOrders);
-                setPendingOrders(response.data.pendingOrders);
-                setAcceptedOrders(response.data.acceptedOrders);
-                setCompletedOrders(response.data.completedOrders);
-                setCancelledOrders(response.data.cancelledOrders);
-                setAssigned(response.data.assignedOrders);
-                setpickup(response.data.pickupOrders);
-            });
-        } catch (error) {
-            console.error('Error fetching orders:', error);
-        }
-    };
+    const fetchOrders = async (status, setter) => {
+  try {
+    const res = await api.get(`/api/admin/orders?status=${status}`);
+    setter(res.data.orders);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    React.useEffect(() => {
-        fetchOrders();
-    }, []);
+    useEffect(() => {
+  fetchOrders("pending", setPendingOrders);
+  fetchOrders("accepted", setAcceptedOrders);
+  fetchOrders("assigned", setAssigned);
+  fetchOrders("pickedup", setpickup);
+  fetchOrders("delivered", setCompletedOrders);
+  fetchOrders("cancelled", setCancelledOrders);
+}, []);
+
+const refreshOrders = () => {
+  fetchOrders("pending", setPendingOrders);
+  fetchOrders("accepted", setAcceptedOrders);
+  fetchOrders("assigned", setAssigned);
+  fetchOrders("pickedup", setpickup);
+  fetchOrders("delivered", setCompletedOrders);
+  fetchOrders("cancelled", setCancelledOrders);
+};
 
      const acceptOrder = async (orderId, orderstatus) => {
         try {
@@ -42,7 +50,7 @@ const Adminorder = () => {
             .then((res) => {
               if(res.data.success) {
                 alert(res.data.message)
-                fetchOrders()
+                refreshOrders()
               }
             })
         } catch (error) {
