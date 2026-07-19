@@ -24,23 +24,33 @@ const Adminorder = () => {
   }
 };
 
-    useEffect(() => {
-  fetchOrders("pending", setPendingOrders);
-  fetchOrders("accepted", setAcceptedOrders);
-  fetchOrders("assigned", setAssigned);
-  fetchOrders("pickedup", setpickup);
-  fetchOrders("delivered", setCompletedOrders);
-  fetchOrders("cancelled", setCancelledOrders);
-}, []);
-
 const refreshOrders = () => {
-  fetchOrders("pending", setPendingOrders);
-  fetchOrders("accepted", setAcceptedOrders);
-  fetchOrders("assigned", setAssigned);
-  fetchOrders("pickedup", setpickup);
-  fetchOrders("delivered", setCompletedOrders);
-  fetchOrders("cancelled", setCancelledOrders);
+  switch (step) {
+        case 1:
+          fetchOrders("pending", setPendingOrders);
+          break;
+        case 2:
+          fetchOrders("accepted", setAcceptedOrders);
+          break;
+        case 3:
+          fetchOrders("delivered", setCompletedOrders);
+          break;
+        case 4:
+          fetchOrders("cancelled", setCancelledOrders);
+          break;
+        case 5:
+          fetchOrders("assigned", setAssigned);
+          break;
+        case 6:
+          fetchOrders("pickedup", setpickup);
+          break;
+      }
 };
+
+useEffect(() => {
+  refreshOrders();
+}, [step]);
+
 
      const acceptOrder = async (orderId, orderstatus) => {
         try {
