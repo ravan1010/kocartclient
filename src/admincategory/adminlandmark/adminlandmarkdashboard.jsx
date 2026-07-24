@@ -15,7 +15,6 @@ const Adminlandmarkdashboard = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
 
   // const [productlist, setproductlist] = useState('');
-  const [adminId, setadminId] = useState('')
   const [open, setopen] = useState()
   const [marchent, setmarchent] = useState([])
   const [loading, setloading] = useState(true)
@@ -108,19 +107,6 @@ const Adminlandmarkdashboard = () => {
       console.log(error)
     }
   }
-
-  useEffect(() => {
-    const admin = async () => {
-      try {
-        await api.get('/api/adminid', { withCredentials: true })
-          .then((res) => setadminId(res.data.id))
-          .catch((err) => console.log(err))
-      } catch (error) {
-        console.log(error)
-      }
-    };
-    admin();
-  }, [adminId])
 
   // Filter Posts
   const handleFilter = (variant) => {
