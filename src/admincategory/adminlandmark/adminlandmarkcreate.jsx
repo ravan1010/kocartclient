@@ -15,6 +15,7 @@ const CreatePost = () => {
   const [success, setsuccess] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
   const fetchmarchent = async () => {
 
     const res = await api.get(`/api/admin/dashboard`, { withCredentials: true });
@@ -22,7 +23,6 @@ const CreatePost = () => {
     setloading(false)
   };
 
-  useEffect(() => {
     fetchmarchent()
   }, [])
 
