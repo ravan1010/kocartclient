@@ -137,7 +137,7 @@ const isDisabled =
       .get("/api/cart/get", { withCredentials: true })
       .then((res) => {
         setCartItems(res.data);
-        setPlatform(6);
+        setPlatform(8);
       })
       .catch(console.error);
   }, []);

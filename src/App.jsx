@@ -8,9 +8,6 @@ import SignupOne from './signup/signup';
 import AdminAddress from './admin/admininfo';
 import Adminlandmarkdashboard from './admincategory/adminlandmark/adminlandmarkdashboard';
 
-
-import CategoryPage from './componets/category';
-
 import ToAddress from './componets/address';
 import Profile from './componets/profile';
 import Addresslist from './componets/addresslist';
@@ -39,6 +36,7 @@ import ProtectedMarchent from './admin/auth/admiarouteauth';
 import Confirmation from './componets/cod';
 import Adminorder from './admincategory/adminlandmark/adminorder';
 import Grocery from './componets/grocery';
+import MerchantPage from './componets/resto';
 
 
 function App() {
@@ -53,67 +51,60 @@ function App() {
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
           <Route path="/contact-information-policy" element={<ContactInformationPolicy />} />
 
-
-          <Route path='/' element={
-              // <ProtectedRoute>
-              <Home />
-              // </ProtectedRoute>
-            } />
-
-           <Route path='/gro' element={
-            <Grocery />
-           } />
-
         //user email or number for signup
           <Route path='/signup' element={<SignupOne />} />
           <Route path='/client-auth-success' element={<Clientverify />} />
 
           <Route element={<ProtectedClient />}>
+           <Route path='/' element={<Home />} />
+          <Route path="/merchant" element={<MerchantPage />} />
+
+          <Route path='/gro' element={
+            <Grocery />
+          } />
 
           //admin signup
             <Route path='/admin' element={<MarchentSignup />} />
-        //admin otp
-    
             <Route path='marchent-auth-success' element={
-                <MARCHENTverify />
+              <MARCHENTverify />
             } />
 
             <Route path='/admin/info' element={
-                <AdminAddress />
+              <AdminAddress />
             } />
 
             <Route element={<ProtectedMarchent />}>
             //admin create adminlandmark product
-            <Route path='/adminlandmark/productcreate' element={
+              <Route path='/adminlandmark/productcreate' element={
                 <CreatePost />
-            } />
+              } />
 
-            <Route path='/adminlandmark/update/:id' element={
+              <Route path='/adminlandmark/update/:id' element={
                 <Updatepost />
-            } />
+              } />
 
          //admin food dashboard
-            <Route path='/adminlandmark/dashboard' element={
+              <Route path='/adminlandmark/dashboard' element={
                 <Adminlandmarkdashboard />
-            } />
+              } />
             </Route>
 
             <Route path='/admin/orders' element={
-                <Adminorder />
+              <Adminorder />
             } />
 
 
 
 //admin dashboard and create, delete based on category
 
-          
+
 
             <Route path='/order' element={
-                <Order />
+              <Order />
             } />
 
             <Route path='/local-cart' element={
-                <Cart />
+              <Cart />
             } />
 
             <Route path='/checkout' element={
@@ -126,10 +117,7 @@ function App() {
             <Home />
           } /> */}
             <Route path='/explore' element={
-                <Explore />
-            } />
-            <Route path='/events' element={
-                <CategoryPage />
+              <Explore />
             } />
 
             <Route path='/profile' element={
@@ -137,23 +125,21 @@ function App() {
             } />
 
             <Route path='/address-list' element={
-                <Addresslist />
+              <Addresslist />
             } />
 
             <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/order-confirmation" element={<Confirmation />} />
 
             <Route path='/address' element={
-                <ToAddress />
+              <ToAddress />
             } />
-
-            
 
             <Route path='/long' element={
               <ParcelBooking />
             } />
           </Route>
-          
+
         </Routes>
       </Router>
     </>
