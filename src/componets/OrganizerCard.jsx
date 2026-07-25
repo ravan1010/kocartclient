@@ -53,9 +53,37 @@ const OrganizerCard = ({ organizer, Open }) => {
         setnoti("Added");
         setTimeout(() => setnoti(null), 1000);
       }
-    } catch (error) {
-      console.error(error);
+} catch (err) {
+  if (err.response?.data?.differentMerchant) {
+    const clearCart = window.confirm(
+      err.response.data.message + "\n\nDo you want to clear your cart?"
+    );
+
+    if (clearCart) {
+      await api.delete("/api/cart/clear", {
+        withCredentials: true,
+      });
+
+      // Add the product again
+      await api.post(
+        "/api/cart/add",
+        {
+          productId,
+          adminId,
+          quantity,
+          variantid,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      alert("Cart replaced and product added.");
     }
+  } else {
+    alert(err.response?.data?.message || "Something went wrong.");
+  }
+}
   };
 
   return (
