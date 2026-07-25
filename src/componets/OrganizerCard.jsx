@@ -56,7 +56,7 @@ const OrganizerCard = ({ organizer, Open }) => {
 } catch (err) {
   if (err.response?.data?.differentMerchant) {
     const clearCart = window.confirm(
-      err.response.data.message + "\n\n only one restaurant product \n\n  Do you want to clear your cart?"
+      err.response.data.message + "\n\n Do you want to clear your cart?"
     );
 
     if (clearCart) {
