@@ -32,27 +32,48 @@ const Home = () => {
     <>
       <Navbar />
 
-      <div className="min-h-screen bg-gray-50">
-        <div className="flex gap-3 overflow-x-auto py-3 px-3">
-          {merchants.length > 0 ? (
-            merchants.map((merchant) => (
-              <button
-                key={merchant._id}
-                onClick={() => navigate(`/merchant?id=${merchant._id}`)}
-                className="px-5 py-2 rounded-full bg-blue-500 text-white whitespace-nowrap"
-              >
-                {merchant.companyName}
-              </button>
-            ))
-          ) : (
-            <p className="text-gray-500">
-              We are not available in your area.
-            </p>
-          )}
-        </div>
+      <div className="min-h-screen bg-gray-100 p-4">
 
-        <Footer />
+  <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-md p-5">
+
+    <h2 className="text-xl font-bold text-gray-800 mb-4">
+      Nearby Merchants
+    </h2>
+
+    {merchants.length > 0 ? (
+      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        {merchants.map((merchant) => (
+          <button
+            key={merchant._id}
+            onClick={() => navigate(`/merchant?id=${merchant._id}`)}
+            className="min-w-[180px] bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl p-4 shadow hover:shadow-lg hover:scale-105 transition-all duration-300"
+          >
+            <div className="text-lg font-semibold">
+              {merchant.companyName}
+            </div>
+
+            <p className="text-sm text-blue-100 mt-1">
+              View Products →
+            </p>
+          </button>
+        ))}
       </div>
+    ) : (
+      <div className="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center">
+        <h3 className="text-lg font-semibold text-gray-700">
+          No Nearby Merchants
+        </h3>
+
+        <p className="text-gray-500 mt-2">
+          We are not available in your area right now.
+        </p>
+      </div>
+    )}
+
+  </div>
+
+  <Footer />
+</div>
     </>
   );
 };
