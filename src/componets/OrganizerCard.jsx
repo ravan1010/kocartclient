@@ -150,11 +150,12 @@ const OrganizerCard = ({ organizer, Open }) => {
               </div>
 
               <div className="bg-green-50 px-3 py-2 rounded-xl">
-                <p className="text-green-700 text-xs font-semibold">
+                {/* <p className="text-green-700 text-xs font-semibold">
                   Save ₹
                   {(selectedVariantData.mrp -
                     selectedVariantData.price) * quantity}
-                </p>
+                    
+                </p> */}
               </div>
             </div>
 
