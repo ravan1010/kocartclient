@@ -192,10 +192,6 @@ const OrganizerCard = ({ organizer, Open }) => {
                 </button>
 
               </div>
-
-              <span className="text-sm font-medium text-gray-600">
-                {organizer.variantname}
-              </span>
             </div>
 
             {/* Add Button */}
