@@ -13,6 +13,7 @@ const Home = () => {
   const [merchants, setMerchants] = useState([]);
 
   useEffect(() => {
+
     const fetchMerchant = async () => {
       try {
         const res = await api.get("/api/home", {
@@ -25,7 +26,8 @@ const Home = () => {
       }
     };
 
-    fetchMerchant();
+    fetchMerchant()
+
   }, []);
 
   return (

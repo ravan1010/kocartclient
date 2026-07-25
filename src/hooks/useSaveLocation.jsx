@@ -21,8 +21,8 @@ export default function useSaveLocation() {
 
                     await api.put("/api/user/location", {
 
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
+                        latitude: position.coords.latitude.toFixed(6),
+                        longitude: position.coords.longitude.toFixed(6),
 
                     }, {
                         withCredentials: true,
