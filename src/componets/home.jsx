@@ -44,7 +44,7 @@ const Home = () => {
             </h2>
 
             <button
-              onClick={() => navigate("/location")}
+              onClick={useSaveLocation}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition"
             >
               📍 Change Location
@@ -80,7 +80,7 @@ const Home = () => {
               </p>
 
               <button
-                onClick={() => navigate("/location")}
+                onClick={useSaveLocation}
                 className="mt-5 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
               >
                 Change Location
