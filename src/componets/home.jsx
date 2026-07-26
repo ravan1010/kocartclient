@@ -45,7 +45,7 @@ const Home = () => {
 
             <button
               onClick={useSaveLocation}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition"
+              className="px-4 py-2 rounded-lg shadow transition border"
             >
               📍 Change Location
             </button>
