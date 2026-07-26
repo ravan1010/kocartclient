@@ -6,7 +6,7 @@ export default function useLiveLocation() {
 
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState(null)
   const [distance, setDistance] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
   const [error, setError] = useState("");
