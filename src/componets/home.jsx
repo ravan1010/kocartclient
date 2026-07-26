@@ -31,51 +31,68 @@ const Home = () => {
   }, []);
 
   return (
-    <>
+     <>
       <Navbar />
 
-    <div className="min-h-screen bg-gray-100 p-4">
-  <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-md p-5">
+      <div className="min-h-screen bg-gray-100 p-4">
+        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-md p-5">
 
-    <h2 className="text-xl font-bold text-gray-800 mb-4">
-      Nearby Merchants
-    </h2>
+          {/* Header */}
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-xl font-bold text-gray-800">
+              Nearby Merchants
+            </h2>
 
-    {merchants.length > 0 ? (
-      <div className="grid grid-cols-2 gap-4">
-        {merchants.map((merchant) => (
-          <button
-            key={merchant._id}
-            onClick={() => navigate(`/merchant?id=${merchant._id}`)}
-            className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl p-4 shadow hover:shadow-lg hover:scale-105 transition-all duration-300"
-          >
-            <div className="text-lg font-semibold">
-              {merchant.companyName}
+            <button
+              onClick={() => navigate("/location")}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition"
+            >
+              📍 Change Location
+            </button>
+          </div>
+
+          {merchants.length > 0 ? (
+            <div className="grid grid-cols-2 gap-4">
+              {merchants.map((merchant) => (
+                <button
+                  key={merchant._id}
+                  onClick={() => navigate(`/merchant?id=${merchant._id}`)}
+                  className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl p-4 shadow hover:shadow-lg hover:scale-105 transition-all duration-300"
+                >
+                  <div className="text-lg font-semibold">
+                    {merchant.companyName}
+                  </div>
+
+                  <p className="text-sm text-blue-100 mt-1">
+                    View Products →
+                  </p>
+                </button>
+              ))}
             </div>
+          ) : (
+            <div className="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center">
+              <h3 className="text-lg font-semibold text-gray-700">
+                No Nearby Merchants
+              </h3>
 
-            <p className="text-sm text-blue-100 mt-1">
-              View Products →
-            </p>
-          </button>
-        ))}
+              <p className="text-gray-500 mt-2">
+                We are not available in your area right now.
+              </p>
+
+              <button
+                onClick={() => navigate("/location")}
+                className="mt-5 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
+              >
+                Change Location
+              </button>
+            </div>
+          )}
+        </div>
+
+        <Footer />
       </div>
-    ) : (
-      <div className="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center">
-        <h3 className="text-lg font-semibold text-gray-700">
-          No Nearby Merchants
-        </h3>
-
-        <p className="text-gray-500 mt-2">
-          We are not available in your area right now.
-        </p>
-      </div>
-    )}
-
-  </div>
-
-  <Footer />
-</div>
     </>
+
   );
 };
 
