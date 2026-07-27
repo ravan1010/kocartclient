@@ -203,7 +203,9 @@ const isDisabled =
           addressId: saveAddress,
           delivery,
           Number: mobileNo,
-          totalAmount: total
+          totalAmount: total,
+          distance: distance,
+
         }).then((res) => {
           if (res.data.success) {
             setOneclick(1)
@@ -233,7 +235,8 @@ const isDisabled =
         addressId: saveAddress,
         delivery,
         Number: mobileNo,
-        totalAmount: total
+        totalAmount: total,
+        distance: distance,
       });
 
       if (response.data.success) {
