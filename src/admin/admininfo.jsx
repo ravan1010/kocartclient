@@ -189,7 +189,7 @@ console.log('Submitting form with data:')
                 onChange={(e) => setcategory(e.target.value)}
                 className="w-full px-3 py-0 border-1 outline-none overflow-scroll mb-0 h-10"
               >
-                <option value="FoodANDbeverages">Food & Beverages</option>
+                <option value="foodANDbeverages">Food & Beverages</option>
                 <option value="groceryFruitsANDvegetables">grocery fruits and vegetables</option>
                 {/* <option value="BooksANDStationery">Books & Stationery</option>
                 <option value="FashionANDApparel">Fashion & Apparel</option>
