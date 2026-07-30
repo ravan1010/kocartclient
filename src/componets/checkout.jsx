@@ -18,7 +18,7 @@ export default function Checkout() {
   const [cartItems, setCartItems] = useState();
   const [platform, setPlatform] = useState(0);
   const [delivery, setDelivery] = useState(0);
-  const [item, setitem] = useState(0);
+  const [item, setitem] = useState('');
   const [total, setTotal] = useState(0);
 
   const [selectaddress, setSelectaddress] = useState([]);
