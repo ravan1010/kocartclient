@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import api from "../api";
 import Navbar from "./navbar";
 import Footer from "./Footer";
