@@ -5,8 +5,6 @@ import Footer from "./Footer";
 import OrganizerCard from "./OrganizerCard";
 
 import Navbar from "./navbar";
-import Footer from "./Footer";
-import api from "../api";
 
 function MerchantPage() {
   const [searchParams] = useSearchParams();
