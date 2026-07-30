@@ -10,7 +10,6 @@ const MerchantPage = () => {
   const merchantId = searchParams.get("id");
 
   const [restaurantData, setRestaurantData] = useState([]);
-  const [branch, setBranch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState("all");
@@ -25,10 +24,9 @@ const MerchantPage = () => {
       const res = await api.get(`/api/merchant?id=${merchantId}`, {
         withCredentials: true,
       });
-
-      setBranch(res.data.branch.open);
       setRestaurantData(res.data.posts || []);
-      setOpen(res.data.open);
+      setOpen(res.data.branch.open);
+      setmerchant(res.data.merchant)
     } catch (err) {
       console.log(err);
     } finally {
@@ -70,7 +68,7 @@ const MerchantPage = () => {
       {/* Merchant Header */}
       <div className="bg-white shadow-sm p-5">
         <h1 className="text-2xl font-bold">
-          {branch?.companyName}
+          {merchant.companyName}
         </h1>
 
         <p
