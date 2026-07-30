@@ -14,6 +14,7 @@ const MerchantPage = () => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState("all");
+  const [merchant, setmerchant] = useState()
 
 
   // Fetch selected merchant
@@ -26,7 +27,7 @@ const MerchantPage = () => {
       });
 
       setBranch(res.data.branch);
-      setRestaurantData(res.data.products || []);
+      setRestaurantData(res.data.posts || []);
       setOpen(res.data.open);
     } catch (err) {
       console.log(err);
