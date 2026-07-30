@@ -73,9 +73,6 @@ function MerchantPage() {
 
         {/* Merchant Header */}
         <div className="bg-white shadow-sm p-5">
-          <h1 className="text-2xl font-bold">
-            {branch?.companyName}
-          </h1>
 
           <p
             className={`mt-2 inline-block px-3 py-1 rounded-full text-sm font-medium ${
