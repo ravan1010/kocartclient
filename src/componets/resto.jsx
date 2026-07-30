@@ -1,150 +1,133 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import api from "../api";
 import Navbar from "./navbar";
 import Footer from "./Footer";
-import api from "../api";
+import OrganizerCard from "./OrganizerCard";
 
-const Grocery = () => {
-  const navigate = useNavigate();
+const MerchantPage = () => {
+  const [searchParams] = useSearchParams();
+  const merchantId = searchParams.get("id");
 
-  const [merchants, setMerchants] = useState([]);
-  const [loadingLoc, setLoadingLoc] = useState(false);
-  const [locationError, setLocationError] = useState("");
+  const [restaurantData, setRestaurantData] = useState([]);
+  const [branch, setBranch] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState("all");
 
-  const fetchMerchant = async () => {
+
+  // Fetch selected merchant
+  const fetchMerchantData = async () => {
     try {
-      const res = await api.get("/api/mart", {
+      if (!merchantId) return;
+
+      const res = await api.get(`/api/merchant?id=${merchantId}`, {
         withCredentials: true,
       });
 
-      setMerchants(res.data.merchants || []);
-    } catch (error) {
-      console.log(error);
+      setBranch(res.data.branch);
+      setRestaurantData(res.data.products || []);
+      setOpen(res.data.open);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchMerchant();
-  }, []);
+    fetchMerchantData();
+  }, [merchantId]);
 
-  const changeLocation = async () => {
-    setLoadingLoc(true);
-    setLocationError("");
 
-    if (!navigator.geolocation) {
-      setLocationError("Geolocation is not supported.");
-      setLoadingLoc(false);
-      return;
-    }
+  const uniqueEvents = [
+    "all",
+    ...new Set(restaurantData.map((item) => item.variantname)),
+  ];
 
-    try {
-      const permission = await navigator.permissions.query({
-        name: "geolocation",
-      });
+  const filteredRestaurants = restaurantData.filter((item) => {
+    return (
+      selectedEvent === "all" ||
+      item.variantname === selectedEvent
+    );
+  });
 
-      if (permission.state === "denied") {
-        setLocationError(
-          "Location permission is blocked. Please enable it in browser settings."
-        );
-        setLoadingLoc(false);
-        return;
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          try {
-            await api.put(
-              "/api/user/location",
-              {
-                latitude: position.coords.latitude.toFixed(6),
-                longitude: position.coords.longitude.toFixed(6),
-              },
-              {
-                withCredentials: true,
-              }
-            );
-
-            await fetchMerchant(); // Refresh merchants
-          } catch (err) {
-            console.log(err);
-            setLocationError("Failed to update location.");
-          } finally {
-            setLoadingLoc(false);
-          }
-        },
-        (err) => {
-          console.log(err);
-          setLocationError(err.message);
-          setLoadingLoc(false);
-        }
-      );
-    } catch (err) {
-      console.log(err);
-      setLocationError("Unable to access location.");
-      setLoadingLoc(false);
-    }
-  };
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="text-center py-20">Loading...</div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
       <Navbar />
 
+      {/* Merchant Header */}
+      <div className="bg-white shadow-sm p-5">
+        <h1 className="text-2xl font-bold">
+          {branch?.companyName}
+        </h1>
+
+        <p
+          className={`mt-2 inline-block px-3 py-1 rounded-full text-sm font-medium ${
+            open
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
+          {open ? "Open" : "Closed"}
+        </p>
+      </div>
+
       <div className="min-h-screen bg-gray-100 p-4">
         <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-md p-5">
-
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-xl font-bold">Nearby Merchants</h2>
-
-            <button
-              onClick={changeLocation}
-              disabled={loadingLoc}
-              className="px-4 py-2 rounded-lg disabled:opacity-50 border"
-            >
-              {loadingLoc ? "Updating..." : "📍 Change Location"}
-            </button>
+            <h2 className="text-xl font-bold">Products</h2>
           </div>
 
-          {locationError && (
-            <p className="text-red-500 mb-4">{locationError}</p>
-          )}
+          {/* Variant Filter */}
+          <div className="flex gap-3 overflow-x-auto py-3 mb-6 scrollbar-hide">
+            {uniqueEvents.map((event) => (
+              <button
+                key={event}
+                onClick={() => setSelectedEvent(event)}
+                className={`whitespace-nowrap px-5 py-2 rounded-full border transition ${
+                  selectedEvent === event
+                    ? "bg-indigo-600 text-white border-indigo-600"
+                    : "bg-white border-gray-300 text-gray-700"
+                }`}
+              >
+                {event}
+              </button>
+            ))}
+          </div>
 
-          {merchants.length > 0 ? (
-            <div className="grid grid-cols-2 gap-4">
-              {merchants.map((merchant) => (
-                <button
-                  key={merchant._id}
-                  onClick={() => navigate(`/merchant?id=${merchant._id}`)}
-                  className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl p-4"
-                >
-                  <h3 className="font-semibold">{merchant.companyName}</h3>
-                  <p className="text-sm mt-1">View Products →</p>
-                </button>
+          {/* Products */}
+          {filteredRestaurants.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+              {filteredRestaurants.map((product) => (
+                <OrganizerCard
+                  key={product._id}
+                  organizer={product}
+                  Open={open}
+                />
               ))}
             </div>
           ) : (
-            <div className="text-center py-10">
-              <h3 className="text-lg font-semibold">
-                No Nearby Merchants
-              </h3>
-              <p className="text-gray-500 mt-2">
-                We are not available in your area right now.
-              </p>
-
-              <button
-                onClick={changeLocation}
-                disabled={loadingLoc}
-                className="mt-5 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
-              >
-                {loadingLoc ? "Updating..." : "Change Location"}
-              </button>
+            <div className="text-center py-10 text-gray-500">
+              No products found.
             </div>
           )}
         </div>
-
-        <Footer />
       </div>
+
+      <Footer />
     </>
   );
 };
 
-export default Grocery;
+export default MerchantPage;
