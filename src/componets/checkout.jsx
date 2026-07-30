@@ -18,6 +18,7 @@ export default function Checkout() {
   const [cartItems, setCartItems] = useState();
   const [platform, setPlatform] = useState(0);
   const [delivery, setDelivery] = useState(0);
+  const [item, setitem] = useState(0);
   const [total, setTotal] = useState(0);
 
   const [selectaddress, setSelectaddress] = useState([]);
@@ -92,6 +93,7 @@ const isDisabled =
           setLatitude(lat);
           setLongitude(lon);
           setdistance(res.data.totalDistance)
+          setitem(res.data.category)
 
         } catch (err) {
           setError("Failed to fetch location", err);
@@ -467,6 +469,10 @@ const isDisabled =
             <div className="flex justify-between text-sm">
               <span>online pay</span>
               <span>3%</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span>type</span>
+              <span>{item}</span>
             </div>
 
             <hr />
