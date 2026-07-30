@@ -26,7 +26,7 @@ const MerchantPage = () => {
         withCredentials: true,
       });
 
-      setBranch(res.data.branch?.open);
+      setBranch(res.data.branch.open);
       setRestaurantData(res.data.posts || []);
       setOpen(res.data.open);
     } catch (err) {
