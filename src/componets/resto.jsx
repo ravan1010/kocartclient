@@ -9,24 +9,31 @@ const MerchantPage = () => {
   const [searchParams] = useSearchParams();
   const merchantId = searchParams.get("id");
 
-  const [restaurantData, setRestaurantData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [merchant, setMerchant] = useState(null);
+  const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState("all");
-  const [merchant, setmerchant] = useState()
+  const [loading, setLoading] = useState(true);
+  const [selectedVariant, setSelectedVariant] = useState("all");
 
+  useEffect(() => {
+    if (merchantId) {
+      fetchMerchant();
+    } else {
+      setLoading(false);
+    }
+  }, [merchantId]);
 
-  // Fetch selected merchant
-  const fetchMerchantData = async () => {
+  const fetchMerchant = async () => {
     try {
-      if (!merchantId) return;
-
       const res = await api.get(`/api/merchant?id=${merchantId}`, {
         withCredentials: true,
       });
-      setRestaurantData(res.data.posts || []);
-      setOpen(res.data.branch.open);
-      setmerchant(res.data.merchant)
+
+      if (res.data.success) {
+        setMerchant(res.data.merchant);
+        setProducts(res.data.posts || []);
+        setOpen(res.data.branch.open ?? false);
+      }
     } catch (err) {
       console.log(err);
     } finally {
@@ -34,28 +41,23 @@ const MerchantPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchMerchantData();
-  }, [merchantId]);
-
-
-  const uniqueEvents = [
+  const variants = [
     "all",
-    ...new Set(restaurantData.map((item) => item.variantname)),
+    ...new Set(products.map((item) => item.variantname).filter(Boolean)),
   ];
 
-  const filteredRestaurants = restaurantData.filter((item) => {
-    return (
-      selectedEvent === "all" ||
-      item.variantname === selectedEvent
-    );
-  });
+  const filteredProducts =
+    selectedVariant === "all"
+      ? products
+      : products.filter(
+          (item) => item.variantname === selectedVariant
+        );
 
   if (loading) {
     return (
       <>
         <Navbar />
-        <div className="text-center py-20">Loading...</div>
+        <div className="py-20 text-center text-xl">Loading...</div>
         <Footer />
       </>
     );
@@ -65,50 +67,44 @@ const MerchantPage = () => {
     <>
       <Navbar />
 
-      {/* Merchant Header */}
       <div className="bg-white shadow-sm p-5">
-        <h1 className="text-2xl font-bold">
-          {merchant.companyName}
+        <h1 className="text-3xl font-bold">
+          {merchant?.companyName}
         </h1>
 
-        <p
-          className={`mt-2 inline-block px-3 py-1 rounded-full text-sm font-medium ${
+        <span
+          className={`inline-block mt-3 px-3 py-1 rounded-full text-sm ${
             open
               ? "bg-green-100 text-green-700"
               : "bg-red-100 text-red-700"
           }`}
         >
           {open ? "Open" : "Closed"}
-        </p>
+        </span>
       </div>
 
-      <div className="min-h-screen bg-gray-100 p-4">
-        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-md p-5">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-xl font-bold">Products</h2>
-          </div>
+      <div className="min-h-screen bg-gray-100">
+        <div className="max-w-7xl mx-auto p-5">
 
-          {/* Variant Filter */}
-          <div className="flex gap-3 overflow-x-auto py-3 mb-6 scrollbar-hide">
-            {uniqueEvents.map((event) => (
+          <div className="flex gap-3 overflow-x-auto mb-6">
+            {variants.map((variant) => (
               <button
-                key={event}
-                onClick={() => setSelectedEvent(event)}
-                className={`whitespace-nowrap px-5 py-2 rounded-full border transition ${
-                  selectedEvent === event
-                    ? "bg-indigo-600 text-white border-indigo-600"
-                    : "bg-white border-gray-300 text-gray-700"
+                key={variant}
+                onClick={() => setSelectedVariant(variant)}
+                className={`px-4 py-2 rounded-full border ${
+                  selectedVariant === variant
+                    ? "bg-indigo-600 text-white"
+                    : "bg-white"
                 }`}
               >
-                {event}
+                {variant}
               </button>
             ))}
           </div>
 
-          {/* Products */}
-          {filteredRestaurants.length > 0 ? (
+          {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-              {filteredRestaurants.map((product) => (
+              {filteredProducts.map((product) => (
                 <OrganizerCard
                   key={product._id}
                   organizer={product}
@@ -117,10 +113,11 @@ const MerchantPage = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-10 text-gray-500">
-              No products found.
+            <div className="text-center py-20 text-gray-500">
+              No products found
             </div>
           )}
+
         </div>
       </div>
 
