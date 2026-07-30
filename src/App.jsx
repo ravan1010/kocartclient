@@ -58,10 +58,10 @@ function App() {
           <Route element={<ProtectedClient />}>
            <Route path='/' element={<Home />} />
           <Route path="/merchant" element={<MerchantPage />} />
-
+{/* 
           <Route path='/gro' element={
             <Grocery />
-          } />
+          } /> */}
 
           //admin signup
             <Route path='/admin' element={<MarchentSignup />} />

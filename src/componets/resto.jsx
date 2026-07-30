@@ -1,129 +1,136 @@
-import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import api from "../api";
-import Navbar from "./navbar";
 import Footer from "./Footer";
 import OrganizerCard from "./OrganizerCard";
 
-const MerchantPage = () => {
+import Navbar from "./navbar";
+import Footer from "./Footer";
+import api from "../api";
+
+function MerchantPage() {
   const [searchParams] = useSearchParams();
   const merchantId = searchParams.get("id");
 
-  const [merchant, setMerchant] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [open, setOpen] = useState(false);
+   const [restaurantData, setRestaurantData] = useState([]);
+  const [branch, setBranch] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [selectedVariant, setSelectedVariant] = useState("all");
+  const [open, setOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState("all");
 
-  useEffect(() => {
-    if (merchantId) {
-      fetchMerchant();
-    } else {
-      setLoading(false);
+   useEffect(() => {
+
+     const loadMerchant = async () => {
+      try {
+        const res = await api.get(`/api/merchant/${merchantId}`);
+
+        setRestaurantData(res.data.posts || []);
+        setBranch(res.data.branch);
+        setOpen(res.data.branch?.open || false);
+      } catch (error) {
+        console.error(error);
+        setRestaurantData([]);
+      } finally {
+        setLoading(false);
+      }
     }
+     loadMerchant();
   }, [merchantId]);
 
-  const fetchMerchant = async () => {
-    try {
-      const res = await api.get(`/api/merchant?id=${merchantId}`, {
-        withCredentials: true,
-      });
-
-      if (res.data.success) {
-        setMerchant(res.data.merchant);
-        setProducts(res.data.posts || []);
-        setOpen(res.data.branch.open ?? false);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const variants = [
+    const uniqueEvents = [
     "all",
-    ...new Set(products.map((item) => item.variantname).filter(Boolean)),
+    ...new Set(restaurantData.map((item) => item.variantname)),
   ];
 
-  const filteredProducts =
-    selectedVariant === "all"
-      ? products
-      : products.filter(
-          (item) => item.variantname === selectedVariant
-        );
+  const filteredRestaurants = restaurantData.filter((item) => {
+    return (
+      selectedEvent === "all" ||
+      item.variantname === selectedEvent
+    );
+  });
 
   if (loading) {
     return (
-      <>
-        <Navbar />
-        <div className="py-20 text-center text-xl">Loading...</div>
-        <Footer />
-      </>
+      <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+        <div className="flex flex-col items-center">
+          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-white mt-3">Loading...</p>
+        </div>
+      </div>
     );
   }
 
-  return (
+    if (!merchantId) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Merchant not found.
+      </div>
+    );
+  }
+
+    return (
     <>
       <Navbar />
+       <div className="min-h-screen bg-gray-50">
 
-      <div className="bg-white shadow-sm p-5">
-        <h1 className="text-3xl font-bold">
-          {merchant?.companyName}
-        </h1>
+        {/* Merchant Header */}
+        <div className="bg-white shadow-sm p-5">
+          <h1 className="text-2xl font-bold">
+            {branch?.companyName}
+          </h1>
 
-        <span
-          className={`inline-block mt-3 px-3 py-1 rounded-full text-sm ${
-            open
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
-          }`}
-        >
-          {open ? "Open" : "Closed"}
-        </span>
-      </div>
-
-      <div className="min-h-screen bg-gray-100">
-        <div className="max-w-7xl mx-auto p-5">
-
-          <div className="flex gap-3 overflow-x-auto mb-6">
-            {variants.map((variant) => (
+          <p
+            className={`mt-2 inline-block px-3 py-1 rounded-full text-sm font-medium ${
+              open
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+            }`}
+          >
+            {open ? "Open" : "Closed"}
+          </p>
+        </div>
+        <div className="p-4">
+         {/* Variant Filter */}
+          <div className="flex gap-3 overflow-x-auto py-3 mb-6 scrollbar-hide">
+            {uniqueEvents.map((event) => (
               <button
-                key={variant}
-                onClick={() => setSelectedVariant(variant)}
-                className={`px-4 py-2 rounded-full border ${
-                  selectedVariant === variant
-                    ? "bg-indigo-600 text-white"
-                    : "bg-white"
+                key={event}
+                onClick={() => setSelectedEvent(event)}
+                className={`whitespace-nowrap px-5 py-2 rounded-full border transition ${
+                  selectedEvent === event
+                    ? "bg-indigo-600 text-white border-indigo-600"
+                    : "bg-white border-gray-300 text-gray-700"
                 }`}
               >
-                {variant}
+                {event}
               </button>
             ))}
-          </div>
-
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-              {filteredProducts.map((product) => (
+            </div>
+            </div>
+                      {filteredRestaurants.length !== 0 ? (
+                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 p-1">
+              {filteredRestaurants.map((product) => (
                 <OrganizerCard
                   key={product._id}
                   organizer={product}
                   Open={open}
                 />
-              ))}
+                 ))}
             </div>
-          ) : (
-            <div className="text-center py-20 text-gray-500">
-              No products found
-            </div>
+            ) : (
+            <div className="text-center py-20">
+              <h2 className="text-2xl font-bold text-gray-700">
+                No Products Available
+              </h2>
+               <p className="text-gray-500 mt-2">
+                This merchant has no products in this category.
+              </p>
+              </div>
           )}
-
         </div>
-      </div>
-
-      <Footer />
-    </>
+            <Footer />
+            </>
   );
-};
+}
 
 export default MerchantPage;
