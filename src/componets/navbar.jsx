@@ -40,7 +40,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      {(isHome || isLocalCart || grocery) && (
+      {/* {(isHome || isLocalCart || grocery) && (
         <nav className="bg-white shadow-sm sticky top-16 z-40 border-b">
           <div className="container mx-auto px-4 py-2 flex gap-3">
 
@@ -70,7 +70,7 @@ const Navbar = () => {
 
           </div>
         </nav>
-      )}
+      )} */}
 
       {/* MOBILE BOTTOM NAV */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-50">
