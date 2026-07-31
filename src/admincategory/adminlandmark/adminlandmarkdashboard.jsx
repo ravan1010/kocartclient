@@ -42,56 +42,49 @@ const Adminlandmarkdashboard = () => {
     generateAndSaveFCMToken()
   }, [])
 
-  const handleToggle = async () => {
+ const handleToggle = async () => {
+  const newStatus = !open;
 
-    const newStatus = !open;
-    setopen(newStatus);
+  try {
+    const res = await api.post(
+      "/api/admin/door",
+      { open: newStatus },
+      { withCredentials: true }
+    );
 
-    try {
-      await api.post(
-        "/api/admin/door",
-        { open: newStatus },
-        { withCredentials: true }
-      ).then((res) => {
-        if (res.data.success === true) {
-          fetchImages()
-        }
-      })
-    } catch (err) {
-      console.error(err);
+    if (res.data.success) {
+      setopen(res.data.open); // Use value from server
+      fetchImages();
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Unable to update store status.");
+  }
+};
 
-  const handleitem = async (id, opentopost) => {
-    const newStatus = !opentopost;
+  const handleitem = async (id, active) => {
+  const newStatus = !active;
 
-    // Optimistic UI updat
+  try {
+    const res = await api.post(
+      `/api/admin/post/open/${id}`,
+      { open: newStatus },
+      { withCredentials: true }
+    );
 
-    try {
-      await api.post(
-        `/api/admin/post/open/${id}`,
-        { open: newStatus },
-        { withCredentials: true }
-      ).then((res) => {
-        if (res.data.success) {
-          fetchImages()
-        }
-      })
-    } catch (err) {
-      console.error(err);
-      const msg = err.response?.data?.message;
+    if (res.data.success) {
+      fetchImages();
+    }
+  } catch (err) {
+    console.error(err);
 
-      if (msg === "store door off") {
-        alert("⏰ Store is currently closed. Please try again later.");
-      } else {
-        alert("Something went wrong. Please try again.");
-      }
-
-
-
-      // rollback if failed
+    if (err.response?.status === 400) {
+      alert("⏰ Store is currently closed. Open the store first.");
+    } else {
+      alert(err.response?.data?.message || "Something went wrong.");
     }
   }
+};
 
 
   const deleteProduct = async (id) => {
