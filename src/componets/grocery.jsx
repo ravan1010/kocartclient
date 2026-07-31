@@ -117,7 +117,7 @@ const Grocery = () => {
                   className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl p-4"
                 >
                   <h3 className="font-semibold">{merchant.companyName}</h3>
-                  <p className="text-sm mt-1">View Products →</p>
+                  <p className="text-sm mt-1">View →</p>
                 </button>
               ))}
             </div>

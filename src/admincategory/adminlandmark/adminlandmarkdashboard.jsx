@@ -23,11 +23,7 @@ const Adminlandmarkdashboard = () => {
 
 
   // const [authorid, setauthorid] = useState('');
-
-
-  useEffect(() => {
-
- const fetchImages = async () => {
+const fetchImages = async () => {
   const res = await api.get("/api/admin/dashboard", {
     withCredentials: true,
   });
@@ -38,8 +34,17 @@ const Adminlandmarkdashboard = () => {
   setmarchent(res.data.marchent);
   setloading(false);
 };
-    fetchImages()
-    generateAndSaveFCMToken()
+
+
+  useEffect(() => {
+
+    const load = async () => {
+    await fetchImages()
+    await generateAndSaveFCMToken()
+    }
+ 
+    load()
+    
   }, [])
 
  const handleToggle = async () => {
