@@ -12,6 +12,9 @@ function MARTMerchantVariants() {
     fetchVariants();
   }, [id]);
 
+
+console.log("Route id:", id);
+
   const fetchVariants = async () => {
     try {
       const res = await api.get(`/api/mart/variants/${id}`);
