@@ -106,13 +106,8 @@ const fetchImages = async () => {
   }
 
   // Filter Posts
-  const handleFilter = (variant) => {
+const handleFilter = (variant) => {
   setSelectedVariant(variant);
-
-  if (variant === "all") {
-    setFilteredPosts(post);
-    return;
-  }
 
   setFilteredPosts(
     post.filter((item) => item.variantname === variant)
@@ -120,9 +115,10 @@ const fetchImages = async () => {
 };
 
 const uniqueEvents = [
-  "all",
   ...new Set(
-    post.map((post) => post.variantname) || []
+    post
+      .map((item) => item.variantname)
+      .filter(Boolean)
   ),
 ];
 
@@ -286,32 +282,21 @@ const uniqueEvents = [
 
 
  {/* Filter Buttons */}
-        <div className="flex gap-3 overflow-x-auto scrollbar-hide py-2 px-1 mb-8">
-          {uniqueEvents.map((event, index) => (
-            <button
-              key={index}
-              onClick={() => handleFilter(event)}
-              className={`
-                whitespace-nowrap
-                px-5 py-2
-                rounded-full
-                border
-                font-medium
-                transition-all
-                duration-300
-                shadow-sm
-                hover:scale-105
-                ${
-                  selectedVariant === event
-                    ? "bg-gradient-to-r from-pink-500 to-yellow-500 text-white border-transparent shadow-lg"
-                    : "bg-white text-gray-700 hover:bg-gray-100 border-gray-300"
-                }
-              `}
-            >
-              {event}
-            </button>
-          ))}
-        </div>
+       <div className="flex gap-3 overflow-x-auto scrollbar-hide py-2 px-1 mb-8">
+  {uniqueEvents.map((event) => (
+    <button
+      key={event}
+      onClick={() => handleFilter(event)}
+      className={`px-5 py-2 rounded-full whitespace-nowrap font-medium transition ${
+        selectedVariant === event
+          ? "bg-orange-500 text-white"
+          : "bg-white border border-gray-300 text-gray-700 hover:bg-orange-100"
+      }`}
+    >
+      {event}
+    </button>
+  ))}
+</div>
 
 
             {/*event posts*/}
