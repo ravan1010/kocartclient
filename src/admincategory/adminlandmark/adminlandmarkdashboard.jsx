@@ -24,17 +24,29 @@ const [variants, setVariants] = useState([]);
 
   // const [authorid, setauthorid] = useState('');
 const fetchImages = async () => {
-  const res = await api.get("/api/admin/dashboard", {
-    withCredentials: true,
-  });
+  try {
+    const res = await api.get("/api/admin/dashboard", {
+      withCredentials: true,
+    });
 
- setVariants(res.data.variants);
-  setopen(res.data.openORclose);
-  setmarchent(res.data.marchent);
-  setloading(false);
+    setopen(res.data.openORclose);
+    setmarchent(res.data.marchent);
 
+    // Variants from backend
+    const variantList = res.data.variants || [];
+    setVariants(variantList);
+
+    // Auto-select first variant
+    if (variantList.length > 0) {
+      setSelectedVariant(variantList[0]);
+      await handleFilter(variantList[0]);
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    setloading(false);
+  }
 };
-
 
   useEffect(() => {
 
@@ -107,13 +119,17 @@ const fetchImages = async () => {
 
   // Filter Posts    
 const handleFilter = async (variant) => {
-  setSelectedVariant(variant);
+  try {
+    setSelectedVariant(variant);
 
-  const res = await api.get(`/api/admin/products/${variant}`, {
-    withCredentials: true,
-  });
+    const res = await api.get(`/api/admin/products/${variant}`, {
+      withCredentials: true,
+    });
 
-  setFilteredPosts(res.data.products);
+    setFilteredPosts(res.data.products);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const uniqueEvents = variants;

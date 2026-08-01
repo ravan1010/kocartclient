@@ -18,25 +18,46 @@ function MARTMerchantVariants() {
 
     useEffect(() => {
         fetchVariants();
-    }, [id]);
+    }, []);
 
 
     console.log("Route id:", id);
 
-    const fetchVariants = async () => {
-        try {
-            const res = await api.get(`/api/mart/variants/${id}`);
+   const fetchVariants = async () => {
+  try {
+    const res = await api.get(`/api/mart/variants/${id}`, {
+      withCredentials: true,
+    });
 
-            console.log(res.data.variants)
-            if (res.data.success) {
-                setVariants(res.data.variants);
-            }
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
+    if (res.data.success) {
+      const variantList = res.data.variants;
+
+      setVariants(variantList);
+
+      // Automatically select the first variant
+      if (variantList.length > 0) {
+        const firstVariant = variantList[0];
+        setSelectedVariant(firstVariant);
+
+        // Load products for the first variant
+        const productRes = await api.get("/api/mart/marchent/product", {
+          params: {
+            id,
+            variant: firstVariant,
+          },
+          withCredentials: true,
+        });
+
+        setFilteredPosts(productRes.data.posts);
+        setOpen(productRes.data.branch?.open || false);
+      }
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
 
     const handleFilter = async (variant) => {
         try {
