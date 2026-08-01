@@ -28,8 +28,6 @@ const fetchImages = async () => {
     withCredentials: true,
   });
 
-  setpost(res.data.post);
-  setFilteredPosts(res.data.post); // ✅ Initialize filtered list
   setopen(res.data.openORclose);
   setmarchent(res.data.marchent);
   setloading(false);
