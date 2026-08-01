@@ -31,6 +31,7 @@ const fetchImages = async () => {
   setopen(res.data.openORclose);
   setmarchent(res.data.marchent);
   setloading(false);
+  setpost(res.data.post)
 };
 
 
@@ -368,6 +369,7 @@ const uniqueEvents = [
                   </div>
                 ))}
             </div>
+
 
 
             <div className="w-full mt-2 flex flex-col p-4 lg:hidden md:hidden ">
