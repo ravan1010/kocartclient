@@ -35,7 +35,7 @@ export default function Checkout() {
   const [error, setError] = useState("");
 
 
-  const [paymentType, setPaymentType] = useState("ONLINE"); // or "COD"
+  const [paymentType, setPaymentType] = useState("COD"); // or "COD"
 const isDisabled =
   !latitude || delivery < 0 ||
   !saveAddress ||
@@ -388,9 +388,10 @@ const isDisabled =
           <div className="bg-white p-4 rounded-xl shadow space-y-3">
             <h3 className="text-lg font-semibold">Payment Method</h3>
 
-            <label className="flex items-center gap-3 cursor-pointer">
+            <label className="flex items-center gap-3 cursor-pointer line-through">
               <input
                 type="radio"
+                disabled
                 name="paymentType"
                 value="ONLINE"
                 checked={paymentType === "ONLINE"}

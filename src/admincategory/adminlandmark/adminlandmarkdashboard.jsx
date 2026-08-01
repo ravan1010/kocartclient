@@ -19,7 +19,7 @@ const [variants, setVariants] = useState([]);
   const [marchent, setmarchent] = useState([])
   const [loading, setloading] = useState(true)
 
-  const [selectedVariant, setSelectedVariant] = useState("all");
+  const [selectedVariant, setSelectedVariant] = useState("");
 
 
   // const [authorid, setauthorid] = useState('');
@@ -105,7 +105,7 @@ const fetchImages = async () => {
     }
   }
 
-  // Filter Posts
+  // Filter Posts    
 const handleFilter = async (variant) => {
   setSelectedVariant(variant);
 
