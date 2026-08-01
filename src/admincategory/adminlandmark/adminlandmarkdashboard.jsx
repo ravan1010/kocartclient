@@ -106,12 +106,14 @@ const fetchImages = async () => {
   }
 
   // Filter Posts
-const handleFilter = (variant) => {
+const handleFilter = async (variant) => {
   setSelectedVariant(variant);
 
-  setFilteredPosts(
-    post.filter((item) => item.variantname === variant)
-  );
+  const res = await api.get(`/api/admin/products/${variant}`, {
+    withCredentials: true,
+  });
+
+  setFilteredPosts(res.data.products);
 };
 
 const uniqueEvents = [
