@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import api from "../api";
 import OrganizerCard from "./OrganizerCard";
+import Navbar from "./navbar";
+import Footer from "./Footer";
 
 function MARTMerchantVariants() {
 
@@ -85,7 +87,10 @@ function MARTMerchantVariants() {
     if (loading) return <p>Loading...</p>;
 
     return (
+        <>
+        <Navbar />
   <div className="w-full py-4">
+
 
     {/* Category Buttons */}
     {variants.length > 0 ? (
@@ -147,6 +152,8 @@ function MARTMerchantVariants() {
       </div>
     )}
   </div>
+  <Footer />
+  </>
 );
 }
 
