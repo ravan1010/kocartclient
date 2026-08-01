@@ -11,7 +11,7 @@ import { generateAndSaveFCMToken } from '../../utili/token.js';
 const Adminlandmarkdashboard = () => {
 
   const navigate = useNavigate()
-  const [post, setpost] = useState([]);
+const [variants, setVariants] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
 
   // const [productlist, setproductlist] = useState('');
@@ -28,10 +28,11 @@ const fetchImages = async () => {
     withCredentials: true,
   });
 
+ setVariants(res.data.variants);
   setopen(res.data.openORclose);
   setmarchent(res.data.marchent);
   setloading(false);
-  setpost(res.data.post)
+
 };
 
 
@@ -115,13 +116,7 @@ const handleFilter = async (variant) => {
   setFilteredPosts(res.data.products);
 };
 
-const uniqueEvents = [
-  ...new Set(
-    post
-      .map((item) => item.variantname)
-      .filter(Boolean)
-  ),
-];
+const uniqueEvents = variants;
 
   if(loading){
     return(
