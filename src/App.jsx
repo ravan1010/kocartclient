@@ -37,6 +37,7 @@ import Confirmation from './componets/cod';
 import Adminorder from './admincategory/adminlandmark/adminorder';
 import Grocery from './componets/grocery';
 import MerchantPage from './componets/resto';
+import MARTMerchantVariants from './componets/mart-marchent-varients';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
           <Route element={<ProtectedClient />}>
            <Route path='/' element={<Home />} />
           <Route path="/merchant" element={<MerchantPage />} />
+          <Route path='/mart/merchant' element={<MARTMerchantVariants /> } />
 
           <Route path='/mart' element={
             <Grocery />
