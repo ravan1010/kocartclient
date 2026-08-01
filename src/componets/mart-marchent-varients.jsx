@@ -16,6 +16,7 @@ function MARTMerchantVariants() {
     try {
       const res = await api.get(`/api/mart/variants/${id}`);
 
+      console.log(res.data.variants)
       if (res.data.success) {
         setVariants(res.data.variants);
       }
