@@ -68,7 +68,7 @@ function App() {
           } />
 
           <Route path='/services' element={<ServerTypes />} />
-          <Route path='/bikeparcel' element={< BikeParcelOrder /> } />
+          <Route path='/bike-parcel' element={< BikeParcelOrder /> } />
 
           //admin signup
             <Route path='/admin' element={<MarchentSignup />} />

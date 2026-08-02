@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import api from "../api";
+import { useNavigate } from "react-router-dom";
 
 export default function ServerTypes() {
+    const navigate = useNavigate();
+
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,6 +30,7 @@ export default function ServerTypes() {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {services.includes("bike_parcel") && (
         <button
+          onClick={() => navigate("/bike-parcel")}
           className="group bg-white border border-gray-200 rounded-2xl p-6  shadow-sm hover:shadow-xl hover:border-green-500 transition-all duration-300 text-left"
         >
           <div className="text-5xl mb-4">🏍</div>
