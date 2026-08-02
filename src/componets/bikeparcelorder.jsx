@@ -394,7 +394,7 @@ export default function BikeParcelOrder() {
           <span className="ml-2">Cash</span>
         </label>
 
-        <label>
+        {/* <label>
           <input
             type="radio"
             value="online"
@@ -409,7 +409,7 @@ export default function BikeParcelOrder() {
             }
           />
           <span className="ml-2">Online</span>
-        </label>
+        </label> */}
       </div>
 
       <button
