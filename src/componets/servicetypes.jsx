@@ -8,76 +8,76 @@ export default function ServerTypes() {
   useEffect(() => {
 
     const load = async () => {
-        try{
-          const res = await api.get("/api/services", {});
+      try {
+        const res = await api.get("/api/services", {});
 
-          setServices(res.data.serviceTypes);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          setLoading(false);
-        }
+        setServices(res.data.serviceTypes);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
       }
-      load()
+    }
+    load()
   }, []);
 
   if (loading) return <h2>Loading...</h2>;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-  {services.includes("bike_parcel") && (
-    <button
-      className="group bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-green-500 transition-all duration-300 text-left"
-    >
-      <div className="text-5xl mb-4">🏍</div>
+      {services.includes("bike_parcel") && (
+        <button
+          className="group bg-white border border-gray-200 rounded-2xl p-6  shadow-sm hover:shadow-xl hover:border-green-500 transition-all duration-300 text-left"
+        >
+          <div className="text-5xl mb-4">🏍</div>
 
-      <h2 className="text-lg font-bold text-gray-800 group-hover:text-green-600">
-        Bike Parcel
-      </h2>
+          <h2 className="text-lg font-bold text-gray-800 group-hover:text-green-600">
+            Bike Parcel
+          </h2>
 
-      <p className="text-sm text-gray-500 mt-2">
-        Fast parcel delivery within 5 km.
-      </p>
-    </button>
-  )}
+          <p className="text-sm text-gray-500 mt-2">
+            Fast parcel delivery within 5 km.
+          </p>
+        </button>
+      )}
 
-  {services.includes("goods_auto") && (
-    <button
-      className="group bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-yellow-500 transition-all duration-300 text-left"
-    >
-      <div className="text-5xl mb-4">🛺</div>
+      {services.includes("goods_auto") && (
+        <button
+          className="group bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-yellow-500 transition-all duration-300 text-left"
+        >
+          <div className="text-5xl mb-4">🛺</div>
 
-      <h2 className="text-lg font-bold text-gray-800 group-hover:text-yellow-600">
-        Goods Auto
-      </h2>
+          <h2 className="text-lg font-bold text-gray-800 group-hover:text-yellow-600">
+            Goods Auto
+          </h2>
 
-      <p className="text-sm text-gray-500 mt-2">
-        Transport heavy goods nearby.
-      </p>
-    </button>
-  )}
+          <p className="text-sm text-gray-500 mt-2">
+            Transport heavy goods nearby.
+          </p>
+        </button>
+      )}
 
-  {services.includes("auto_passenger") && (
-    <button
-      className="group bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-500 transition-all duration-300 text-left"
-    >
-      <div className="text-5xl mb-4">🚖</div>
+      {services.includes("auto_passenger") && (
+        <button
+          className="group bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-blue-500 transition-all duration-300 text-left"
+        >
+          <div className="text-5xl mb-4">🚖</div>
 
-      <h2 className="text-lg font-bold text-gray-800 group-hover:text-blue-600">
-        Passenger Auto
-      </h2>
+          <h2 className="text-lg font-bold text-gray-800 group-hover:text-blue-600">
+            Passenger Auto
+          </h2>
 
-      <p className="text-sm text-gray-500 mt-2">
-        Book an auto ride instantly.
-      </p>
-    </button>
-  )}
+          <p className="text-sm text-gray-500 mt-2">
+            Book an auto ride instantly.
+          </p>
+        </button>
+      )}
 
-  {services.length === 0 && (
-    <div className="col-span-full text-center py-10 text-gray-500">
-      No services available nearby.
+      {services.length === 0 && (
+        <div className="col-span-full text-center py-10 text-gray-500">
+          No services available nearby.
+        </div>
+      )}
     </div>
-  )}
-</div>
   );
 }

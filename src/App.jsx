@@ -39,6 +39,7 @@ import Grocery from './componets/grocery';
 import MerchantPage from './componets/resto';
 import MARTMerchantVariants from './componets/mart-marchent-varients';
 import ServerTypes from './componets/servicetypes';
+import BikeParcelOrder from './componets/bikeparcelorder';
 
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
           } />
 
           <Route path='/services' element={<ServerTypes />} />
+          <Route path='/bikeparcel' element={< BikeParcelOrder /> } />
 
           //admin signup
             <Route path='/admin' element={<MarchentSignup />} />
