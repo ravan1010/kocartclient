@@ -38,6 +38,7 @@ import Adminorder from './admincategory/adminlandmark/adminorder';
 import Grocery from './componets/grocery';
 import MerchantPage from './componets/resto';
 import MARTMerchantVariants from './componets/mart-marchent-varients';
+import ServerTypes from './componets/servicetypes';
 
 
 function App() {
@@ -64,6 +65,8 @@ function App() {
           <Route path='/mart' element={
             <Grocery />
           } />
+
+          <Route path='/services' element={<ServerTypes />} />
 
           //admin signup
             <Route path='/admin' element={<MarchentSignup />} />
