@@ -168,6 +168,18 @@ export default function BikeParcelOrder() {
         </div>
       </div>
 
+      {form.pickup.longitude !== null &&
+  form.pickup.latitude !== null && (
+    <a
+      href={`https://www.google.com/maps?q=${form.pickup.latitude},${form.pickup.longitude}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
+    >
+      📍 Navigate
+    </a>
+)}
+
       {/* Drop */}
 
       <div className="bg-white rounded-xl shadow p-5 mb-5">
@@ -258,6 +270,18 @@ export default function BikeParcelOrder() {
           />
         </div>
       </div>
+{form.drop.longitude !== null &&
+  form.drop.latitude !== null && (
+    <a
+      href={`https://www.google.com/maps?q=${form.drop.latitude},${form.drop.longitude}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
+    >
+      📍 Navigate
+    </a>
+)}
+
 
       {/* Parcel */}
 
@@ -409,7 +433,7 @@ export default function BikeParcelOrder() {
             }
           />
           <span className="ml-2">Online</span>
-        </label> */}
+        </label> */}3
       </div>
 
       <button
@@ -420,4 +444,4 @@ export default function BikeParcelOrder() {
       </button>
     </div>
   );
-}
+}3
