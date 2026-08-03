@@ -33,7 +33,6 @@ export default function BikeParcelOrder() {
   const [step, setstep] = useState(1)
   const [distance, setdistance] = useState(null);
   const [amount, setamount] = useState(null);
-  const [platform, setplatform] = useState(null);
 
   
     const [oneclick, setOneclick] = useState(1);
@@ -54,7 +53,6 @@ export default function BikeParcelOrder() {
       ).then((res) => {
         setdistance(res.data.distance);
         setamount(res.data.amount);
-        setplatform(res.data.platform);
         setstep(2)
         setOneclick(1)
       })
@@ -106,6 +104,8 @@ export default function BikeParcelOrder() {
           drop: payload.drop,
           parcel: payload.parcel,
           payment: payload.payment,
+          distance : distance,
+          amount : amount,
         }
       )
         .then((res) => {
@@ -527,19 +527,19 @@ export default function BikeParcelOrder() {
                 </span>
               </div>
 
-              <div className="flex justify-between">
+              {/* <div className="flex justify-between">
                 <span className="text-gray-600">🏢 Platform Fee</span>
                 <span className="font-bold text-orange-600">
                   ₹{platform}
                 </span>
-              </div>
+              </div> */}
 
               <hr />
 
               <div className="flex justify-between text-lg font-bold">
                 <span>Total Payable</span>
                 <span className="text-blue-600">
-                  ₹{Number(amount) + Number(platform)}
+                  ₹{Number(amount)}
                 </span>
               </div>
 
