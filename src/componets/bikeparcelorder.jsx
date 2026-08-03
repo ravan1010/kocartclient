@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from '../api.js'
 
 export default function BikeParcelOrder() {
   const [form, setForm] = useState({
@@ -29,10 +30,33 @@ export default function BikeParcelOrder() {
     },
   });
 
-  const handleSubmit = () => {
+  const [step, setstep] = useState(1)
+  const [distance, setdistance] = useState(null);
+  const [amount, setamount] = useState(null);
+  const [platform, setplatform] = useState(null);
+
+  const checkdistance = async () => {
+    try {
+      await api.post('/api/parcel/distance',
+        {
+          pickuplat : form.pickup.latitude,
+          pickuplng : form.pickup.longitude,
+          droplat : form.drop.latitude,
+          droplng : form.drop.longitude,
+        }
+      ).then((res) => {
+        setdistance(res.data.distance);
+        setamount(res.data.amount);
+        setplatform(res.data.platform);
+        setstep(2)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleSubmit = async () => {
     const payload = {
-      customer: "USER_ID",
-      serviceType: "bike_parcel",
 
       pickup: {
         address: form.pickup.address,
@@ -67,12 +91,29 @@ export default function BikeParcelOrder() {
 
     console.log(payload);
 
-    
+    try {
+      await api.post('/api/createparcel',
+        {
+          pickup : payload.pickup,
+          drop : payload.drop,
+          parcel : payload.parcel,
+          payment : payload.payment,
+        }
+    )
+    .then((res) => {
+      alert(res.data.message)
+    })
+    } catch (error) {
+      console.log(error)
+    }  
   };
 
   return (
     <div className="max-w-4xl mx-auto p-5">
 
+      {step === 1 && (
+
+<>
       <h1 className="text-3xl font-bold mb-6">
         🏍 Bike Parcel Delivery
       </h1>
@@ -433,15 +474,79 @@ export default function BikeParcelOrder() {
             }
           />
           <span className="ml-2">Online</span>
-        </label> */}3
+        </label> */}
       </div>
 
       <button
-        onClick={handleSubmit}
+        onClick={checkdistance}
         className="w-full bg-green-600 hover:bg-green-700 text-white rounded-xl p-4 font-bold"
       >
         Continue
+      </button> 
+      </>
+)}
+
+{step === 2 && (
+  <div className="space-y-6">
+    <div className="bg-white rounded-2xl shadow-lg p-6 border">
+      <h2 className="text-2xl font-bold mb-4">
+        Order Summary
+      </h2>
+
+      <div className="space-y-3">
+
+        <div className="flex justify-between">
+          <span className="text-gray-600">📍 Road Distance</span>
+          <span className="font-bold">
+            {distance?.toFixed(2)} km
+          </span>
+        </div>
+
+        <div className="flex justify-between">
+          <span className="text-gray-600">💰 Delivery Amount</span>
+          <span className="font-bold text-green-600">
+            ₹{amount}
+          </span>
+        </div>
+
+        <div className="flex justify-between">
+          <span className="text-gray-600">🏢 Platform Fee</span>
+          <span className="font-bold text-orange-600">
+            ₹{platform}
+          </span>
+        </div>
+
+        <hr />
+
+        <div className="flex justify-between text-lg font-bold">
+          <span>Total Payable</span>
+          <span className="text-blue-600">
+            ₹{Number(amount) + Number(platform)}
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+    <div className="flex gap-4">
+      <button
+        onClick={() => setstep(1)}
+        className="w-1/2 bg-gray-200 hover:bg-gray-300 rounded-xl p-4 font-bold"
+      >
+        Back
       </button>
+
+      <button
+        onClick={handleSubmit}
+        className="w-1/2 bg-green-600 hover:bg-green-700 text-white rounded-xl p-4 font-bold"
+      >
+        Confirm Order
+      </button>
+    </div>
+  </div>
+)}
+
+   
     </div>
   );
 }3
