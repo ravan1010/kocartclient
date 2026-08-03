@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../api";
 
-export default function BikeParcelOrders() {
+export default function BikeParcelOrderscomplete() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
