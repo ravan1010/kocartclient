@@ -160,6 +160,8 @@ export default function BikeParcelOrder() {
             className="border rounded-lg p-3"
             placeholder="Sender Phone"
             value={form.pickup.phone}
+            minLength={10}
+            maxLength={10}
             onChange={(e) =>
               setForm({
                 ...form,
@@ -178,6 +180,7 @@ export default function BikeParcelOrder() {
             step="any"
             className="border rounded-lg p-3"
             placeholder="Latitude"
+            maxLength={10}
             value={form.pickup.latitude}
             onChange={(e) =>
               setForm({
@@ -195,7 +198,9 @@ export default function BikeParcelOrder() {
             step="any"
             className="border rounded-lg p-3"
             placeholder="Longitude"
+            maxLength={10}
             value={form.pickup.longitude}
+
             onChange={(e) =>
               setForm({
                 ...form,
@@ -263,6 +268,8 @@ export default function BikeParcelOrder() {
             className="border rounded-lg p-3"
             placeholder="Receiver Phone"
             value={form.drop.phone}
+            minLength={10}
+            maxLength={10}
             onChange={(e) =>
               setForm({
                 ...form,
@@ -281,6 +288,7 @@ export default function BikeParcelOrder() {
             step="any"
             className="border rounded-lg p-3"
             placeholder="Latitude"
+            maxLength={10}
             value={form.drop.latitude}
             onChange={(e) =>
               setForm({
@@ -298,6 +306,7 @@ export default function BikeParcelOrder() {
             step="any"
             className="border rounded-lg p-3"
             placeholder="Longitude"
+            maxLength={10}
             value={form.drop.longitude}
             onChange={(e) =>
               setForm({
