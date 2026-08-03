@@ -35,7 +35,14 @@ export default function BikeParcelOrder() {
   const [amount, setamount] = useState(null);
   const [platform, setplatform] = useState(null);
 
+  
+    const [oneclick, setOneclick] = useState(1);
+  
+    const isDisabled =
+    oneclick !== 1;
+
   const checkdistance = async () => {
+    setOneclick(2)
     try {
       await api.post('/api/parcel/distance',
         {
@@ -49,6 +56,7 @@ export default function BikeParcelOrder() {
         setamount(res.data.amount);
         setplatform(res.data.platform);
         setstep(2)
+        setOneclick(1)
       })
     } catch (error) {
       console.log(error)
@@ -487,6 +495,7 @@ export default function BikeParcelOrder() {
           </div>
 
           <button
+           disabled={isDisabled}
             onClick={checkdistance}
             className="w-full bg-green-600 hover:bg-green-700 text-white rounded-xl p-4 font-bold"
           >
