@@ -71,6 +71,7 @@ function App() {
           <Route path='/services' element={<ServerTypes />} />
           <Route path='/bike-parcel' element={< BikeParcelOrder /> } />
           <Route path='/bikeParcelorders' element={<BikeParcelOrders />} />
+          
 
           //admin signup
             <Route path='/admin' element={<MarchentSignup />} />
