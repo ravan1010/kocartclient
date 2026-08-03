@@ -27,7 +27,6 @@ import TermsConditions from './footer/TermsConditions';
 import ShippingPolicy from './footer/ShippingPolicy';
 import ContactInformationPolicy from './footer/ContactInformationPolicy';
 import ParcelBooking from './componets/long';
-import ParcelBus from './componets/tobus';
 import Clientverify from './signup/otpverify';
 import ProtectedClient from './signup/auth/authroute';
 import MARCHENTverify from './admin/adminotp';
@@ -40,8 +39,7 @@ import MerchantPage from './componets/resto';
 import MARTMerchantVariants from './componets/mart-marchent-varients';
 import ServerTypes from './componets/servicetypes';
 import BikeParcelOrder from './componets/bikeparcelorder';
-import BikeParcelOrders from './componets/BikeParcelOrders';
-import BikeParcelOrderscomplete from './componets/BikeParcelOrderscomplete';
+import BikeParcelOrders from './componets/BikeParcelOrderscomplete';
 
 
 function App() {
@@ -71,7 +69,7 @@ function App() {
 
           <Route path='/services' element={<ServerTypes />} />
           <Route path='/bike-parcel' element={< BikeParcelOrder /> } />
-          <Route path='/bikeParcelorders' element={<BikeParcelOrderscomplete />} />
+          <Route path='/bikeParcelorders' element={<BikeParcelOrders />} />
           
 
           //admin signup
