@@ -40,6 +40,10 @@ import MARTMerchantVariants from './componets/mart-marchent-varients';
 import ServerTypes from './componets/servicetypes';
 import BikeParcelOrder from './componets/bikeparcelorder';
 import BikeParcelOrders from './componets/BikeParcelOrderscomplete';
+import PassengerAuto from './componets/passengerauto';
+import PassengerAutoOrders from './componets/passengerautoOrders';
+import GoodsAuto from './componets/goodsauto';
+import GoodsAutoOrders from './componets/goodsautoOrdes';
 
 
 function App() {
@@ -69,9 +73,15 @@ function App() {
 
           <Route path='/services' element={<ServerTypes />} />
           <Route path='/bike-parcel' element={< BikeParcelOrder /> } />
-          <Route path='/bikeParcelorders' element={<BikeParcelOrders />} />
-          
+          <Route path='/bikeParcel/orders' element={<BikeParcelOrders />} />
 
+          <Route path='/PassengerAuto' element={ <PassengerAuto /> } />
+          <Route path='/PassengerAuto/orders' element={< PassengerAutoOrders /> } />
+
+          <Route path='/goodsAuto' element={ <GoodsAuto /> } />
+          <Route path='/goodsAuto/orders' element={< GoodsAutoOrders /> } />
+          
+          
           //admin signup
             <Route path='/admin' element={<MarchentSignup />} />
             <Route path='/marchent-auth-success' element={

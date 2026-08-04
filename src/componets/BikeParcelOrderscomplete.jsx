@@ -56,6 +56,8 @@ export default function BikeParcelOrders() {
           <span className="font-semibold">Amount:</span> ₹{order.amount}
         </p>
 
+      { order.status === "driver_assigned" || order.status === "picked_up" && (
+        <>
         {/* Driver Details */}
         {order.driver && (
           <>
@@ -64,6 +66,11 @@ export default function BikeParcelOrders() {
             <p>
               <span className="font-semibold">Driver:</span>{" "}
               {order.driver.name}
+            </p>
+
+            <p>
+              <span className="font-semibold">Driver:</span>{" "}
+              {order.driver.Number}
             </p>
 
             <p>
@@ -77,6 +84,9 @@ export default function BikeParcelOrders() {
             </p>
           </>
         )}
+        </>
+      )
+      }     
 
         {/* Pickup OTP */}
         {order.status === "driver_assigned" && (
@@ -101,6 +111,13 @@ export default function BikeParcelOrders() {
             </h2>
           </div>
         )}
+
+        {/* Completed */}
+            {order.status === "completed" && (
+              <div className="mt-4 rounded-xl bg-green-50 border border-green-500 p-4 text-center">
+                ✅ parcel delivered
+              </div>
+            )}
       </div>
     ))
   )}
