@@ -83,9 +83,9 @@ const Grocery = () => {
                   {/* Header info matching merchant card style */}
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      {postItem.merchantLogo ? (
+                      {postItem.image.[0] ? (
                         <img
-                          src={postItem.merchantLogo}
+                          src={postItem.image?.[0]}
                           alt="Logo"
                           className="w-12 h-12 rounded-full object-cover border"
                         />
@@ -99,9 +99,6 @@ const Grocery = () => {
                           {postItem.companyName || "Merchant"}
                           <span className="text-blue-500 text-sm">✔</span>
                         </h3>
-                        <p className="text-xs text-gray-500">
-                          {postItem.tagline || "Premium Quality Products"}
-                        </p>
                       </div>
                     </div>
 
