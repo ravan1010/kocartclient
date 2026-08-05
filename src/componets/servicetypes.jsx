@@ -126,6 +126,7 @@ export default function ServerTypes() {
       {/* Header Container styled with location and branding */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         {city ? (
+          <>
           <div className="flex items-center space-x-3 text-gray-800">
             <div className="text-3xl">📍</div>
             <div>
@@ -137,11 +138,7 @@ export default function ServerTypes() {
               </h1>
             </div>
           </div>
-        ) : (
-          <div className="text-xl font-bold text-gray-800">Select Location</div>
-        )}
-
-        <div className="flex items-center gap-4">
+<div className="flex items-center gap-4">
           <button
             onClick={changeLocation}
             disabled={loadingLoc}
@@ -150,10 +147,16 @@ export default function ServerTypes() {
             {loadingLoc ? "Updating..." : "📍 Change Location"}
           </button>
           
-          <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
+          
+        </div>
+          </>
+        ) : (
+          <div className="text-xl font-bold text-gray-800">Select Location</div>
+        )}
+
+        <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
             KO<span className="text-orange-600">CART</span>
           </div>
-        </div>
       </div>
 
       {locationError && (
