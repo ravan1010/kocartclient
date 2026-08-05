@@ -73,7 +73,7 @@ const Home = () => {
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-100">
                       <div className="flex items-center gap-4">
                         <img
-                          src={merchant.logo || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=150"}
+                          src={merchant.logo || "https://drive.google.com/file/d/1T2A0yapEsIyuvBZl73w3h7v4g58k8V0E/view?usp=sharing"}
                           alt={merchant.companyName}
                           className="w-16 h-16 rounded-full object-cover border-2 border-gray-100 shadow-sm"
                         />

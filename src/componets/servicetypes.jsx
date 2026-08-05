@@ -215,7 +215,7 @@ export default function ServerTypes() {
           >
             <div>
               <h2 className="text-2xl font-extrabold text-blue-900 group-hover:text-blue-600 transition-colors">
-                Bike Parcel
+                Parcel delivery
               </h2>
               <p className="text-sm text-gray-600 mt-1">
                 Express, contactless delivery
