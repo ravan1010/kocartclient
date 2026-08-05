@@ -8,8 +8,8 @@ export default function ServerTypes() {
   const navigate = useNavigate();
 
   const [services, setServices] = useState([]);
-  const [category, setcategory] = useState([]);
-  const [city, setcity] = useState("");
+  const [category, setCategory] = useState([]);
+  const [city, setCity] = useState("");
   const [loading, setLoading] = useState(true);
   const [loadingLoc, setLoadingLoc] = useState(false);
   const [locationError, setLocationError] = useState("");
@@ -22,8 +22,8 @@ export default function ServerTypes() {
     try {
       const res = await api.get("/api/services", {});
       setServices(res.data.serviceTypes || []);
-      setcategory(res.data.category || []);
-      setcity(res.data.city || "");
+      setCategory(res.data.category || []);
+      setCity(res.data.city || "");
     } catch (err) {
       console.log(err);
     } finally {
@@ -72,7 +72,6 @@ export default function ServerTypes() {
               }
             );
 
-            // Correctly extract the city name from Geoapify response properties
             const cityName =
               geo.data?.results?.[0]?.city ||
               geo.data?.results?.[0]?.town ||
@@ -91,7 +90,7 @@ export default function ServerTypes() {
               }
             );
 
-            setcity(cityName);
+            setCity(cityName);
             await load(); // Refresh services/data
           } catch (err) {
             console.log(err);
@@ -123,45 +122,32 @@ export default function ServerTypes() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      {/* Header Container styled with location and branding */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 border-b">
-        {city ? (
-          <div className="flex flex-wrap items-center justify-between w-full sm:w-auto gap-4 border-b">
-            <div className="flex items-center space-x-3 text-gray-800">
-              <div className="text-3xl">📍</div>
-              <div>
-                <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">
-                  Your Location
-                </p>
-                <h1 className="text-xl font-bold flex items-center gap-1">
-                  {city} <span className="text-sm font-normal text-gray-500">▼</span>
-                </h1>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <button
-                onClick={changeLocation}
-                disabled={loadingLoc}
-                className="px-4 py-2 text-sm font-semibold rounded-xl disabled:opacity-50 border border-gray-300 hover:border-gray-400 bg-white shadow-sm transition-all text-gray-700 flex items-center gap-2"
-              >
-                {loadingLoc ? "Updating..." : "📍 Change Location"}
-              </button>
+      {/* Header Container */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center space-x-3 text-gray-800">
+            <div className="text-3xl">📍</div>
+            <div>
+              <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">
+                Your Location
+              </p>
+              <h1 className="text-xl font-bold flex items-center gap-1">
+                {city || "Select Location"}{" "}
+                <span className="text-sm font-normal text-gray-500">▼</span>
+              </h1>
             </div>
           </div>
-        ) : (
-          <div className="flex flex-wrap items-center justify-between w-full sm:w-auto gap-4">
-            <div className="text-xl font-bold text-gray-800">Select Location</div>
-            <button
-              onClick={changeLocation}
-              disabled={loadingLoc}
-              className="px-4 py-2 text-sm font-semibold rounded-xl disabled:opacity-50 border border-gray-300 hover:border-gray-400 bg-white shadow-sm transition-all text-gray-700 flex items-center gap-2"
-            >
-              {loadingLoc ? "Updating..." : "📍 Change Location"}
-            </button>
-          </div>
-        )}
 
-        <div className="text-2xl font-black tracking-wider text-blue-900 uppercase ">
+          <button
+            onClick={changeLocation}
+            disabled={loadingLoc}
+            className="px-4 py-2 text-sm font-semibold rounded-xl disabled:opacity-50 border border-gray-300 hover:border-gray-400 bg-white shadow-sm transition-all text-gray-700 flex items-center gap-2"
+          >
+            {loadingLoc ? "Updating..." : "📍 Change Location"}
+          </button>
+        </div>
+
+        <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
           KO<span className="text-orange-600">CA</span>RT
         </div>
       </div>
@@ -242,9 +228,7 @@ export default function ServerTypes() {
 
         {/* Passenger Auto Card */}
         {services.includes("auto_passenger") && (
-          <button
-            className="group relative bg-gradient-to-br from-amber-50 to-yellow-50 border border-yellow-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-yellow-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden"
-          >
+          <button className="group relative bg-gradient-to-br from-amber-50 to-yellow-50 border border-yellow-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-yellow-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden">
             <div>
               <h2 className="text-2xl font-extrabold text-yellow-900 group-hover:text-yellow-600 transition-colors">
                 Passenger Auto
@@ -264,9 +248,7 @@ export default function ServerTypes() {
 
         {/* Goods Auto Card */}
         {services.includes("goods_auto") && (
-          <button
-            className="group relative bg-gradient-to-br from-emerald-50 to-teal-50 border border-teal-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-teal-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden"
-          >
+          <button className="group relative bg-gradient-to-br from-emerald-50 to-teal-50 border border-teal-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-teal-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden">
             <div>
               <h2 className="text-2xl font-extrabold text-teal-900 group-hover:text-teal-600 transition-colors">
                 Goods Auto
