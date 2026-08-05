@@ -32,112 +32,121 @@ const Grocery = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64 text-xl font-medium text-gray-500">
-        Loading...
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+        <div className="flex justify-center items-center h-64 text-xl font-medium text-gray-500">
+          Loading...
+        </div>
       </div>
     );
   }
 
   return (
-    <>
-      <Navbar />
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-between">
+      <div>
+        <Navbar />
 
-      <div className="min-h-screen bg-gray-100 p-4 space-y-6">
-        {/* Nearby Merchants Section */}
-        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-md p-5">
-          <h2 className="text-xl font-bold mb-4">Nearby Merchants</h2>
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <h2 className="text-2xl font-extrabold text-gray-900 mb-6">
+            Nearby Merchants
+          </h2>
 
           {merchants.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {merchants.map((merchant) => (
-                <button
-                  key={merchant._id}
-                  onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
-                  className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl p-4 text-left shadow-sm hover:shadow-md transition-all"
-                >
-                  <h3 className="font-semibold text-lg">{merchant.companyName}</h3>
-                  <p className="text-sm mt-1 opacity-90">View Store →</p>
-                </button>
-              ))}
+            <div className="space-y-6">
+              {merchants.map((merchant) => {
+                // Filter posts/products specific to this merchant if available
+                const merchantPosts = posts.filter(
+                  (p) => p.merchantId === merchant._id || p.merchant === merchant._id
+                );
+
+                return (
+                  <div
+                    key={merchant._id}
+                    className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all"
+                  >
+                    {/* Merchant Header Info */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-100">
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={merchant.logo || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=150"}
+                          alt={merchant.companyName}
+                          className="w-16 h-16 rounded-full object-cover border-2 border-gray-100 shadow-sm"
+                        />
+                        <div>
+                          <div className="flex items-center gap-1.5">
+                            <h3 className="text-lg font-bold text-gray-900">
+                              {merchant.companyName}
+                            </h3>
+                            {/* Verified Badge */}
+                            <svg
+                              className="w-5 h-5 text-blue-500 flex-shrink-0"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                            >
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                          </div>
+                          <p className="text-sm text-gray-500 mt-0.5">
+                            {merchant.tagline || "Premium Quality Products"}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
+                          className="px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 flex items-center gap-2 transition-all shadow-sm"
+                        >
+                          <span>🏪</span> Visit Store <span className="text-gray-400">›</span>
+                        </button>
+                        <button
+                          onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
+                          className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 flex items-center gap-2 transition-all shadow-sm"
+                        >
+                          Visit More <span className="text-blue-200">›</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Product / Post Previews */}
+                    {merchantPosts.length > 0 && (
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
+                        {merchantPosts.slice(0, 4).map((postItem, idx) => (
+                          <div
+                            key={idx}
+                            onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
+                            className="group relative bg-gray-100 rounded-xl overflow-hidden aspect-square cursor-pointer border border-gray-100"
+                          >
+                            <img
+                              src={postItem.image?.[0]}
+                              alt={postItem.title || "Product"}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           ) : (
-            <div className="text-center py-10">
-              <h3 className="text-lg font-semibold">No Nearby Merchants</h3>
-              <p className="text-gray-500 mt-2">
+            <div className="text-center py-16 bg-white rounded-2xl border border-gray-200">
+              <div className="text-4xl mb-3">🛒</div>
+              <h3 className="text-lg font-bold text-gray-800">
+                No Nearby Merchants
+              </h3>
+              <p className="text-gray-500 mt-1 text-sm">
                 We are not available in your area right now.
               </p>
             </div>
           )}
         </div>
-
-        {/* Posts / Featured Products Section (Based on your layout design) */}
-        {posts.length > 0 && (
-          <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-md p-5">
-            <h2 className="text-xl font-bold mb-4">Featured Products & Posts</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.map((postItem, index) => (
-                <div
-                  key={postItem._id || index}
-                  className="border border-gray-200 rounded-2xl p-4 shadow-sm bg-white flex flex-col justify-between"
-                >
-                  {/* Header info matching merchant card style */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      {postItem.image.[0] ? (
-                        <img
-                          src={postItem.image?.[0]}
-                          alt="Logo"
-                          className="w-12 h-12 rounded-full object-cover border"
-                        />
-                      ) : (
-                        <div className="w-12 h-12 rounded-full bg-blue-900 text-white flex items-center justify-center font-bold">
-                          {postItem.companyName?.[0] || "M"}
-                        </div>
-                      )}
-                      <div>
-                        <h3 className="font-bold text-gray-800 flex items-center gap-1">
-                          {postItem.companyName || "Merchant"}
-                          <span className="text-blue-500 text-sm">✔</span>
-                        </h3>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() =>
-                        navigate(`/mart/merchant?id=${postItem.merchantId}`)
-                      }
-                      className="px-3 py-1.5 text-xs font-semibold border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-all"
-                    >
-                      Visit Store &gt;
-                    </button>
-                  </div>
-
-                  {/* Product Images Preview Grid */}
-                  {postItem.images && postItem.images.length > 0 && (
-                    <div className="grid grid-cols-2 gap-2 mt-2">
-                      {postItem.images.slice(0, 4).imgUrl || postItem.images.map((img, i) => (
-                        <div
-                          key={i}
-                          className="bg-gray-100 rounded-xl overflow-hidden h-32 flex items-center justify-center"
-                        >
-                          <img
-                            src={typeof img === "string" ? img : img.url}
-                            alt="Product"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <Footer />
       </div>
-    </>
+
+      <Footer />
+    </div>
   );
 };
 
