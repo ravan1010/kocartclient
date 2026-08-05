@@ -126,7 +126,7 @@ export default function ServerTypes() {
       {/* Header Container styled with location and branding */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         {city ? (
-          <>
+          <div className="flex justify-between">
           <div className="flex items-center space-x-3 text-gray-800">
             <div className="text-3xl">📍</div>
             <div>
