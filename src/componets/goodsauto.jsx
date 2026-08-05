@@ -41,6 +41,11 @@ export default function GoodsAuto() {
   const [distance, setDistance] = useState(null);
   const [amount, setAmount] = useState(null);
 
+  const [oneclick, setOneclick] = useState(1);
+  
+    const isDisabled =
+    oneclick !== 1;
+
   const checkDistance = async () => {
     try {
       const res = await api.post("/api/parcel/distance", {
@@ -60,6 +65,11 @@ export default function GoodsAuto() {
 
   const handleSubmit = async () => {
 
+    if(oneclick === 2){
+      return
+    }
+
+    setOneclick(2)
 
     try {
       await api.post("/api/goods-auto/order", {
@@ -92,6 +102,7 @@ export default function GoodsAuto() {
       })
       .then((res) => {
         if(res.data.success){
+          setOneclick(1)
             navigate(`/goodsAuto/orders`)
         }
       }
@@ -418,6 +429,7 @@ export default function GoodsAuto() {
             </button>
 
             <button
+            disabled={isDisabled}
               onClick={handleSubmit}
               className="w-1/2 bg-green-600 text-white p-3 rounded-lg"
             >

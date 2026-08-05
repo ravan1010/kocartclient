@@ -41,6 +41,11 @@ export default function BikeParcelOrder() {
     oneclick !== 1;
 
   const checkdistance = async () => {
+
+    if(setOneclick === 2){
+      return
+    }
+
     setOneclick(2)
     try {
       await api.post('/api/parcel/distance',
@@ -495,7 +500,6 @@ export default function BikeParcelOrder() {
           </div>
 
           <button
-           disabled={isDisabled}
             onClick={checkdistance}
             className="w-full bg-green-600 hover:bg-green-700 text-white rounded-xl p-4 font-bold"
           >
@@ -555,6 +559,7 @@ export default function BikeParcelOrder() {
             </button>
 
             <button
+              disabled={isDisabled}
               onClick={handleSubmit}
               className="w-1/2 bg-green-600 hover:bg-green-700 text-white rounded-xl p-4 font-bold"
             >
