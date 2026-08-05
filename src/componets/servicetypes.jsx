@@ -123,7 +123,7 @@ export default function ServerTypes() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       {/* Header Container */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center space-x-3 text-gray-800">
             <div className="text-3xl">📍</div>
@@ -138,7 +138,7 @@ export default function ServerTypes() {
             </div>
           </div>
 
-          <div className="flex justify-between border-t w-full">
+          <div className="flex justify-between border-t w-full p-2">
             <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
               KO<span className="text-orange-600">CA</span>RT
             </div>
