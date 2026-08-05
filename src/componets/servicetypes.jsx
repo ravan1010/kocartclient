@@ -155,7 +155,7 @@ export default function ServerTypes() {
         )}
 
         <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
-            KO<span className="text-orange-600">CART</span>
+            KO<span className="text-orange-600">CA</span>RT
           </div>
       </div>
 
