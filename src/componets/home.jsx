@@ -54,9 +54,14 @@ const Home = () => {
           {merchants.length > 0 ? (
             <div className="space-y-6">
               {merchants.map((merchant) => {
-                // Filter posts/products specific to this merchant if available
+                // Filter posts/products specific to this merchant using flexible identifier matching
                 const merchantPosts = posts.filter(
-                  (p) => p.author === merchant._id || p.merchant === merchant._id
+                  (p) => 
+                    p.author === merchant._id || 
+                    p.merchant === merchant._id ||
+                    p.merchantId === merchant._id ||
+                    p.author?._id === merchant._id ||
+                    p.merchant?._id === merchant._id
                 );
 
                 return (
@@ -112,19 +117,27 @@ const Home = () => {
                     {/* Product / Post Previews */}
                     {merchantPosts.length > 0 && (
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
-                        {merchantPosts.slice(0, 4).map((postItem, idx) => (
-                          <div
-                            key={idx}
-                            onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
-                            className="group relative bg-gray-100 rounded-xl overflow-hidden aspect-square cursor-pointer border border-gray-100"
-                          >
-                            <img
-                              src={postItem.image[0]}
-                              alt={postItem.title || "Product"}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                          </div>
-                        ))}
+                        {merchantPosts.slice(0, 4).map((postItem, idx) => {
+                          // Safely resolve image regardless of whether it's an array, string, or named differently
+                          const rawImg = postItem.image || postItem.imageUrl || postItem.photos;
+                          const imageUrl = Array.isArray(rawImg) ? rawImg[0] : rawImg;
+
+                          return (
+                            <div
+                              key={idx}
+                              onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
+                              className="group relative bg-gray-100 rounded-xl overflow-hidden aspect-square cursor-pointer border border-gray-100"
+                            >
+                              {imageUrl && (
+                                <img
+                                  src={imageUrl}
+                                  alt={postItem.title || "Product"}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
