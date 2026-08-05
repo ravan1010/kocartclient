@@ -124,7 +124,7 @@ export default function ServerTypes() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       {/* Header Container styled with location and branding */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 borrder-b">
         {city ? (
           <div className="flex flex-wrap items-center justify-between w-full sm:w-auto gap-4">
             <div className="flex items-center space-x-3 text-gray-800">
