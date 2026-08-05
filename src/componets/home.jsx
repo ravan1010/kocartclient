@@ -8,8 +8,8 @@ const Home = () => {
   const navigate = useNavigate();
 
   const [merchants, setMerchants] = useState([]);
-  const [loadingLoc, setLoadingLoc] = useState(false);
-  const [locationError, setLocationError] = useState("");
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchMerchant = async () => {
     try {
@@ -18,8 +18,11 @@ const Home = () => {
       });
 
       setMerchants(res.data.merchants || []);
+      setPosts(res.data.posts || []);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -27,123 +30,123 @@ const Home = () => {
     fetchMerchant();
   }, []);
 
-  const changeLocation = async () => {
-    setLoadingLoc(true);
-    setLocationError("");
-
-    if (!navigator.geolocation) {
-      setLocationError("Geolocation is not supported.");
-      setLoadingLoc(false);
-      return;
-    }
-
-    try {
-      const permission = await navigator.permissions.query({
-        name: "geolocation",
-      });
-
-      if (permission.state === "denied") {
-        setLocationError(
-          "Location permission is blocked. Please enable it in browser settings."
-        );
-        setLoadingLoc(false);
-        return;
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          try {
-            await api.put(
-              "/api/user/location",
-              {
-                latitude: position.coords.latitude.toFixed(6),
-                longitude: position.coords.longitude.toFixed(6),
-              },
-              {
-                withCredentials: true,
-              }
-            );
-
-            await fetchMerchant(); // Refresh merchants
-          } catch (err) {
-            console.log(err);
-            setLocationError("Failed to update location.");
-          } finally {
-            setLoadingLoc(false);
-          }
-        },
-        (err) => {
-          console.log(err);
-          setLocationError(err.message);
-          setLoadingLoc(false);
-        }
-      );
-    } catch (err) {
-      console.log(err);
-      setLocationError("Unable to access location.");
-      setLoadingLoc(false);
-    }
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+        <div className="flex justify-center items-center h-64 text-xl font-medium text-gray-500">
+          Loading...
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <Navbar />
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-between">
+      <div>
+        <Navbar />
 
-      <div className="min-h-screen bg-gray-100 p-4">
-        <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-md p-5">
-
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-xl font-bold">Nearby Merchants</h2>
-
-            <button
-              onClick={changeLocation}
-              disabled={loadingLoc}
-              className="px-4 py-2 rounded-lg disabled:opacity-50 border"
-            >
-              {loadingLoc ? "Updating..." : "📍 Change Location"}
-            </button>
-          </div>
-
-          {locationError && (
-            <p className="text-red-500 mb-4">{locationError}</p>
-          )}
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <h2 className="text-2xl font-extrabold text-gray-900 mb-6">
+            Nearby Merchants
+          </h2>
 
           {merchants.length > 0 ? (
-            <div className="grid grid-cols-2 gap-4">
-              {merchants.map((merchant) => (
-                <button
-                  key={merchant._id}
-                  onClick={() => navigate(`/merchant?id=${merchant._id}`)}
-                  className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl p-4"
-                >
-                  <h3 className="font-semibold">{merchant.companyName}</h3>
-                  <p className="text-sm mt-1">View Products →</p>
-                </button>
-              ))}
+            <div className="space-y-6">
+              {merchants.map((merchant) => {
+                // Filter posts/products specific to this merchant if available
+                const merchantPosts = posts.filter(
+                  (p) => p.author === merchant._id || p.merchant === merchant._id
+                );
+
+                return (
+                  <div
+                    key={merchant._id}
+                    className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all"
+                  >
+                    {/* Merchant Header Info */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-100">
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={merchant.logo || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=150"}
+                          alt={merchant.companyName}
+                          className="w-16 h-16 rounded-full object-cover border-2 border-gray-100 shadow-sm"
+                        />
+                        <div>
+                          <div className="flex items-center gap-1.5">
+                            <h3 className="text-lg font-bold text-gray-900">
+                              {merchant.companyName}
+                            </h3>
+                            {/* Verified Badge */}
+                            <svg
+                              className="w-5 h-5 text-blue-500 flex-shrink-0"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                            >
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                          </div>
+                          <p className="text-sm text-gray-500 mt-0.5">
+                            {merchant.tagline || "Premium Quality Products"}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
+                          className="px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 flex items-center gap-2 transition-all shadow-sm"
+                        >
+                          <span>🏪</span> Visit Store <span className="text-gray-400">›</span>
+                        </button>
+                        <button
+                          onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
+                          className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 flex items-center gap-2 transition-all shadow-sm"
+                        >
+                          Visit More <span className="text-blue-200">›</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Product / Post Previews */}
+                    {merchantPosts.length > 0 && (
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
+                        {merchantPosts.slice(0, 4).map((postItem, idx) => (
+                          <div
+                            key={idx}
+                            onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
+                            className="group relative bg-gray-100 rounded-xl overflow-hidden aspect-square cursor-pointer border border-gray-100"
+                          >
+                            <img
+                              src={postItem.image[0]}
+                              alt={postItem.title || "Product"}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           ) : (
-            <div className="text-center py-10">
-              <h3 className="text-lg font-semibold">
+            <div className="text-center py-16 bg-white rounded-2xl border border-gray-200">
+              <div className="text-4xl mb-3">🛒</div>
+              <h3 className="text-lg font-bold text-gray-800">
                 No Nearby Merchants
               </h3>
-              <p className="text-gray-500 mt-2">
+              <p className="text-gray-500 mt-1 text-sm">
                 We are not available in your area right now.
               </p>
-
-              <button
-                onClick={changeLocation}
-                disabled={loadingLoc}
-                className="mt-5 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
-              >
-                {loadingLoc ? "Updating..." : "Change Location"}
-              </button>
             </div>
           )}
         </div>
-
-        <Footer />
       </div>
-    </>
+
+      <Footer />
+    </div>
   );
 };
 
