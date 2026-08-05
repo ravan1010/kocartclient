@@ -117,7 +117,7 @@ const Home = () => {
                     {/* Product / Post Previews */}
                     {merchantPosts.length > 0 && (
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
-                        {merchantPosts.slice(0, 4).map((postItem, idx) => {
+                        {merchantPosts.slice(0, 2).map((postItem, idx) => {
                           // Safely resolve image regardless of whether it's an array, string, or named differently
                           const rawImg = postItem.image || postItem.imageUrl || postItem.photos;
                           const imageUrl = Array.isArray(rawImg) ? rawImg[0] : rawImg;
