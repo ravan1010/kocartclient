@@ -125,7 +125,7 @@ export default function ServerTypes() {
       {/* Header Container */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div className="flex flex-wrap items-center gap-4">
-          <div className="flex items-center space-x-3 text-gray-800 border-b">
+          <div className="flex items-center space-x-3 text-gray-800">
             <div className="text-3xl">📍</div>
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">
@@ -138,7 +138,7 @@ export default function ServerTypes() {
             </div>
           </div>
 
-          <div className="flex justify-between">
+          <div className="flex justify-between border-t">
             <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
               KO<span className="text-orange-600">CA</span>RT
             </div>
