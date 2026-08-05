@@ -56,7 +56,7 @@ const Grocery = () => {
               {merchants.map((merchant) => {
                 // Filter posts/products specific to this merchant if available
                 const merchantPosts = posts.filter(
-                  (p) => p.merchantId === merchant._id || p.merchant === merchant._id
+                  (p) => p.author === merchant._id || p.merchant === merchant._id
                 );
 
                 return (
