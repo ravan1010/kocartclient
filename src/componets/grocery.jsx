@@ -8,8 +8,6 @@ const Grocery = () => {
   const navigate = useNavigate();
 
   const [merchants, setMerchants] = useState([]);
-  const [loadingLoc, setLoadingLoc] = useState(false);
-  const [locationError, setLocationError] = useState("");
 
   const fetchMerchant = async () => {
     try {
@@ -24,66 +22,13 @@ const Grocery = () => {
   };
 
   useEffect(() => {
-    fetchMerchant();
+    const load = async () => {
+      await fetchMerchant();
+    }
+
+    load();
   }, []);
 
-  const changeLocation = async () => {
-    setLoadingLoc(true);
-    setLocationError("");
-
-    if (!navigator.geolocation) {
-      setLocationError("Geolocation is not supported.");
-      setLoadingLoc(false);
-      return;
-    }
-
-    try {
-      const permission = await navigator.permissions.query({
-        name: "geolocation",
-      });
-
-      if (permission.state === "denied") {
-        setLocationError(
-          "Location permission is blocked. Please enable it in browser settings."
-        );
-        setLoadingLoc(false);
-        return;
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          try {
-            await api.put(
-              "/api/user/location",
-              {
-                latitude: position.coords.latitude.toFixed(6),
-                longitude: position.coords.longitude.toFixed(6),
-              },
-              {
-                withCredentials: true,
-              }
-            );
-
-            await fetchMerchant(); // Refresh merchants
-          } catch (err) {
-            console.log(err);
-            setLocationError("Failed to update location.");
-          } finally {
-            setLoadingLoc(false);
-          }
-        },
-        (err) => {
-          console.log(err);
-          setLocationError(err.message);
-          setLoadingLoc(false);
-        }
-      );
-    } catch (err) {
-      console.log(err);
-      setLocationError("Unable to access location.");
-      setLoadingLoc(false);
-    }
-  };
 
   return (
     <>
@@ -92,21 +37,8 @@ const Grocery = () => {
       <div className="min-h-screen bg-gray-100 p-4">
         <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-md p-5">
 
-          <div className="flex items-center justify-between mb-5">
             <h2 className="text-xl font-bold">Nearby Merchants</h2>
 
-            <button
-              onClick={changeLocation}
-              disabled={loadingLoc}
-              className="px-4 py-2 rounded-lg disabled:opacity-50 border"
-            >
-              {loadingLoc ? "Updating..." : "📍 Change Location"}
-            </button>
-          </div>
-
-          {locationError && (
-            <p className="text-red-500 mb-4">{locationError}</p>
-          )}
 
           {merchants.length > 0 ? (
             <div className="grid grid-cols-2 gap-4">
@@ -130,13 +62,6 @@ const Grocery = () => {
                 We are not available in your area right now.
               </p>
 
-              <button
-                onClick={changeLocation}
-                disabled={loadingLoc}
-                className="mt-5 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
-              >
-                {loadingLoc ? "Updating..." : "Change Location"}
-              </button>
             </div>
           )}
         </div>
