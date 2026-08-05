@@ -138,7 +138,7 @@ export default function ServerTypes() {
             </div>
           </div>
 
-          <div className="flex justify-between border-t">
+          <div className="flex justify-between border-t w-full">
             <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
               KO<span className="text-orange-600">CA</span>RT
             </div>
