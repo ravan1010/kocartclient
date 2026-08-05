@@ -61,6 +61,27 @@ const Profile = () => {
             order
           </Link>
 
+          <Link
+            to="/bikeParcel/orders"
+            className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
+          >
+            parcel order
+          </Link>
+
+          <Link
+            to="/PassengerAuto/orders"
+            className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
+          >
+            passenger auto order
+          </Link>
+
+          <Link
+            to="/goodsAuto/orders"
+            className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
+          >
+            goods auto order
+          </Link>
+
           <a
             href="https://expo.dev/artifacts/eas/qJiqLQB6fTNh6sAIzXZuo-r2m9EPT0RHHPE1AfTCQJc.apk"
             className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
