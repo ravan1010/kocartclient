@@ -126,37 +126,44 @@ export default function ServerTypes() {
       {/* Header Container styled with location and branding */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         {city ? (
-          <div className="flex justify-between">
-          <div className="flex items-center space-x-3 text-gray-800">
-            <div className="text-3xl">📍</div>
-            <div>
-              <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">
-                Your Location
-              </p>
-              <h1 className="text-xl font-bold flex items-center gap-1">
-                {city} <span className="text-sm font-normal text-gray-500">▼</span>
-              </h1>
+          <div className="flex flex-wrap items-center justify-between w-full sm:w-auto gap-4">
+            <div className="flex items-center space-x-3 text-gray-800">
+              <div className="text-3xl">📍</div>
+              <div>
+                <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">
+                  Your Location
+                </p>
+                <h1 className="text-xl font-bold flex items-center gap-1">
+                  {city} <span className="text-sm font-normal text-gray-500">▼</span>
+                </h1>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={changeLocation}
+                disabled={loadingLoc}
+                className="px-4 py-2 text-sm font-semibold rounded-xl disabled:opacity-50 border border-gray-300 hover:border-gray-400 bg-white shadow-sm transition-all text-gray-700 flex items-center gap-2"
+              >
+                {loadingLoc ? "Updating..." : "📍 Change Location"}
+              </button>
             </div>
           </div>
-<div className="flex items-center gap-4">
-          <button
-            onClick={changeLocation}
-            disabled={loadingLoc}
-            className="px-4 py-2 text-sm font-semibold rounded-xl disabled:opacity-50 border border-gray-300 hover:border-gray-400 bg-white shadow-sm transition-all text-gray-700 flex items-center gap-2"
-          >
-            {loadingLoc ? "Updating..." : "📍 Change Location"}
-          </button>
-          
-          
-        </div>
-          </>
         ) : (
-          <div className="text-xl font-bold text-gray-800">Select Location</div>
+          <div className="flex flex-wrap items-center justify-between w-full sm:w-auto gap-4">
+            <div className="text-xl font-bold text-gray-800">Select Location</div>
+            <button
+              onClick={changeLocation}
+              disabled={loadingLoc}
+              className="px-4 py-2 text-sm font-semibold rounded-xl disabled:opacity-50 border border-gray-300 hover:border-gray-400 bg-white shadow-sm transition-all text-gray-700 flex items-center gap-2"
+            >
+              {loadingLoc ? "Updating..." : "📍 Change Location"}
+            </button>
+          </div>
         )}
 
         <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
-            KO<span className="text-orange-600">CA</span>RT
-          </div>
+          KO<span className="text-orange-600">CA</span>RT
+        </div>
       </div>
 
       {locationError && (
