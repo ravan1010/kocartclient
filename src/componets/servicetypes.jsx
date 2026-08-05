@@ -143,13 +143,13 @@ export default function ServerTypes() {
               KO<span className="text-orange-600">CA</span>RT
             </div>
             <div>
-            <button
-              onClick={changeLocation}
-              disabled={loadingLoc}
-              className="px-4 py-2 text-sm font-semibold rounded-xl disabled:opacity-50 border border-gray-300 hover:border-gray-400 bg-white shadow-sm transition-all text-gray-700 flex items-center gap-2"
-            >
-              {loadingLoc ? "Updating..." : "📍 Change Location"}
-            </button>
+              <button
+                onClick={changeLocation}
+                disabled={loadingLoc}
+                className="px-4 py-2 text-sm font-semibold rounded-xl disabled:opacity-50 border border-gray-300 hover:border-gray-400 bg-white shadow-sm transition-all text-gray-700 flex items-center gap-2"
+              >
+                {loadingLoc ? "Updating..." : "📍 Change Location"}
+              </button>
             </div>
           </div>
         </div>
@@ -232,7 +232,10 @@ export default function ServerTypes() {
 
         {/* Passenger Auto Card */}
         {services.includes("auto_passenger") && (
-          <button className="group relative bg-gradient-to-br from-amber-50 to-yellow-50 border border-yellow-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-yellow-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden">
+          <button
+            onClick={() => navigate("/PassengerAuto")}
+            className="group relative bg-gradient-to-br from-sky-50 to-blue-50 border border-blue-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden"
+          >
             <div>
               <h2 className="text-2xl font-extrabold text-yellow-900 group-hover:text-yellow-600 transition-colors">
                 Passenger Auto
@@ -252,8 +255,10 @@ export default function ServerTypes() {
 
         {/* Goods Auto Card */}
         {services.includes("goods_auto") && (
-          <button className="group relative bg-gradient-to-br from-emerald-50 to-teal-50 border border-teal-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-teal-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden">
-            <div>
+          <button
+            onClick={() => navigate("/goodsAuto")}
+            className="group relative bg-gradient-to-br from-sky-50 to-blue-50 border border-blue-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden"
+          >                <div>
               <h2 className="text-2xl font-extrabold text-teal-900 group-hover:text-teal-600 transition-colors">
                 Goods Auto
               </h2>
