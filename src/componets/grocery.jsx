@@ -119,7 +119,7 @@ const Grocery = () => {
                             className="group relative bg-gray-100 rounded-xl overflow-hidden aspect-square cursor-pointer border border-gray-100"
                           >
                             <img
-                              src={postItem.image?.[0]}
+                              src={postItem.image[0]}
                               alt={postItem.title || "Product"}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
