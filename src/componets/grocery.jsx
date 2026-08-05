@@ -4,7 +4,7 @@ import Navbar from "./navbar";
 import Footer from "./Footer";
 import api from "../api";
 
-const Grocery = () => {
+const Home = () => {
   const navigate = useNavigate();
 
   const [merchants, setMerchants] = useState([]);
@@ -54,9 +54,14 @@ const Grocery = () => {
           {merchants.length > 0 ? (
             <div className="space-y-6">
               {merchants.map((merchant) => {
-                // Filter posts/products specific to this merchant if available
+                // Filter posts/products specific to this merchant using flexible identifier matching
                 const merchantPosts = posts.filter(
-                  (p) => p.author === merchant._id || p.merchant === merchant._id
+                  (p) => 
+                    p.author === merchant._id || 
+                    p.merchant === merchant._id ||
+                    p.merchantId === merchant._id ||
+                    p.author?._id === merchant._id ||
+                    p.merchant?._id === merchant._id
                 );
 
                 return (
@@ -68,7 +73,7 @@ const Grocery = () => {
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-100">
                       <div className="flex items-center gap-4">
                         <img
-                          src={merchant.logo || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=150"}
+                          src={merchant.logo ||"https://lh3.googleusercontent.com/d/1T2A0yapEsIyuvBZl73w3h7v4g58k8V0E"}
                           alt={merchant.companyName}
                           className="w-16 h-16 rounded-full object-cover border-2 border-gray-100 shadow-sm"
                         />
@@ -112,19 +117,27 @@ const Grocery = () => {
                     {/* Product / Post Previews */}
                     {merchantPosts.length > 0 && (
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
-                        {merchantPosts.slice(0, 4).map((postItem, idx) => (
-                          <div
-                            key={idx}
-                            onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
-                            className="group relative bg-gray-100 rounded-xl overflow-hidden aspect-square cursor-pointer border border-gray-100"
-                          >
-                            <img
-                              src={postItem.image[0]}
-                              alt={postItem.title || "Product"}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                          </div>
-                        ))}
+                        {merchantPosts.slice(0, 2).map((postItem, idx) => {
+                          // Safely resolve image regardless of whether it's an array, string, or named differently
+                          const rawImg = postItem.image || postItem.imageUrl || postItem.photos;
+                          const imageUrl = Array.isArray(rawImg) ? rawImg[0] : rawImg;
+
+                          return (
+                            <div
+                              key={idx}
+                              onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
+                              className="group relative bg-gray-100 rounded-xl overflow-hidden aspect-square cursor-pointer border border-gray-100"
+                            >
+                              {imageUrl && (
+                                <img
+                                  src={imageUrl}
+                                  alt={postItem.title || "Product"}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
@@ -150,4 +163,4 @@ const Grocery = () => {
   );
 };
 
-export default Grocery;
+export default Home;
