@@ -20,6 +20,7 @@ const Profile = () => {
         ]);
 
         setNumber(settingRes.data.number || "");
+        
 
         if (adminRes.data.success) {
           setToadmin(adminRes.data.slug || "adminlandmark");
@@ -51,6 +52,13 @@ const Profile = () => {
             className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
           >
             📍 Address List
+          </Link>
+
+          <Link
+            to="/order"
+            className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
+          >
+            order
           </Link>
 
           <a
