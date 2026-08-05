@@ -114,7 +114,7 @@ export default function ServerTypes() {
         </button>
       )}
 
-      {services.length === 0 && (
+      {services.length === 0 && category.length === 0 && (
         <div className="col-span-full text-center py-10 text-gray-500">
           No services available nearby.
         </div>
