@@ -124,9 +124,9 @@ export default function ServerTypes() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       {/* Header Container styled with location and branding */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 border-b">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 ">
         {city ? (
-          <div className="flex flex-wrap items-center justify-between w-full sm:w-auto gap-4">
+          <div className="flex flex-wrap items-center justify-between w-full sm:w-auto gap-4 border-b">
             <div className="flex items-center space-x-3 text-gray-800">
               <div className="text-3xl">📍</div>
               <div>
@@ -161,7 +161,7 @@ export default function ServerTypes() {
           </div>
         )}
 
-        <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
+        <div className="text-2xl font-black tracking-wider text-blue-900 uppercase ">
           KO<span className="text-orange-600">CA</span>RT
         </div>
       </div>
