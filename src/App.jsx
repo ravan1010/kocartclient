@@ -63,7 +63,7 @@ function App() {
           <Route path='/client-auth-success' element={<Clientverify />} />
 
           <Route element={<ProtectedClient />}>
-           <Route path='/' element={<Home />} />
+           <Route path='/resturant' element={<Home />} />
           <Route path="/merchant" element={<MerchantPage />} />
           <Route path='/mart/merchant' element={<MARTMerchantVariants /> } />
 
@@ -71,7 +71,7 @@ function App() {
             <Grocery />
           } />
 
-          <Route path='/services' element={<ServerTypes />} />
+          <Route path='/' element={<ServerTypes />} />
           <Route path='/bike-parcel' element={< BikeParcelOrder /> } />
           <Route path='/bikeParcel/orders' element={<BikeParcelOrders />} />
 
