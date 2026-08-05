@@ -138,6 +138,10 @@ export default function ServerTypes() {
             </div>
           </div>
 
+          <div className="flex justify-between">
+             <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
+          KO<span className="text-orange-600">CA</span>RT
+        </div>
           <button
             onClick={changeLocation}
             disabled={loadingLoc}
@@ -145,11 +149,9 @@ export default function ServerTypes() {
           >
             {loadingLoc ? "Updating..." : "📍 Change Location"}
           </button>
+          </div>
         </div>
 
-        <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
-          KO<span className="text-orange-600">CA</span>RT
-        </div>
       </div>
 
       {locationError && (
