@@ -3,6 +3,8 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import axios from "axios";
+import Navbar from "./navbar"
+
 
 export default function ServerTypes() {
   const navigate = useNavigate();
@@ -121,6 +123,9 @@ export default function ServerTypes() {
   }
 
   return (
+    <>
+            <Navbar />
+
     <div className="max-w-7xl mx-auto px-4 py-6">
       {/* Header Container */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2">
@@ -285,5 +290,6 @@ export default function ServerTypes() {
 
       <Footer />
     </div>
+    </>
   );
 }
