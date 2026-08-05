@@ -142,6 +142,7 @@ export default function ServerTypes() {
             <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
               KO<span className="text-orange-600">CA</span>RT
             </div>
+            <div>
             <button
               onClick={changeLocation}
               disabled={loadingLoc}
@@ -149,6 +150,7 @@ export default function ServerTypes() {
             >
               {loadingLoc ? "Updating..." : "📍 Change Location"}
             </button>
+            </div>
           </div>
         </div>
 
