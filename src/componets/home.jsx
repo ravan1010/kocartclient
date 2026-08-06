@@ -100,13 +100,13 @@ const Home = () => {
                       {/* Action Buttons */}
                       <div className="flex items-center gap-3">
                         <button
-                          onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
+                          onClick={() => navigate(`/merchant?id=${merchant._id}`)}
                           className="px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 flex items-center gap-2 transition-all shadow-sm"
                         >
                           <span>🏪</span> Visit Store <span className="text-gray-400">›</span>
                         </button>
                         <button
-                          onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
+                          onClick={() => navigate(`/merchant?id=${merchant._id}`)}
                           className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 flex items-center gap-2 transition-all shadow-sm"
                         >
                           Visit More <span className="text-blue-200">›</span>
@@ -125,7 +125,7 @@ const Home = () => {
                           return (
                             <div
                               key={idx}
-                              onClick={() => navigate(`/mart/merchant?id=${merchant._id}`)}
+                              onClick={() => navigate(`/merchant?id=${merchant._id}`)}
                               className="group relative bg-gray-100 rounded-xl overflow-hidden aspect-square cursor-pointer border border-gray-100"
                             >
                               {imageUrl && (

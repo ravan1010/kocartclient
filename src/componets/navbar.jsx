@@ -5,7 +5,7 @@ import { Home, ShoppingCart, User } from "lucide-react";
 const Navbar = () => {
   const { pathname } = useLocation();
 
-  const isHome = ["/", "/profile"].some((route) => pathname.startsWith(route));;
+  const isHome = ["/", "/profile",].some((route) => pathname.startsWith(route));
 
   const showCart = [
     "/mart",
