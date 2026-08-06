@@ -1,7 +1,12 @@
 import { useState } from "react";
 import api from '../api.js'
+import { useNavigate } from "react-router-dom";
 
 export default function BikeParcelOrder() {
+
+          const navigate = useNavigate();
+
+
   const [form, setForm] = useState({
     pickup: {
       address: "",
@@ -67,6 +72,13 @@ export default function BikeParcelOrder() {
   }
 
   const handleSubmit = async () => {
+
+    if(setOneclick === 2){
+      return
+    }
+
+    setOneclick(2)
+
     const payload = {
 
       pickup: {
@@ -114,7 +126,12 @@ export default function BikeParcelOrder() {
         }
       )
         .then((res) => {
-          alert(res.data.message)
+
+        if(res.data.success){
+          setOneclick(1)
+            navigate(`/bikeParcel/orders`)
+        }
+
         })
     } catch (error) {
       console.log(error)
