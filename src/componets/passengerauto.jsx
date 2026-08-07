@@ -1,10 +1,10 @@
 import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
-
+import LocationPicker from "../hooks/LocationPicker";
 
 export default function PassengerAuto() {
-        const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     pickup: {
@@ -35,78 +35,151 @@ export default function PassengerAuto() {
   const [amount, setAmount] = useState(null);
 
   const [oneclick, setOneclick] = useState(1);
-  
-    const isDisabled =
-    oneclick !== 1;
+
+  const isDisabled = oneclick !== 1;
+
+  // -----------------------------
+  // Pickup location
+  // -----------------------------
+
+  const handlePickupConfirm = (location) => {
+    setForm((prev) => ({
+      ...prev,
+      pickup: {
+        address: location.address,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      },
+    }));
+  };
+
+  // -----------------------------
+  // Drop location
+  // -----------------------------
+
+  const handleDropConfirm = (location) => {
+    setForm((prev) => ({
+      ...prev,
+      drop: {
+        address: location.address,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      },
+    }));
+  };
+
+  // -----------------------------
+  // Check distance
+  // -----------------------------
 
   const checkDistance = async () => {
     try {
+      if (
+        !form.pickup.latitude ||
+        !form.pickup.longitude ||
+        !form.drop.latitude ||
+        !form.drop.longitude
+      ) {
+        alert("Please select pickup and drop locations");
+        return;
+      }
+
       const res = await api.post("/api/parcel/distance", {
-        pickuplat: form.pickup.latitude,
-        pickuplng: form.pickup.longitude,
-        droplat: form.drop.latitude,
-        droplng: form.drop.longitude,
+        pickuplat: Number(form.pickup.latitude),
+        pickuplng: Number(form.pickup.longitude),
+
+        droplat: Number(form.drop.latitude),
+        droplng: Number(form.drop.longitude),
       });
 
       setDistance(res.data.distance);
       setAmount(res.data.amount);
+
       setStep(2);
     } catch (err) {
       console.log(err);
+
+      alert(
+        err.response?.data?.message ||
+          "Unable to calculate distance"
+      );
     }
   };
 
-  const handleSubmit = async () => {
+  // -----------------------------
+  // Submit order
+  // -----------------------------
 
-    if(oneclick === 2){
-      return
+  const handleSubmit = async () => {
+    if (oneclick === 2) {
+      return;
     }
 
-    setOneclick(2)
+    setOneclick(2);
 
     try {
-      await api.post("/api/passenger-auto/order", {
-        pickup: {
-          address: form.pickup.address,
-          location: {
-            type: "Point",
-            coordinates: [
-              Number(form.pickup.longitude),
-              Number(form.pickup.latitude),
-            ],
-          },
-        },
+      const res = await api.post(
+        "/api/passenger-auto/order",
+        {
+          pickup: {
+            address: form.pickup.address,
 
-        drop: {
-          address: form.drop.address,
-          location: {
-            type: "Point",
-            coordinates: [
-              Number(form.drop.longitude),
-              Number(form.drop.latitude),
-            ],
-          },
-        },
+            location: {
+              type: "Point",
 
-        passenger: form.passenger,
-        payment: form.payment,
-        distance,
-        amount,
-      })
-      .then((res) => {
-        if(res.data.success){
-          setOneclick(1)
-            navigate(`/PassengerAuto/orders`)
+              coordinates: [
+                Number(form.pickup.longitude),
+                Number(form.pickup.latitude),
+              ],
+            },
+          },
+
+          drop: {
+            address: form.drop.address,
+
+            location: {
+              type: "Point",
+
+              coordinates: [
+                Number(form.drop.longitude),
+                Number(form.drop.latitude),
+              ],
+            },
+          },
+
+          passenger: form.passenger,
+
+          payment: form.payment,
+
+          distance,
+
+          amount,
         }
+      );
+
+      if (res.data.success) {
+        setOneclick(1);
+
+        navigate("/PassengerAuto/orders");
       }
-    )
     } catch (err) {
       console.log(err);
+
+      setOneclick(1);
+
+      alert(
+        err.response?.data?.message ||
+          "Failed to create ride"
+      );
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-5">
+
+      {/* =========================
+          STEP 1
+      ========================== */}
 
       {step === 1 && (
         <>
@@ -114,119 +187,142 @@ export default function PassengerAuto() {
             🚖 Passenger Auto Booking
           </h1>
 
-          {/* Pickup */}
+          {/* =====================
+              PICKUP
+          ====================== */}
 
           <div className="bg-white rounded-xl shadow p-5 mb-5">
+
             <h2 className="font-bold text-xl mb-4">
-              Pickup
+              📍 Pickup
             </h2>
 
-            <input
-              className="w-full border rounded-lg p-3 mb-3"
-              placeholder="Pickup Address"
-              value={form.pickup.address}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  pickup: {
-                    ...form.pickup,
-                    address: e.target.value,
-                  },
-                })
+            <LocationPicker
+              type="pickup"
+              initialLocation={
+                form.pickup.latitude &&
+                form.pickup.longitude
+                  ? {
+                      latitude: Number(
+                        form.pickup.latitude
+                      ),
+                      longitude: Number(
+                        form.pickup.longitude
+                      ),
+                    }
+                  : undefined
               }
+              onConfirm={handlePickupConfirm}
             />
 
-            <div className="grid grid-cols-2 gap-3">
-              <input
-                className="border rounded-lg p-3"
-                placeholder="Latitude"
-                value={form.pickup.latitude}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    pickup: {
-                      ...form.pickup,
-                      latitude: e.target.value,
-                    },
-                  })
-                }
-              />
+             {form.pickup.longitude !== null &&
+            form.pickup.latitude !== null && (
+              <a
+                href={`https://www.google.com/maps?q=${form.pickup.latitude},${form.pickup.longitude}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
+              >
+                📍 Navigate
+              </a>
+            )}
 
-              <input
-                className="border rounded-lg p-3"
-                placeholder="Longitude"
-                value={form.pickup.longitude}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    pickup: {
-                      ...form.pickup,
-                      longitude: e.target.value,
-                    },
-                  })
-                }
-              />
-            </div>
+
+            {/* Selected pickup */}
+
+
+            {form.pickup.latitude && (
+              <div className="mt-4 p-3 bg-green-50 rounded-lg">
+
+
+
+                <p className="font-semibold text-green-700">
+                  Pickup Selected
+                </p>
+
+                <p className="text-sm text-gray-700">
+                  {form.pickup.address}
+                </p>
+
+                <p className="text-xs text-gray-500 mt-1">
+                  {form.pickup.latitude},{" "}
+                  {form.pickup.longitude}
+                </p>
+
+              </div>
+            )}
+
           </div>
 
-          {/* Drop */}
+          {/* =====================
+              DROP
+          ====================== */}
 
           <div className="bg-white rounded-xl shadow p-5 mb-5">
+
             <h2 className="font-bold text-xl mb-4">
-              Drop
+              📍 Drop
             </h2>
 
-            <input
-              className="w-full border rounded-lg p-3 mb-3"
-              placeholder="Drop Address"
-              value={form.drop.address}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  drop: {
-                    ...form.drop,
-                    address: e.target.value,
-                  },
-                })
+            <LocationPicker
+              type="drop"
+              initialLocation={
+                form.drop.latitude &&
+                form.drop.longitude
+                  ? {
+                      latitude: Number(
+                        form.drop.latitude
+                      ),
+                      longitude: Number(
+                        form.drop.longitude
+                      ),
+                    }
+                  : undefined
               }
+              onConfirm={handleDropConfirm}
             />
 
-            <div className="grid grid-cols-2 gap-3">
-              <input
-                className="border rounded-lg p-3"
-                placeholder="Latitude"
-                value={form.drop.latitude}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    drop: {
-                      ...form.drop,
-                      latitude: e.target.value,
-                    },
-                  })
-                }
-              />
+             {form.drop.longitude !== null &&
+            form.drop.latitude !== null && (
+              <a
+                href={`https://www.google.com/maps?q=${form.drop.latitude},${form.drop.longitude}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
+              >
+                📍 Navigate
+              </a>
+            )}
 
-              <input
-                className="border rounded-lg p-3"
-                placeholder="Longitude"
-                value={form.drop.longitude}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    drop: {
-                      ...form.drop,
-                      longitude: e.target.value,
-                    },
-                  })
-                }
-              />
-            </div>
+            {/* Selected drop */}
+
+            {form.drop.latitude && (
+              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+
+                <p className="font-semibold text-blue-700">
+                  Drop Selected
+                </p>
+
+                <p className="text-sm text-gray-700">
+                  {form.drop.address}
+                </p>
+
+                <p className="text-xs text-gray-500 mt-1">
+                  {form.drop.latitude},{" "}
+                  {form.drop.longitude}
+                </p>
+
+              </div>
+            )}
+
           </div>
 
-          {/* Passenger */}
+          {/* =====================
+              PASSENGER
+          ====================== */}
 
           <div className="bg-white rounded-xl shadow p-5 mb-5">
+
             <h2 className="font-bold text-xl mb-4">
               Passenger Details
             </h2>
@@ -236,13 +332,14 @@ export default function PassengerAuto() {
               placeholder="Passenger Name"
               value={form.passenger.name}
               onChange={(e) =>
-                setForm({
-                  ...form,
+                setForm((prev) => ({
+                  ...prev,
+
                   passenger: {
-                    ...form.passenger,
+                    ...prev.passenger,
                     name: e.target.value,
                   },
-                })
+                }))
               }
             />
 
@@ -251,13 +348,14 @@ export default function PassengerAuto() {
               placeholder="Mobile Number"
               value={form.passenger.phone}
               onChange={(e) =>
-                setForm({
-                  ...form,
+                setForm((prev) => ({
+                  ...prev,
+
                   passenger: {
-                    ...form.passenger,
+                    ...prev.passenger,
                     phone: e.target.value,
                   },
-                })
+                }))
               }
             />
 
@@ -265,50 +363,99 @@ export default function PassengerAuto() {
               className="w-full border rounded-lg p-3"
               value={form.passenger.passengers}
               onChange={(e) =>
-                setForm({
-                  ...form,
+                setForm((prev) => ({
+                  ...prev,
+
                   passenger: {
-                    ...form.passenger,
-                    passengers: Number(e.target.value),
+                    ...prev.passenger,
+                    passengers: Number(
+                      e.target.value
+                    ),
                   },
-                })
+                }))
               }
             >
-              <option value={1}>1 Passenger</option>
-              <option value={2}>2 Passengers</option>
-              <option value={3}>3 Passengers</option>
+              <option value={1}>
+                1 Passenger
+              </option>
+
+              <option value={2}>
+                2 Passengers
+              </option>
+
+              <option value={3}>
+                3 Passengers
+              </option>
+
+              <option value={4}>
+                4 Passengers
+              </option>
+
             </select>
+
           </div>
 
-          {/* Payment */}
+          {/* =====================
+              PAYMENT
+          ====================== */}
 
           <div className="bg-white rounded-xl shadow p-5 mb-5">
-            <label>
+
+            <label className="flex items-center">
+
               <input
                 type="radio"
                 value="cash"
-                checked={form.payment.method === "cash"}
+                checked={
+                  form.payment.method === "cash"
+                }
                 onChange={(e) =>
-                  setForm({
-                    ...form,
+                  setForm((prev) => ({
+                    ...prev,
+
                     payment: {
                       method: e.target.value,
                     },
-                  })
+                  }))
                 }
               />
-              <span className="ml-2">Cash</span>
+
+              <span className="ml-2">
+                Cash
+              </span>
+
             </label>
+
           </div>
+
+          {/* =====================
+              CONTINUE
+          ====================== */}
 
           <button
             onClick={checkDistance}
-            className="w-full bg-green-600 text-white rounded-xl p-4"
+            disabled={
+              !form.pickup.latitude ||
+              !form.drop.latitude
+            }
+            className="
+              w-full
+              bg-green-600
+              disabled:bg-gray-400
+              text-white
+              rounded-xl
+              p-4
+              font-semibold
+            "
           >
             Continue
           </button>
         </>
       )}
+
+      {/* =========================
+          STEP 2
+      ========================== */}
 
       {step === 2 && (
         <div className="bg-white rounded-xl shadow p-6">
@@ -317,12 +464,61 @@ export default function PassengerAuto() {
             Ride Summary
           </h2>
 
-          <p>Distance : {distance?.toFixed(2)} km</p>
-          <p> amount : auto driver will call you, he tell amount </p>
+          <div className="space-y-3">
+
+            <div>
+              <p className="text-sm text-gray-500">
+                Pickup
+              </p>
+
+              <p className="font-medium">
+                {form.pickup.address}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">
+                Drop
+              </p>
+
+              <p className="font-medium">
+                {form.drop.address}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">
+                Distance
+              </p>
+
+              <p className="font-semibold">
+                {distance?.toFixed(2)} km
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">
+                Fare
+              </p>
+
+              <p className="font-semibold">
+                Auto driver will call you
+                and tell the amount
+              </p>
+            </div>
+
+          </div>
+
           <div className="flex gap-4 mt-6">
+
             <button
               onClick={() => setStep(1)}
-              className="w-1/2 bg-gray-300 p-3 rounded-lg"
+              className="
+                w-1/2
+                bg-gray-300
+                p-3
+                rounded-lg
+              "
             >
               Back
             </button>
@@ -330,13 +526,25 @@ export default function PassengerAuto() {
             <button
               disabled={isDisabled}
               onClick={handleSubmit}
-              className="w-1/2 bg-green-600 text-white p-3 rounded-lg"
+              className="
+                w-1/2
+                bg-green-600
+                disabled:bg-gray-400
+                text-white
+                p-3
+                rounded-lg
+              "
             >
-              Confirm Ride
+              {oneclick === 2
+                ? "Booking..."
+                : "Confirm Ride"}
             </button>
+
           </div>
+
         </div>
       )}
+
     </div>
   );
-} 
+}
