@@ -193,8 +193,9 @@ const LocationPicker = ({
             Number(location.latitude),
             Number(location.longitude),
           ]}
-          zoom={15}
-          scrollWheelZoom={true}
+          zoom={13}
+          scrollWheelZoom={false}
+
           className="w-full h-full"
         >
 
