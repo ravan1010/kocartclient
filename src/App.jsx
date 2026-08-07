@@ -44,7 +44,6 @@ import PassengerAuto from './componets/passengerauto';
 import PassengerAutoOrders from './componets/passengerautoOrders';
 import GoodsAuto from './componets/goodsauto';
 import GoodsAutoOrders from './componets/goodsautoOrdes';
-import LocationPicker from './hooks/LocationPicker';
 
 
 function App() {
