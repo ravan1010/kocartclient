@@ -279,7 +279,36 @@ export default function GoodsAuto() {
               />
             </div>
 
- <div className="bg-white rounded-xl shadow p-5 mb-5">
+  <button
+              type="button"
+              onClick={openPickupMap}
+              className="
+                w-full
+                border-2
+                border-dashed
+                border-gray-300
+                rounded-2xl
+                p-5
+                text-left
+                hover:border-indigo-500
+                hover:bg-indigo-50
+                transition
+              "
+            >
+              <div className="text-3xl mb-2">
+                📍
+              </div>
+
+              <p className="font-bold text-gray-800">
+                {form.pickup.latitude
+                  ? "Change Pickup Location"
+                  : "Select Pickup Location"}
+              </p>
+
+              <p className="text-sm text-gray-500 mt-1">
+                Open full-screen map and choose pickup point
+              </p>
+            </button>
 
 
 
@@ -301,11 +330,6 @@ export default function GoodsAuto() {
                       {form.pickup.address}
                     </p>
 
-                    {/* <p className="text-xs text-gray-500 mt-1">
-        {form.pickup.latitude},{" "}
-        {form.pickup.longitude}
-      </p> */}
-
                   </div>
 
                   <a
@@ -313,22 +337,19 @@ export default function GoodsAuto() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="
-        shrink-0
-        inline-flex
-        items-center
-        gap-2
-        px-3
-        py-2
-        rounded-xl
-        bg-blue-600
-        text-white
-        text-sm
-        font-semibold
-        shadow-sm
-        hover:bg-blue-700
-        active:scale-95
-        transition-all
-      "
+                      shrink-0
+                      inline-flex
+                      items-center
+                      gap-2
+                      px-3
+                      py-2
+                      rounded-xl
+                      bg-blue-600
+                      text-white
+                      text-sm
+                      font-semibold
+                      hover:bg-blue-700
+                    "
                   >
                     <Navigation size={16} />
                     Navigate
@@ -336,10 +357,22 @@ export default function GoodsAuto() {
 
                 </div>
 
+                <button
+                  type="button"
+                  onClick={openPickupMap}
+                  className="
+                    mt-3
+                    text-sm
+                    font-semibold
+                    text-indigo-600
+                  "
+                >
+                  Change Pickup
+                </button>
+
               </div>
             )}
 
-          </div>
           </div>
 
           {/* Drop */}
@@ -398,64 +431,41 @@ export default function GoodsAuto() {
               />
             </div>
 
-        <div className="bg-white rounded-xl shadow p-5 mb-5">
+  <button
+              type="button"
+              onClick={openPickupMap}
+              className="
+                w-full
+                border-2
+                border-dashed
+                border-gray-300
+                rounded-2xl
+                p-5
+                text-left
+                hover:border-indigo-500
+                hover:bg-indigo-50
+                transition
+              "
+            >
+              <div className="text-3xl mb-2">
+                📍
+              </div>
 
+              <p className="font-bold text-gray-800">
+                {form.pickup.latitude
+                  ? "Change Pickup Location"
+                  : "Select Pickup Location"}
+              </p>
+
+              <p className="text-sm text-gray-500 mt-1">
+                Open full-screen map and choose pickup point
+              </p>
+            </button>
             
 
-            <button
-              type="button"
-              onClick={() => handleGPS("drop")}
-              disabled={locationLoading}
-              className="
-    inline-flex
-    items-center
-    gap-2
-    px-4
-    py-2
-    rounded-full
-    bg-blue-50
-    text-blue-600
-    border
-    border-blue-100
-    font-semibold
-    text-sm
-    hover:bg-blue-600
-    hover:text-white
-    disabled:opacity-50
-    transition-all
-    mb-4
-  "
-            >
-              <Navigation size={16} />
+             {/* SELECTED PICKUP */}
 
-              {locationLoading
-                ? "Getting Location..."
-                : "Use Current Location"}
-            </button>
-
-            <LocationPicker
-              type="drop"
-              initialLocation={
-                form.drop.latitude &&
-                  form.drop.longitude
-                  ? {
-                    latitude: Number(
-                      form.drop.latitude
-                    ),
-                    longitude: Number(
-                      form.drop.longitude
-                    ),
-                  }
-                  : undefined
-              }
-              onConfirm={handleDropConfirm}
-            />
-
-
-
-            {/* Selected drop */}
-
-            {form.drop.latitude && (
+            {form.pickup.latitude && (
               <div className="mt-4 p-4 bg-green-50 rounded-xl">
 
                 <div className="flex items-start justify-between gap-3">
@@ -467,38 +477,29 @@ export default function GoodsAuto() {
                     </p>
 
                     <p className="text-sm text-gray-700 mt-1">
-                      {form.drop.address}
+                      {form.pickup.address}
                     </p>
-
-                    {/* <p className="text-xs text-gray-500 mt-1">
-        {form.drop.latitude},{" "}
-        {form.drop.longitude}
-      </p> */}
 
                   </div>
 
                   <a
-                    href={`https://www.google.com/maps?q=${form.drop.latitude},${form.drop.longitude}`}
+                    href={`https://www.google.com/maps?q=${form.pickup.latitude},${form.pickup.longitude}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="
-        shrink-0
-        inline-flex
-        items-center
-        gap-2
-        px-3
-        py-2
-        rounded-xl
-        bg-blue-600
-        text-white
-        text-sm
-        font-semibold
-        shadow-sm
-        hover:bg-blue-700
-        active:scale-95
-        transition-all
-        mb-4
-      "
+                      shrink-0
+                      inline-flex
+                      items-center
+                      gap-2
+                      px-3
+                      py-2
+                      rounded-xl
+                      bg-blue-600
+                      text-white
+                      text-sm
+                      font-semibold
+                      hover:bg-blue-700
+                    "
                   >
                     <Navigation size={16} />
                     Navigate
@@ -506,10 +507,22 @@ export default function GoodsAuto() {
 
                 </div>
 
+                <button
+                  type="button"
+                  onClick={openPickupMap}
+                  className="
+                    mt-3
+                    text-sm
+                    font-semibold
+                    text-indigo-600
+                  "
+                >
+                  Change Pickup
+                </button>
+
               </div>
             )}
 
-          </div>
           </div>
 
         {/* goods */}
