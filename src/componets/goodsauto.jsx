@@ -7,52 +7,52 @@ import FullScreenLocationPicker from "../hooks/FullScreenLocationPicker";
 
 
 export default function GoodsAuto() {
-        const navigate = useNavigate();
+  const navigate = useNavigate();
 
-         // Which map is open?
-          const [locationPicker, setLocationPicker] = useState(null);
+  // Which map is open?
+  const [locationPicker, setLocationPicker] = useState(null);
 
   const [form, setForm] = useState({
-  pickup: {
-    address: "",
-    name: "",
-    phone: "",
-    latitude: "",
-    longitude: "",
-  },
+    pickup: {
+      address: "",
+      name: "",
+      phone: "",
+      latitude: "",
+      longitude: "",
+    },
 
-  drop: {
-    address: "",
-    name: "",
-    phone: "",
-    latitude: "",
-    longitude: "",
-  },
+    drop: {
+      address: "",
+      name: "",
+      phone: "",
+      latitude: "",
+      longitude: "",
+    },
 
-  goods: {
-    itemType: "",
-    estimatedWeight: "",
-    helpersRequired: 0,
-    loadingRequired: false,
-    unloadingRequired: false,
-    instructions: "",
-  },
+    goods: {
+      itemType: "",
+      estimatedWeight: "",
+      helpersRequired: 0,
+      loadingRequired: false,
+      unloadingRequired: false,
+      instructions: "",
+    },
 
-  payment: {
-    method: "cash",
-  },
-});
+    payment: {
+      method: "cash",
+    },
+  });
 
   const [step, setStep] = useState(1);
   const [distance, setDistance] = useState(null);
   const [amount, setAmount] = useState(null);
 
   const [oneclick, setOneclick] = useState(1);
-  
-    const isDisabled =
+
+  const isDisabled =
     oneclick !== 1;
 
-  
+
   // =====================================================
   // OPEN MAP
   // =====================================================
@@ -80,7 +80,7 @@ export default function GoodsAuto() {
     }));
   };
 
- // -----------------------------
+  // -----------------------------
   // Drop location
   // -----------------------------
 
@@ -98,26 +98,26 @@ export default function GoodsAuto() {
   // =====================================================
   // FULL SCREEN MAP
   // =====================================================
-  
-    if (locationPicker) {
-      return (
-        <FullScreenLocationPicker
-          type={locationPicker}
-  
-          onCancel={() => {
-            setLocationPicker(null);
-          }}
-  
-          onConfirm={(location) => {
-            if (locationPicker === "pickup") {
-              handlePickupConfirm(location);
-            } else {
-              handleDropConfirm(location);
-            }
-          }}
-        />
-      );
-    }
+
+  if (locationPicker) {
+    return (
+      <FullScreenLocationPicker
+        type={locationPicker}
+
+        onCancel={() => {
+          setLocationPicker(null);
+        }}
+
+        onConfirm={(location) => {
+          if (locationPicker === "pickup") {
+            handlePickupConfirm(location);
+          } else {
+            handleDropConfirm(location);
+          }
+        }}
+      />
+    );
+  }
 
   // -----------------------------
   // Check distance
@@ -163,7 +163,7 @@ export default function GoodsAuto() {
 
   const handleSubmit = async () => {
 
-    if(oneclick === 2){
+    if (oneclick === 2) {
       return
     }
 
@@ -198,13 +198,13 @@ export default function GoodsAuto() {
         distance,
         amount,
       })
-      .then((res) => {
-        if(res.data.success){
-          setOneclick(1)
+        .then((res) => {
+          if (res.data.success) {
+            setOneclick(1)
             navigate(`/goodsAuto/orders`)
+          }
         }
-      }
-    )
+        )
     } catch (err) {
       console.log(err);
     }
@@ -230,7 +230,7 @@ export default function GoodsAuto() {
               Pickup
             </h2>
 
-             <input
+            <input
               className="w-full border rounded-lg p-3 mb-3"
               placeholder="Pickup Address"
               value={form.pickup.address}
@@ -279,7 +279,7 @@ export default function GoodsAuto() {
               />
             </div>
 
-  <button
+            <button
               type="button"
               onClick={openPickupMap}
               className="
@@ -431,7 +431,7 @@ export default function GoodsAuto() {
               />
             </div>
 
-<button
+            <button
               type="button"
               onClick={openDropMap}
               className="
@@ -461,8 +461,8 @@ export default function GoodsAuto() {
                 Open full-screen map and choose drop point
               </p>
             </button>
-            
- {/* SELECTED DROP */}
+
+            {/* SELECTED DROP */}
 
             {form.drop.latitude && (
               <div className="mt-4 p-4 bg-green-50 rounded-xl">
@@ -524,155 +524,155 @@ export default function GoodsAuto() {
 
           </div>
 
-        {/* goods */}
+          {/* goods */}
           <div className="bg-white rounded-xl shadow p-5 mb-5">
-  <h2 className="text-xl font-bold mb-4">
-    🚚 Goods Details
-  </h2>
+            <h2 className="text-xl font-bold mb-4">
+              🚚 Goods Details
+            </h2>
 
-  {/* Item Type */}
-  <div className="mb-4">
-    <label className="block mb-2 font-medium">
-      Item Type
-    </label>
+            {/* Item Type */}
+            <div className="mb-4">
+              <label className="block mb-2 font-medium">
+                Item Type
+              </label>
 
-    <select
-      className="w-full border rounded-lg p-3"
-      value={form.goods.itemType}
-      onChange={(e) =>
-        setForm({
-          ...form,
-          goods: {
-            ...form.goods,
-            itemType: e.target.value,
-          },
-        })
-      }
-    >
-      <option value="">Select Item</option>
-      <option value="Furniture">Furniture</option>
-      <option value="Electronics">Electronics</option>
-      <option value="Groceries">Groceries</option>
-      <option value="Construction Material">
-        Construction Material
-      </option>
-      <option value="House Shifting">
-        House Shifting
-      </option>
-      <option value="Others">Others</option>
-    </select>
-  </div>
+              <select
+                className="w-full border rounded-lg p-3"
+                value={form.goods.itemType}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    goods: {
+                      ...form.goods,
+                      itemType: e.target.value,
+                    },
+                  })
+                }
+              >
+                <option value="">Select Item</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Construction Material">
+                  Construction Material
+                </option>
+                <option value="House Shifting">
+                  House Shifting
+                </option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
 
-  {/* Weight */}
-  <div className="mb-4">
-    <label className="block mb-2 font-medium">
-      Estimated Weight (kg)
-    </label>
+            {/* Weight */}
+            <div className="mb-4">
+              <label className="block mb-2 font-medium">
+                Estimated Weight (kg)
+              </label>
 
-    <input
-      type="number"
-      className="w-full border rounded-lg p-3"
-      placeholder="Example: 120"
-      value={form.goods.estimatedWeight}
-      onChange={(e) =>
-        setForm({
-          ...form,
-          goods: {
-            ...form.goods,
-            estimatedWeight: e.target.value,
-          },
-        })
-      }
-    />
-  </div>
+              <input
+                type="number"
+                className="w-full border rounded-lg p-3"
+                placeholder="Example: 120"
+                value={form.goods.estimatedWeight}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    goods: {
+                      ...form.goods,
+                      estimatedWeight: e.target.value,
+                    },
+                  })
+                }
+              />
+            </div>
 
-  {/* Helpers */}
-  <div className="mb-4">
-    <label className="block mb-2 font-medium">
-      Helpers Required
-    </label>
+            {/* Helpers */}
+            <div className="mb-4">
+              <label className="block mb-2 font-medium">
+                Helpers Required
+              </label>
 
-    <select
-      className="w-full border rounded-lg p-3"
-      value={form.goods.helpersRequired}
-      onChange={(e) =>
-        setForm({
-          ...form,
-          goods: {
-            ...form.goods,
-            helpersRequired: Number(e.target.value),
-          },
-        })
-      }
-    >
-      <option value={0}>No Helper</option>
-      <option value={1}>1 Helper</option>
-      <option value={2}>2 Helpers</option>
-      <option value={3}>3 Helpers</option>
-    </select>
-  </div>
+              <select
+                className="w-full border rounded-lg p-3"
+                value={form.goods.helpersRequired}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    goods: {
+                      ...form.goods,
+                      helpersRequired: Number(e.target.value),
+                    },
+                  })
+                }
+              >
+                <option value={0}>No Helper</option>
+                <option value={1}>1 Helper</option>
+                <option value={2}>2 Helpers</option>
+                <option value={3}>3 Helpers</option>
+              </select>
+            </div>
 
-  {/* Loading */}
-  <label className="flex items-center gap-3 mb-3">
-    <input
-      type="checkbox"
-      checked={form.goods.loadingRequired}
-      onChange={(e) =>
-        setForm({
-          ...form,
-          goods: {
-            ...form.goods,
-            loadingRequired: e.target.checked,
-          },
-        })
-      }
-    />
+            {/* Loading */}
+            <label className="flex items-center gap-3 mb-3">
+              <input
+                type="checkbox"
+                checked={form.goods.loadingRequired}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    goods: {
+                      ...form.goods,
+                      loadingRequired: e.target.checked,
+                    },
+                  })
+                }
+              />
 
-    Loading Required
-  </label>
+              Loading Required
+            </label>
 
-  {/* Unloading */}
-  <label className="flex items-center gap-3 mb-4">
-    <input
-      type="checkbox"
-      checked={form.goods.unloadingRequired}
-      onChange={(e) =>
-        setForm({
-          ...form,
-          goods: {
-            ...form.goods,
-            unloadingRequired: e.target.checked,
-          },
-        })
-      }
-    />
+            {/* Unloading */}
+            <label className="flex items-center gap-3 mb-4">
+              <input
+                type="checkbox"
+                checked={form.goods.unloadingRequired}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    goods: {
+                      ...form.goods,
+                      unloadingRequired: e.target.checked,
+                    },
+                  })
+                }
+              />
 
-    Unloading Required
-  </label>
+              Unloading Required
+            </label>
 
-  {/* Instructions */}
-  <div>
-    <label className="block mb-2 font-medium">
-      Instructions
-    </label>
+            {/* Instructions */}
+            <div>
+              <label className="block mb-2 font-medium">
+                Instructions
+              </label>
 
-    <textarea
-      rows={4}
-      className="w-full border rounded-lg p-3"
-      placeholder="Any special instructions..."
-      value={form.goods.instructions}
-      onChange={(e) =>
-        setForm({
-          ...form,
-          goods: {
-            ...form.goods,
-            instructions: e.target.value,
-          },
-        })
-      }
-    />
-  </div>
-</div>
+              <textarea
+                rows={4}
+                className="w-full border rounded-lg p-3"
+                placeholder="Any special instructions..."
+                value={form.goods.instructions}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    goods: {
+                      ...form.goods,
+                      instructions: e.target.value,
+                    },
+                  })
+                }
+              />
+            </div>
+          </div>
 
           {/* Payment */}
 
@@ -722,7 +722,7 @@ export default function GoodsAuto() {
             </button>
 
             <button
-            disabled={isDisabled}
+              disabled={isDisabled}
               onClick={handleSubmit}
               className="w-1/2 bg-green-600 text-white p-3 rounded-lg"
             >
