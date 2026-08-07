@@ -2,6 +2,8 @@ import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import LocationPicker from "../hooks/LocationPicker";
+import { Navigation } from "lucide-react";
+
 
 export default function PassengerAuto() {
   const navigate = useNavigate();
@@ -101,7 +103,7 @@ export default function PassengerAuto() {
 
       alert(
         err.response?.data?.message ||
-          "Unable to calculate distance"
+        "Unable to calculate distance"
       );
     }
   };
@@ -169,7 +171,7 @@ export default function PassengerAuto() {
 
       alert(
         err.response?.data?.message ||
-          "Failed to create ride"
+        "Failed to create ride"
       );
     }
   };
@@ -201,53 +203,73 @@ export default function PassengerAuto() {
               type="pickup"
               initialLocation={
                 form.pickup.latitude &&
-                form.pickup.longitude
+                  form.pickup.longitude
                   ? {
-                      latitude: Number(
-                        form.pickup.latitude
-                      ),
-                      longitude: Number(
-                        form.pickup.longitude
-                      ),
-                    }
+                    latitude: Number(
+                      form.pickup.latitude
+                    ),
+                    longitude: Number(
+                      form.pickup.longitude
+                    ),
+                  }
                   : undefined
               }
               onConfirm={handlePickupConfirm}
             />
-
-             {form.pickup.longitude !== null &&
-            form.pickup.latitude !== null && (
-              <a
-                href={`https://www.google.com/maps?q=${form.pickup.latitude},${form.pickup.longitude}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
-              >
-                📍 Navigate
-              </a>
-            )}
 
 
             {/* Selected pickup */}
 
 
             {form.pickup.latitude && (
-              <div className="mt-4 p-3 bg-green-50 rounded-lg">
+              <div className="mt-4 p-4 bg-green-50 rounded-xl">
 
+                <div className="flex items-start justify-between gap-3">
 
+                  <div className="min-w-0">
 
-                <p className="font-semibold text-green-700">
-                  Pickup Selected
-                </p>
+                    <p className="font-semibold text-green-700">
+                      Pickup Selected
+                    </p>
 
-                <p className="text-sm text-gray-700">
-                  {form.pickup.address}
-                </p>
+                    <p className="text-sm text-gray-700 mt-1">
+                      {form.pickup.address}
+                    </p>
 
-                <p className="text-xs text-gray-500 mt-1">
-                  {form.pickup.latitude},{" "}
-                  {form.pickup.longitude}
-                </p>
+                    {/* <p className="text-xs text-gray-500 mt-1">
+        {form.pickup.latitude},{" "}
+        {form.pickup.longitude}
+      </p> */}
+
+                  </div>
+
+                  <a
+                    href={`https://www.google.com/maps?q=${form.pickup.latitude},${form.pickup.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+        shrink-0
+        inline-flex
+        items-center
+        gap-2
+        px-3
+        py-2
+        rounded-xl
+        bg-blue-600
+        text-white
+        text-sm
+        font-semibold
+        shadow-sm
+        hover:bg-blue-700
+        active:scale-95
+        transition-all
+      "
+                  >
+                    <Navigation size={16} />
+                    Navigate
+                  </a>
+
+                </div>
 
               </div>
             )}
@@ -268,49 +290,73 @@ export default function PassengerAuto() {
               type="drop"
               initialLocation={
                 form.drop.latitude &&
-                form.drop.longitude
+                  form.drop.longitude
                   ? {
-                      latitude: Number(
-                        form.drop.latitude
-                      ),
-                      longitude: Number(
-                        form.drop.longitude
-                      ),
-                    }
+                    latitude: Number(
+                      form.drop.latitude
+                    ),
+                    longitude: Number(
+                      form.drop.longitude
+                    ),
+                  }
                   : undefined
               }
               onConfirm={handleDropConfirm}
             />
 
-             {form.drop.longitude !== null &&
-            form.drop.latitude !== null && (
-              <a
-                href={`https://www.google.com/maps?q=${form.drop.latitude},${form.drop.longitude}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
-              >
-                📍 Navigate
-              </a>
-            )}
+
 
             {/* Selected drop */}
 
             {form.drop.latitude && (
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+              <div className="mt-4 p-4 bg-green-50 rounded-xl">
 
-                <p className="font-semibold text-blue-700">
-                  Drop Selected
-                </p>
+                <div className="flex items-start justify-between gap-3">
 
-                <p className="text-sm text-gray-700">
-                  {form.drop.address}
-                </p>
+                  <div className="min-w-0">
 
-                <p className="text-xs text-gray-500 mt-1">
-                  {form.drop.latitude},{" "}
-                  {form.drop.longitude}
-                </p>
+                    <p className="font-semibold text-green-700">
+                      Pickup Selected
+                    </p>
+
+                    <p className="text-sm text-gray-700 mt-1">
+                      {form.drop.address}
+                    </p>
+
+                    {/* <p className="text-xs text-gray-500 mt-1">
+        {form.drop.latitude},{" "}
+        {form.drop.longitude}
+      </p> */}
+
+                  </div>
+
+                  <a
+                    href={`https://www.google.com/maps?q=${form.drop.latitude},${form.drop.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+        shrink-0
+        inline-flex
+        items-center
+        gap-2
+        px-3
+        py-2
+        rounded-xl
+        bg-blue-600
+        text-white
+        text-sm
+        font-semibold
+        shadow-sm
+        hover:bg-blue-700
+        active:scale-95
+        transition-all
+      "
+                  >
+                    <Navigation size={16} />
+                    Navigate
+                  </a>
+
+                </div>
 
               </div>
             )}
