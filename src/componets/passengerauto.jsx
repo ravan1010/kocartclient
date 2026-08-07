@@ -41,7 +41,7 @@ export default function PassengerAuto() {
       method: "cash",
     },
   });
-
+3
   const [step, setStep] = useState(1);
   const [distance, setDistance] = useState(null);
   const [amount, setAmount] = useState(null);
