@@ -1,39 +1,61 @@
 import { useEffect, useState } from "react";
-
-const DEFAULT_LOCATION = {
-  latitude: 12.2958,
-  longitude: 76.6394,
-};
+import api from "../api";
 
 const useMapLocation = (initialLocation = null) => {
   const [location, setLocation] = useState(
-    initialLocation || DEFAULT_LOCATION
+    initialLocation || {
+      latitude: 12.2958,
+      longitude: 76.6394,
+    }
   );
+
+  useEffect(() => {
+  const loadSavedLocation = async () => {
+    try {
+      const res = await api.get("/api/client/location");
+
+      if (!res.data.success) return;
+
+      const { latitude, longitude } = res.data.location;
+
+      if (!latitude || !longitude) return;
+
+      setLocation({latitude, longitude})
+     
+    } catch (error) {
+      console.log("Failed to load saved location", error);
+    }
+  };
+
+  loadSavedLocation();
+}, []);
 
   const [address, setAddress] = useState("");
 
-  // ------------------------------------
-  // Sync GPS / parent location with map
-  // ------------------------------------
-
+  // Sync GPS/form location with map
   useEffect(() => {
-    if (
-      initialLocation?.latitude != null &&
-      initialLocation?.longitude != null
-    ) {
-      setLocation({
-        latitude: Number(initialLocation.latitude),
-        longitude: Number(initialLocation.longitude),
-      });
+    if (!initialLocation) return;
+
+    const latitude = Number(initialLocation.latitude);
+    const longitude = Number(initialLocation.longitude);
+
+    if(
+      !Number.isFinite(latitude) ||
+      !Number.isFinite(longitude)){
+      return;
     }
+    else{
+      setLocation({
+      latitude,
+      longitude,
+    });
+    }
+
+    
   }, [
     initialLocation?.latitude,
     initialLocation?.longitude,
   ]);
-
-  // ------------------------------------
-  // User moves map
-  // ------------------------------------
 
   const updateLocation = (latitude, longitude) => {
     setLocation({
@@ -42,26 +64,13 @@ const useMapLocation = (initialLocation = null) => {
     });
   };
 
-  // ------------------------------------
-  // Reverse geocoding
-  // ------------------------------------
-
   const reverseGeocode = async (latitude, longitude) => {
     try {
-      const apiKey = import.meta.env.VITE_GEOAPIFY_KEY || "9101d57bd3a34d2194bb8222a55a6a3f";
-
-      if (!apiKey) {
-        console.error("Geoapify API key missing");
-        return;
-      }
+      const apiKey = import.meta.env.VITE_GEOAPIFY_KEY;
 
       const response = await fetch(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=${apiKey}`
       );
-
-      if (!response.ok) {
-        throw new Error("Reverse geocoding failed");
-      }
 
       const data = await response.json();
 
