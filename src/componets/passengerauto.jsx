@@ -526,9 +526,6 @@ export default function PassengerAuto() {
                 3 Passengers
               </option>
 
-              <option value={4}>
-                4 Passengers
-              </option>
 
             </select>
 
@@ -614,6 +611,7 @@ export default function PassengerAuto() {
                 {form.pickup.address}
               </p>
             </div>
+            
 
             <div>
               <p className="text-sm text-gray-500">
