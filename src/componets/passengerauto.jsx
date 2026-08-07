@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
-import LocationPicker from "../hooks/LocationPicker";
+// import LocationPicker from "../hooks/LocationPicker";
 import { Navigation } from "lucide-react";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import FullScreenLocationPicker
@@ -41,7 +41,7 @@ export default function PassengerAuto() {
       method: "cash",
     },
   });
-3
+
   const [step, setStep] = useState(1);
   const [distance, setDistance] = useState(null);
   const [amount, setAmount] = useState(null);
@@ -445,120 +445,7 @@ const openDropMap = () => {
               DROP
           ====================== */}
 
-          <div className="bg-white rounded-xl shadow p-5 mb-5">
-
-            <h2 className="font-bold text-xl mb-4">
-              📍 Drop
-            </h2>
-
-            <button
-              type="button"
-              onClick={() => handleGPS("drop")}
-              disabled={locationLoading}
-              className="
-    inline-flex
-    items-center
-    gap-2
-    px-4
-    py-2
-    rounded-full
-    bg-blue-50
-    text-blue-600
-    border
-    border-blue-100
-    font-semibold
-    text-sm
-    hover:bg-blue-600
-    hover:text-white
-    disabled:opacity-50
-    transition-all
-    mb-4
-  "
-            >
-              <Navigation size={16} />
-
-              {locationLoading
-                ? "Getting Location..."
-                : "Use Current Location"}
-            </button>
-
-            <LocationPicker
-              type="drop"
-              initialLocation={
-                form.drop.latitude &&
-                  form.drop.longitude
-                  ? {
-                    latitude: Number(
-                      form.drop.latitude
-                    ),
-                    longitude: Number(
-                      form.drop.longitude
-                    ),
-                  }
-                  : undefined
-              }
-              onConfirm={handleDropConfirm}
-            />
-
-
-
-            {/* Selected drop */}
-
-            {form.drop.latitude && (
-              <div className="mt-4 p-4 bg-green-50 rounded-xl">
-
-                <div className="flex items-start justify-between gap-3">
-
-                  <div className="min-w-0">
-
-                    <p className="font-semibold text-green-700">
-                      Pickup Selected
-                    </p>
-
-                    <p className="text-sm text-gray-700 mt-1">
-                      {form.drop.address}
-                    </p>
-
-                    {/* <p className="text-xs text-gray-500 mt-1">
-        {form.drop.latitude},{" "}
-        {form.drop.longitude}
-      </p> */}
-
-                  </div>
-
-                  <a
-                    href={`https://www.google.com/maps?q=${form.drop.latitude},${form.drop.longitude}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="
-        shrink-0
-        inline-flex
-        items-center
-        gap-2
-        px-3
-        py-2
-        rounded-xl
-        bg-blue-600
-        text-white
-        text-sm
-        font-semibold
-        shadow-sm
-        hover:bg-blue-700
-        active:scale-95
-        transition-all
-        mb-4
-      "
-                  >
-                    <Navigation size={16} />
-                    Navigate
-                  </a>
-
-                </div>
-
-              </div>
-            )}
-
-          </div>
+        3
 
           {/* =====================
               PASSENGER
