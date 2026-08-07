@@ -3,10 +3,16 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 import LocationPicker from "../hooks/LocationPicker";
 import { Navigation } from "lucide-react";
+import useCurrentLocation from "../hooks/useCurrentLocation";
 
 
 export default function PassengerAuto() {
   const navigate = useNavigate();
+
+  const {
+    getCurrentLocation,
+    loading: locationLoading,
+  } = useCurrentLocation();
 
   const [form, setForm] = useState({
     pickup: {
@@ -39,6 +45,28 @@ export default function PassengerAuto() {
   const [oneclick, setOneclick] = useState(1);
 
   const isDisabled = oneclick !== 1;
+
+  // -----------------------------
+  //   use current location
+  // -----------------------------
+
+  const handleGPS = async (type) => {
+    try {
+      const location = await getCurrentLocation();
+
+      if (type === "pickup") {
+        handlePickupConfirm(location);
+      } else {
+        handleDropConfirm(location);
+      }
+    } catch (error) {
+      console.log(error);
+
+      alert(
+        "Unable to get your current location. Please allow location permission."
+      );
+    }
+  };
 
   // -----------------------------
   // Pickup location
@@ -199,6 +227,36 @@ export default function PassengerAuto() {
               📍 Pickup
             </h2>
 
+            <button
+              type="button"
+              onClick={() => handleGPS("pickup")}
+              disabled={locationLoading}
+              className="
+    inline-flex
+    items-center
+    gap-2
+    px-4
+    py-2
+    rounded-full
+    bg-blue-50
+    text-blue-600
+    border
+    border-blue-100
+    font-semibold
+    text-sm
+    hover:bg-blue-600
+    hover:text-white
+    disabled:opacity-50
+    transition-all
+  "
+            >
+              <Navigation size={16} />
+
+              {locationLoading
+                ? "Getting Location..."
+                : "Use Current Location"}
+            </button>
+
             <LocationPicker
               type="pickup"
               initialLocation={
@@ -285,6 +343,36 @@ export default function PassengerAuto() {
             <h2 className="font-bold text-xl mb-4">
               📍 Drop
             </h2>
+
+            <button
+              type="button"
+              onClick={() => handleGPS("drop")}
+              disabled={locationLoading}
+              className="
+    inline-flex
+    items-center
+    gap-2
+    px-4
+    py-2
+    rounded-full
+    bg-blue-50
+    text-blue-600
+    border
+    border-blue-100
+    font-semibold
+    text-sm
+    hover:bg-blue-600
+    hover:text-white
+    disabled:opacity-50
+    transition-all
+  "
+            >
+              <Navigation size={16} />
+
+              {locationLoading
+                ? "Getting Location..."
+                : "Use Current Location"}
+            </button>
 
             <LocationPicker
               type="drop"
