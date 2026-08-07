@@ -74,8 +74,6 @@ function App() {
 
           <Route path='/' element={<ServerTypes />} />
 
-          <Route path='/pick/location' element={<LocationPicker /> } />
-
           <Route path='/bike-parcel' element={< BikeParcelOrder /> } />
           <Route path='/bikeParcel/orders' element={<BikeParcelOrders />} />
 

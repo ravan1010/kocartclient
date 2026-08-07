@@ -276,6 +276,23 @@ export default function PassengerAuto() {
               </p>
             </button>
 
+            <div className="bg-white rounded-xl shadow p-5 mb-5">
+             <input
+              className="w-full border rounded-lg p-3 mb-3"
+              placeholder="Pickup Address"
+              value={form.pickup.address}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  pickup: {
+                    ...form.pickup,
+                    address: e.target.value,
+                  },
+                })
+              }
+            />
+          </div>
+
             {/* SELECTED PICKUP */}
 
             {form.pickup.latitude && (
@@ -378,6 +395,23 @@ export default function PassengerAuto() {
                 Open full-screen map and choose drop point
               </p>
             </button>
+
+            <div className="bg-white rounded-xl shadow p-5 mb-5">
+             <input
+              className="w-full border rounded-lg p-3 mb-3"
+              placeholder="Drop Address"
+              value={form.drop.address}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  drop: {
+                    ...form.drop,
+                    address: e.target.value,
+                  },
+                })
+              }
+            />
+          </div>
 
             {/* SELECTED DROP */}
 
