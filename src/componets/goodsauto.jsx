@@ -431,9 +431,9 @@ export default function GoodsAuto() {
               />
             </div>
 
-  <button
+<button
               type="button"
-              onClick={openPickupMap}
+              onClick={openDropMap}
               className="
                 w-full
                 border-2
@@ -452,20 +452,19 @@ export default function GoodsAuto() {
               </div>
 
               <p className="font-bold text-gray-800">
-                {form.pickup.latitude
-                  ? "Change Pickup Location"
-                  : "Select Pickup Location"}
+                {form.drop.latitude
+                  ? "Change Drop Location"
+                  : "Select Drop Location"}
               </p>
 
               <p className="text-sm text-gray-500 mt-1">
-                Open full-screen map and choose pickup point
+                Open full-screen map and choose drop point
               </p>
             </button>
             
+ {/* SELECTED DROP */}
 
-             {/* SELECTED PICKUP */}
-
-            {form.pickup.latitude && (
+            {form.drop.latitude && (
               <div className="mt-4 p-4 bg-green-50 rounded-xl">
 
                 <div className="flex items-start justify-between gap-3">
@@ -473,17 +472,17 @@ export default function GoodsAuto() {
                   <div className="min-w-0">
 
                     <p className="font-semibold text-green-700">
-                      Pickup Selected
+                      Drop Selected
                     </p>
 
                     <p className="text-sm text-gray-700 mt-1">
-                      {form.pickup.address}
+                      {form.drop.address}
                     </p>
 
                   </div>
 
                   <a
-                    href={`https://www.google.com/maps?q=${form.pickup.latitude},${form.pickup.longitude}`}
+                    href={`https://www.google.com/maps?q=${form.drop.latitude},${form.drop.longitude}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="
@@ -509,7 +508,7 @@ export default function GoodsAuto() {
 
                 <button
                   type="button"
-                  onClick={openPickupMap}
+                  onClick={openDropMap}
                   className="
                     mt-3
                     text-sm
@@ -517,7 +516,7 @@ export default function GoodsAuto() {
                     text-indigo-600
                   "
                 >
-                  Change Pickup
+                  Change Drop
                 </button>
 
               </div>
