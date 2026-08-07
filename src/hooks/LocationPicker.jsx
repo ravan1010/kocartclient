@@ -181,7 +181,7 @@ const LocationPicker = ({
         className="
           relative
           w-full
-          h-[450px]
+          h-[200px]
           rounded-2xl
           overflow-hidden
           border

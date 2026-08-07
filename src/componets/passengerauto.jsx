@@ -4,10 +4,14 @@ import { useNavigate } from "react-router-dom";
 import LocationPicker from "../hooks/LocationPicker";
 import { Navigation } from "lucide-react";
 import useCurrentLocation from "../hooks/useCurrentLocation";
+import FullScreenLocationPicker
+  from "../hooks/FullScreenLocationPicker";
 
 
 export default function PassengerAuto() {
   const navigate = useNavigate();
+
+  const [locationPicker, setLocationPicker] = useState(null);
 
   const {
     getCurrentLocation,
@@ -45,6 +49,14 @@ export default function PassengerAuto() {
   const [oneclick, setOneclick] = useState(1);
 
   const isDisabled = oneclick !== 1;
+
+  const openPickupMap = () => {
+  setLocationPicker("pickup");
+};
+
+const openDropMap = () => {
+  setLocationPicker("drop");
+};
 
   // -----------------------------
   //   use current location
@@ -207,6 +219,62 @@ export default function PassengerAuto() {
     }
   };
 
+  // -------------------------------
+  //   full page map
+  // -------------------------------
+
+
+  if (locationPicker) {
+  return (
+    <FullScreenLocationPicker
+      type={locationPicker}
+
+      initialLocation={
+        locationPicker === "pickup"
+          ? savedLocation
+          : (
+              form.drop.latitude &&
+              form.drop.longitude
+            )
+            ? {
+                latitude:
+                  Number(
+                    form.drop.latitude
+                  ),
+                longitude:
+                  Number(
+                    form.drop.longitude
+                  ),
+              }
+            : undefined
+      }
+
+      onCancel={() =>
+        setLocationPicker(null)
+      }
+
+      onConfirm={(location) => {
+
+        if (
+          locationPicker === "pickup"
+        ) {
+          handlePickupConfirm(
+            location
+          );
+        } else {
+          handleDropConfirm(
+            location
+          );
+        }
+
+        setLocationPicker(null);
+      }}
+    />
+  );
+}
+
+  // main return
+
   return (
     <div className="max-w-4xl mx-auto p-5">
 
@@ -277,6 +345,35 @@ export default function PassengerAuto() {
               }
               onConfirm={handlePickupConfirm}
             />
+            
+            <button
+  type="button"
+  onClick={openPickupMap}
+  className="
+    w-full
+    border-2
+    border-dashed
+    border-gray-300
+    rounded-2xl
+    p-5
+    text-left
+    hover:border-indigo-500
+    hover:bg-indigo-50
+    transition
+  "
+>
+  <div className="text-3xl mb-2">
+    📍
+  </div>
+
+  <p className="font-bold text-gray-800">
+    Select Pickup Location
+  </p>
+
+  <p className="text-sm text-gray-500 mt-1">
+    Open map and choose your pickup point
+  </p>
+</button>
 
 
             {/* Selected pickup */}
