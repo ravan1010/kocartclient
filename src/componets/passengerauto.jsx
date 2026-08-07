@@ -400,6 +400,13 @@ const openDropMap = () => {
       </p> */}
 
                   </div>
+                   <button
+      type="button"
+      onClick={openPickupMap}
+      className="mt-3 text-sm font-semibold text-indigo-600"
+    >
+      Change Pickup
+    </button>
 
                   <a
                     href={`https://www.google.com/maps?q=${form.pickup.latitude},${form.pickup.longitude}`}
