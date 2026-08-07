@@ -1,22 +1,15 @@
+
 import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
-// import LocationPicker from "../hooks/LocationPicker";
 import { Navigation } from "lucide-react";
-import useCurrentLocation from "../hooks/useCurrentLocation";
-import FullScreenLocationPicker
-  from "../hooks/FullScreenLocationPicker";
-
+import FullScreenLocationPicker from "../hooks/FullScreenLocationPicker";
 
 export default function PassengerAuto() {
   const navigate = useNavigate();
 
+  // Which map is open?
   const [locationPicker, setLocationPicker] = useState(null);
-
-  const {
-    getCurrentLocation,
-    loading: locationLoading,
-  } = useCurrentLocation();
 
   const [form, setForm] = useState({
     pickup: {
@@ -45,77 +38,85 @@ export default function PassengerAuto() {
   const [step, setStep] = useState(1);
   const [distance, setDistance] = useState(null);
   const [amount, setAmount] = useState(null);
-
   const [oneclick, setOneclick] = useState(1);
 
   const isDisabled = oneclick !== 1;
 
+  // =====================================================
+  // OPEN MAP
+  // =====================================================
+
   const openPickupMap = () => {
-  setLocationPicker("pickup");
-};
-
-const openDropMap = () => {
-  setLocationPicker("drop");
-};
-
-  // -----------------------------
-  //   use current location
-  // -----------------------------
-
-  const handleGPS = async (type) => {
-    try {
-      const location = await getCurrentLocation();
-
-          console.log("GPS LOCATION:", location);
-
-
-      if (type === "pickup") {
-        handlePickupConfirm(location);
-      } else {
-        handleDropConfirm(location);
-      }
-    } catch (error) {
-      console.log(error);
-
-      alert(
-        "Unable to get your current location. Please allow location permission."
-      );
-    }
+    setLocationPicker("pickup");
   };
 
-  // -----------------------------
-  // Pickup location
-  // -----------------------------
+  const openDropMap = () => {
+    setLocationPicker("drop");
+  };
+
+  // =====================================================
+  // PICKUP CONFIRM
+  // =====================================================
 
   const handlePickupConfirm = (location) => {
     setForm((prev) => ({
       ...prev,
+
       pickup: {
         address: location.address,
         latitude: location.latitude,
         longitude: location.longitude,
       },
     }));
+
+    setLocationPicker(null);
   };
 
-  // -----------------------------
-  // Drop location
-  // -----------------------------
+  // =====================================================
+  // DROP CONFIRM
+  // =====================================================
 
   const handleDropConfirm = (location) => {
     setForm((prev) => ({
       ...prev,
+
       drop: {
         address: location.address,
         latitude: location.latitude,
         longitude: location.longitude,
       },
     }));
+
+    setLocationPicker(null);
   };
 
-  // -----------------------------
-  // Check distance
-  // -----------------------------
+  // =====================================================
+  // FULL SCREEN MAP
+  // =====================================================
+
+  if (locationPicker) {
+    return (
+      <FullScreenLocationPicker
+        type={locationPicker}
+
+        onCancel={() => {
+          setLocationPicker(null);
+        }}
+
+        onConfirm={(location) => {
+          if (locationPicker === "pickup") {
+            handlePickupConfirm(location);
+          } else {
+            handleDropConfirm(location);
+          }
+        }}
+      />
+    );
+  }
+
+  // =====================================================
+  // CHECK DISTANCE
+  // =====================================================
 
   const checkDistance = async () => {
     try {
@@ -151,14 +152,12 @@ const openDropMap = () => {
     }
   };
 
-  // -----------------------------
-  // Submit order
-  // -----------------------------
+  // =====================================================
+  // SUBMIT ORDER
+  // =====================================================
 
   const handleSubmit = async () => {
-    if (oneclick === 2) {
-      return;
-    }
+    if (oneclick === 2) return;
 
     setOneclick(2);
 
@@ -219,68 +218,16 @@ const openDropMap = () => {
     }
   };
 
-  // -------------------------------
-  //   full page map
-  // -------------------------------
-
-
-  if (locationPicker) {
-  return (
-    <FullScreenLocationPicker
-      type={locationPicker}
-
-      initialLocation={
-        locationPicker === "pickup"
-          ? savedLocation
-          : (
-              form.drop.latitude &&
-              form.drop.longitude
-            )
-            ? {
-                latitude:
-                  Number(
-                    form.drop.latitude
-                  ),
-                longitude:
-                  Number(
-                    form.drop.longitude
-                  ),
-              }
-            : undefined
-      }
-
-      onCancel={() =>
-        setLocationPicker(null)
-      }
-
-      onConfirm={(location) => {
-
-        if (
-          locationPicker === "pickup"
-        ) {
-          handlePickupConfirm(
-            location
-          );
-        } else {
-          handleDropConfirm(
-            location
-          );
-        }
-
-        setLocationPicker(null);
-      }}
-    />
-  );
-}
-
-  // main return
+  // =====================================================
+  // PAGE
+  // =====================================================
 
   return (
     <div className="max-w-4xl mx-auto p-5">
 
-      {/* =========================
+      {/* =================================================
           STEP 1
-      ========================== */}
+      ================================================= */}
 
       {step === 1 && (
         <>
@@ -288,9 +235,9 @@ const openDropMap = () => {
             🚖 Passenger Auto Booking
           </h1>
 
-          {/* =====================
+          {/* =================================================
               PICKUP
-          ====================== */}
+          ================================================= */}
 
           <div className="bg-white rounded-xl shadow p-5 mb-5">
 
@@ -300,84 +247,36 @@ const openDropMap = () => {
 
             <button
               type="button"
-              onClick={() => handleGPS("pickup")}
-              disabled={locationLoading}
+              onClick={openPickupMap}
               className="
-    inline-flex
-    items-center
-    gap-2
-    px-4
-    py-2
-    rounded-full
-    bg-blue-50
-    text-blue-600
-    border
-    border-blue-100
-    font-semibold
-    text-sm
-    hover:bg-blue-600
-    hover:text-white
-    disabled:opacity-50
-    transition-all
-  "
+                w-full
+                border-2
+                border-dashed
+                border-gray-300
+                rounded-2xl
+                p-5
+                text-left
+                hover:border-indigo-500
+                hover:bg-indigo-50
+                transition
+              "
             >
-              <Navigation size={16} />
+              <div className="text-3xl mb-2">
+                📍
+              </div>
 
-              {locationLoading
-                ? "Getting Location..."
-                : "Use Current Location"}
+              <p className="font-bold text-gray-800">
+                {form.pickup.latitude
+                  ? "Change Pickup Location"
+                  : "Select Pickup Location"}
+              </p>
+
+              <p className="text-sm text-gray-500 mt-1">
+                Open full-screen map and choose pickup point
+              </p>
             </button>
 
-            {/* <LocationPicker
-              type="pickup"
-              initialLocation={
-                form.pickup.latitude &&
-                  form.pickup.longitude
-                  ? {
-                    latitude: Number(
-                      form.pickup.latitude
-                    ),
-                    longitude: Number(
-                      form.pickup.longitude
-                    ),
-                  }
-                  : undefined
-              }
-              onConfirm={handlePickupConfirm}
-            /> */}
-
-            <button
-  type="button"
-  onClick={openPickupMap}
-  className="
-    w-full
-    border-2
-    border-dashed
-    border-gray-300
-    rounded-2xl
-    p-5
-    text-left
-    hover:border-indigo-500
-    hover:bg-indigo-50
-    transition
-  "
->
-  <div className="text-3xl mb-2">
-    📍
-  </div>
-
-  <p className="font-bold text-gray-800">
-    Select Pickup Location
-  </p>
-
-  <p className="text-sm text-gray-500 mt-1">
-    Open map and choose your pickup point
-  </p>
-</button>
-
-
-            {/* Selected pickup */}
-
+            {/* SELECTED PICKUP */}
 
             {form.pickup.latitude && (
               <div className="mt-4 p-4 bg-green-50 rounded-xl">
@@ -394,41 +293,26 @@ const openDropMap = () => {
                       {form.pickup.address}
                     </p>
 
-                    {/* <p className="text-xs text-gray-500 mt-1">
-        {form.pickup.latitude},{" "}
-        {form.pickup.longitude}
-      </p> */}
-
                   </div>
-                   <button
-      type="button"
-      onClick={openPickupMap}
-      className="mt-3 text-sm font-semibold text-indigo-600"
-    >
-      Change Pickup
-    </button>
 
                   <a
                     href={`https://www.google.com/maps?q=${form.pickup.latitude},${form.pickup.longitude}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="
-        shrink-0
-        inline-flex
-        items-center
-        gap-2
-        px-3
-        py-2
-        rounded-xl
-        bg-blue-600
-        text-white
-        text-sm
-        font-semibold
-        shadow-sm
-        hover:bg-blue-700
-        active:scale-95
-        transition-all
-      "
+                      shrink-0
+                      inline-flex
+                      items-center
+                      gap-2
+                      px-3
+                      py-2
+                      rounded-xl
+                      bg-blue-600
+                      text-white
+                      text-sm
+                      font-semibold
+                      hover:bg-blue-700
+                    "
                   >
                     <Navigation size={16} />
                     Navigate
@@ -436,20 +320,130 @@ const openDropMap = () => {
 
                 </div>
 
+                <button
+                  type="button"
+                  onClick={openPickupMap}
+                  className="
+                    mt-3
+                    text-sm
+                    font-semibold
+                    text-indigo-600
+                  "
+                >
+                  Change Pickup
+                </button>
+
               </div>
             )}
 
           </div>
 
-          {/* =====================
+          {/* =================================================
               DROP
-          ====================== */}
+          ================================================= */}
 
-        
+          <div className="bg-white rounded-xl shadow p-5 mb-5">
 
-          {/* =====================
+            <h2 className="font-bold text-xl mb-4">
+              📍 Drop
+            </h2>
+
+            <button
+              type="button"
+              onClick={openDropMap}
+              className="
+                w-full
+                border-2
+                border-dashed
+                border-gray-300
+                rounded-2xl
+                p-5
+                text-left
+                hover:border-indigo-500
+                hover:bg-indigo-50
+                transition
+              "
+            >
+              <div className="text-3xl mb-2">
+                📍
+              </div>
+
+              <p className="font-bold text-gray-800">
+                {form.drop.latitude
+                  ? "Change Drop Location"
+                  : "Select Drop Location"}
+              </p>
+
+              <p className="text-sm text-gray-500 mt-1">
+                Open full-screen map and choose drop point
+              </p>
+            </button>
+
+            {/* SELECTED DROP */}
+
+            {form.drop.latitude && (
+              <div className="mt-4 p-4 bg-green-50 rounded-xl">
+
+                <div className="flex items-start justify-between gap-3">
+
+                  <div className="min-w-0">
+
+                    <p className="font-semibold text-green-700">
+                      Drop Selected
+                    </p>
+
+                    <p className="text-sm text-gray-700 mt-1">
+                      {form.drop.address}
+                    </p>
+
+                  </div>
+
+                  <a
+                    href={`https://www.google.com/maps?q=${form.drop.latitude},${form.drop.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+                      shrink-0
+                      inline-flex
+                      items-center
+                      gap-2
+                      px-3
+                      py-2
+                      rounded-xl
+                      bg-blue-600
+                      text-white
+                      text-sm
+                      font-semibold
+                      hover:bg-blue-700
+                    "
+                  >
+                    <Navigation size={16} />
+                    Navigate
+                  </a>
+
+                </div>
+
+                <button
+                  type="button"
+                  onClick={openDropMap}
+                  className="
+                    mt-3
+                    text-sm
+                    font-semibold
+                    text-indigo-600
+                  "
+                >
+                  Change Drop
+                </button>
+
+              </div>
+            )}
+
+          </div>
+
+          {/* =================================================
               PASSENGER
-          ====================== */}
+          ================================================= */}
 
           <div className="bg-white rounded-xl shadow p-5 mb-5">
 
@@ -501,9 +495,7 @@ const openDropMap = () => {
 
                   passenger: {
                     ...prev.passenger,
-                    passengers: Number(
-                      e.target.value
-                    ),
+                    passengers: Number(e.target.value),
                   },
                 }))
               }
@@ -519,15 +511,13 @@ const openDropMap = () => {
               <option value={3}>
                 3 Passengers
               </option>
-
-
             </select>
 
           </div>
 
-          {/* =====================
+          {/* =================================================
               PAYMENT
-          ====================== */}
+          ================================================= */}
 
           <div className="bg-white rounded-xl shadow p-5 mb-5">
 
@@ -558,9 +548,9 @@ const openDropMap = () => {
 
           </div>
 
-          {/* =====================
+          {/* =================================================
               CONTINUE
-          ====================== */}
+          ================================================= */}
 
           <button
             onClick={checkDistance}
@@ -583,9 +573,9 @@ const openDropMap = () => {
         </>
       )}
 
-      {/* =========================
+      {/* =================================================
           STEP 2
-      ========================== */}
+      ================================================= */}
 
       {step === 2 && (
         <div className="bg-white rounded-xl shadow p-6">
@@ -594,7 +584,7 @@ const openDropMap = () => {
             Ride Summary
           </h2>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
 
             <div>
               <p className="text-sm text-gray-500">
@@ -605,35 +595,6 @@ const openDropMap = () => {
                 {form.pickup.address}
               </p>
             </div>
-            <div>
-               <a
-                    href={`https://www.google.com/maps?q=${form.pickup.latitude},${form.pickup.longitude}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="
-        shrink-0
-        inline-flex
-        items-center
-        gap-2
-        px-3
-        py-2
-        rounded-xl
-        bg-blue-600
-        text-white
-        text-sm
-        font-semibold
-        shadow-sm
-        hover:bg-blue-700
-        active:scale-95
-        transition-all
-      "
-                  >
-                    <Navigation size={16} />
-                    Navigate
-                  </a>
-            </div>
-
-
 
             <div>
               <p className="text-sm text-gray-500">
@@ -643,34 +604,6 @@ const openDropMap = () => {
               <p className="font-medium">
                 {form.drop.address}
               </p>
-            </div>
-
-            <div>
-               <a
-                    href={`https://www.google.com/maps?q=${form.drop.latitude},${form.drop.longitude}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="
-        shrink-0
-        inline-flex
-        items-center
-        gap-2
-        px-3
-        py-2
-        rounded-xl
-        bg-blue-600
-        text-white
-        text-sm
-        font-semibold
-        shadow-sm
-        hover:bg-blue-700
-        active:scale-95
-        transition-all
-      "
-                  >
-                    <Navigation size={16} />
-                    Navigate
-                  </a>
             </div>
 
             <div>
@@ -735,3 +668,4 @@ const openDropMap = () => {
     </div>
   );
 }
+

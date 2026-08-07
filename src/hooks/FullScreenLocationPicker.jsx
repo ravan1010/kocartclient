@@ -10,6 +10,15 @@ import "leaflet/dist/leaflet.css";
 
 import useMapLocation from "./useMapLocation";
 import MapCenterUpdater from "./MapCenterUpdater";
+import useCurrentLocation from "./useCurrentLocation";
+import { Navigation } from "lucide-react";
+
+
+/*
+|--------------------------------------------------------------------------
+| Recenter map when location changes
+|--------------------------------------------------------------------------
+*/
 
 const RecenterMap = ({ location }) => {
   const map = useMap();
@@ -29,7 +38,7 @@ const RecenterMap = ({ location }) => {
 
     map.setView(
       [lat, lng],
-      map.getZoom(),
+      17,
       {
         animate: true,
       }
@@ -43,6 +52,12 @@ const RecenterMap = ({ location }) => {
   return null;
 };
 
+
+/*
+|--------------------------------------------------------------------------
+| Full Screen Location Picker
+|--------------------------------------------------------------------------
+*/
 
 const FullScreenLocationPicker = ({
   type = "pickup",
@@ -60,9 +75,21 @@ const FullScreenLocationPicker = ({
 
 
   /*
-  -----------------------------------------
-  Reverse geocode
-  -----------------------------------------
+  |--------------------------------------------------------------------------
+  | Current GPS location
+  |--------------------------------------------------------------------------
+  */
+
+  const {
+    getCurrentLocation,
+    loading: locationLoading,
+  } = useCurrentLocation();
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | Reverse geocode
+  |--------------------------------------------------------------------------
   */
 
   useEffect(() => {
@@ -79,9 +106,9 @@ const FullScreenLocationPicker = ({
 
 
   /*
-  -----------------------------------------
-  Map moved
-  -----------------------------------------
+  |--------------------------------------------------------------------------
+  | Map moved
+  |--------------------------------------------------------------------------
   */
 
   const handleLocationChange = (
@@ -96,9 +123,46 @@ const FullScreenLocationPicker = ({
 
 
   /*
-  -----------------------------------------
-  Confirm
-  -----------------------------------------
+  |--------------------------------------------------------------------------
+  | Use Current Location
+  |--------------------------------------------------------------------------
+  */
+
+  const handleCurrentLocation = async () => {
+    try {
+
+      const currentLocation =
+        await getCurrentLocation();
+
+      updateLocation(
+        currentLocation.latitude,
+        currentLocation.longitude
+      );
+
+      /*
+       * updateLocation changes the map position.
+       * reverseGeocode will automatically run
+       * because latitude/longitude changed.
+       */
+
+    } catch (error) {
+
+      console.error(
+        "Current location error:",
+        error
+      );
+
+      alert(
+        "Unable to get your current location. Please allow location permission."
+      );
+    }
+  };
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | Confirm
+  |--------------------------------------------------------------------------
   */
 
   const handleConfirm = () => {
@@ -124,12 +188,20 @@ const FullScreenLocationPicker = ({
   };
 
 
+  /*
+  |--------------------------------------------------------------------------
+  | Loading
+  |--------------------------------------------------------------------------
+  */
+
   if (!location) {
     return (
       <div className="fixed inset-0 bg-white flex items-center justify-center z-[9999]">
+
         <p className="text-gray-500">
           Loading map...
         </p>
+
       </div>
     );
   }
@@ -138,9 +210,10 @@ const FullScreenLocationPicker = ({
   return (
     <div className="fixed inset-0 z-[9999] bg-white">
 
-      {/* =================================
+
+      {/* ============================================================
           MAP
-      ================================= */}
+      ============================================================ */}
 
       <MapContainer
         center={[
@@ -173,9 +246,9 @@ const FullScreenLocationPicker = ({
       </MapContainer>
 
 
-      {/* =================================
+      {/* ============================================================
           TOP BAR
-      ================================= */}
+      ============================================================ */}
 
       <div
         className="
@@ -212,6 +285,7 @@ const FullScreenLocationPicker = ({
               items-center
               justify-center
               text-xl
+              hover:bg-gray-200
             "
           >
             ←
@@ -236,9 +310,9 @@ const FullScreenLocationPicker = ({
       </div>
 
 
-      {/* =================================
+      {/* ============================================================
           CENTER MARKER
-      ================================= */}
+      ============================================================ */}
 
       <div
         className="
@@ -259,9 +333,60 @@ const FullScreenLocationPicker = ({
       </div>
 
 
-      {/* =================================
+      {/* ============================================================
+          CURRENT LOCATION BUTTON
+      ============================================================ */}
+
+      <div
+        className="
+          absolute
+          right-4
+          bottom-[210px]
+          z-[1000]
+        "
+      >
+
+        <button
+          type="button"
+          onClick={handleCurrentLocation}
+          disabled={locationLoading}
+          className="
+            w-12
+            h-12
+            rounded-full
+            bg-white
+            shadow-xl
+            border
+            border-gray-200
+            flex
+            items-center
+            justify-center
+            text-blue-600
+            hover:bg-blue-50
+            active:scale-95
+            transition
+            disabled:opacity-60
+          "
+          title="Use current location"
+        >
+
+          <Navigation
+            size={22}
+            className={
+              locationLoading
+                ? "animate-pulse"
+                : ""
+            }
+          />
+
+        </button>
+
+      </div>
+
+
+      {/* ============================================================
           BOTTOM PANEL
-      ================================= */}
+      ============================================================ */}
 
       <div
         className="
@@ -288,17 +413,21 @@ const FullScreenLocationPicker = ({
           </p>
 
           <p className="font-semibold text-gray-900 mb-4">
-            {address || "Finding address..."}
+            {locationLoading
+              ? "Getting your current location..."
+              : address || "Finding address..."}
           </p>
 
 
           <button
             type="button"
             onClick={handleConfirm}
+            disabled={locationLoading}
             className="
               w-full
               bg-indigo-600
               hover:bg-indigo-700
+              disabled:bg-gray-400
               text-white
               py-4
               rounded-2xl
@@ -308,10 +437,13 @@ const FullScreenLocationPicker = ({
               active:scale-[0.98]
             "
           >
+
             Confirm{" "}
+
             {type === "pickup"
               ? "Pickup"
               : "Drop"}
+
           </button>
 
         </div>
@@ -323,4 +455,3 @@ const FullScreenLocationPicker = ({
 };
 
 export default FullScreenLocationPicker;
-
