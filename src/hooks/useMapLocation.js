@@ -19,7 +19,7 @@ const useMapLocation = (initialLocation = null) => {
 
   const reverseGeocode = async (latitude, longitude) => {
     try {
-      const apiKey = import.meta.env.VITE_GEOAPIFY_KEY;
+      const apiKey = import.meta.env.VITE_GEOAPIFY_KEY || "9101d57bd3a34d2194bb8222a55a6a3f";
 
       const response = await fetch(
         `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=${apiKey}`
