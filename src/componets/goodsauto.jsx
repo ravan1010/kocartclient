@@ -1,10 +1,19 @@
 import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
+import useCurrentLocation from "../hooks/useCurrentLocation";
+import { Navigation } from "lucide-react";
+import LocationPicker from "../hooks/LocationPicker";
 
 
 export default function GoodsAuto() {
         const navigate = useNavigate();
+
+        const {
+    getCurrentLocation,
+    loading: locationLoading,
+  } = useCurrentLocation();
+
 
   const [form, setForm] = useState({
   pickup: {
@@ -46,22 +55,102 @@ export default function GoodsAuto() {
     const isDisabled =
     oneclick !== 1;
 
+  // -----------------------------
+  //   use current location
+  // -----------------------------
+
+  const handleGPS = async (type) => {
+    try {
+      const location = await getCurrentLocation();
+
+          console.log("GPS LOCATION:", location);
+
+
+      if (type === "pickup") {
+        handlePickupConfirm(location);
+      } else {
+        handleDropConfirm(location);
+      }
+    } catch (error) {
+      console.log(error);
+
+      alert(
+        "Unable to get your current location. Please allow location permission."
+      );
+    }
+  };
+
+  // -----------------------------
+  // Pickup location
+  // -----------------------------
+
+  const handlePickupConfirm = (location) => {
+    setForm((prev) => ({
+      ...prev,
+      pickup: {
+        address: location.address,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      },
+    }));
+  };
+
+ // -----------------------------
+  // Drop location
+  // -----------------------------
+
+  const handleDropConfirm = (location) => {
+    setForm((prev) => ({
+      ...prev,
+      drop: {
+        address: location.address,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      },
+    }));
+  };
+
+  // -----------------------------
+  // Check distance
+  // -----------------------------
+
   const checkDistance = async () => {
     try {
+      if (
+        !form.pickup.latitude ||
+        !form.pickup.longitude ||
+        !form.drop.latitude ||
+        !form.drop.longitude
+      ) {
+        alert("Please select pickup and drop locations");
+        return;
+      }
+
       const res = await api.post("/api/parcel/distance", {
-        pickuplat: form.pickup.latitude,
-        pickuplng: form.pickup.longitude,
-        droplat: form.drop.latitude,
-        droplng: form.drop.longitude,
+        pickuplat: Number(form.pickup.latitude),
+        pickuplng: Number(form.pickup.longitude),
+
+        droplat: Number(form.drop.latitude),
+        droplng: Number(form.drop.longitude),
       });
 
       setDistance(res.data.distance);
       setAmount(res.data.amount);
+
       setStep(2);
     } catch (err) {
       console.log(err);
+
+      alert(
+        err.response?.data?.message ||
+        "Unable to calculate distance"
+      );
     }
   };
+
+  // -----------------------------
+  // Submit order
+  // -----------------------------
 
   const handleSubmit = async () => {
 
@@ -115,6 +204,10 @@ export default function GoodsAuto() {
   return (
     <div className="max-w-4xl mx-auto p-5">
 
+      {/* =========================
+          STEP 1
+      ========================== */}
+
       {step === 1 && (
         <>
           <h1 className="text-3xl font-bold mb-6">
@@ -128,7 +221,7 @@ export default function GoodsAuto() {
               Pickup
             </h2>
 
-            <input
+             <input
               className="w-full border rounded-lg p-3 mb-3"
               placeholder="Pickup Address"
               value={form.pickup.address}
@@ -143,17 +236,17 @@ export default function GoodsAuto() {
               }
             />
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 mb-3">
               <input
                 className="border rounded-lg p-3"
-                placeholder="Latitude"
-                value={form.pickup.latitude}
+                placeholder="Sender Name"
+                value={form.pickup.name}
                 onChange={(e) =>
                   setForm({
                     ...form,
                     pickup: {
                       ...form.pickup,
-                      latitude: e.target.value,
+                      name: e.target.value,
                     },
                   })
                 }
@@ -161,19 +254,130 @@ export default function GoodsAuto() {
 
               <input
                 className="border rounded-lg p-3"
-                placeholder="Longitude"
-                value={form.pickup.longitude}
+                placeholder="Sender Phone"
+                value={form.pickup.phone}
+                minLength={10}
+                maxLength={10}
                 onChange={(e) =>
                   setForm({
                     ...form,
                     pickup: {
                       ...form.pickup,
-                      longitude: e.target.value,
+                      phone: e.target.value,
                     },
                   })
                 }
               />
             </div>
+
+ <div className="bg-white rounded-xl shadow p-5 mb-5">
+
+            <button
+              type="button"
+              onClick={() => handleGPS("pickup")}
+              disabled={locationLoading}
+              className="
+    inline-flex
+    items-center
+    gap-2
+    px-4
+    py-2
+    rounded-full
+    bg-blue-50
+    text-blue-600
+    border
+    border-blue-100
+    font-semibold
+    text-sm
+    hover:bg-blue-600
+    hover:text-white
+    disabled:opacity-50
+    transition-all
+  "
+            >
+              <Navigation size={16} />
+
+              {locationLoading
+                ? "Getting Location..."
+                : "Use Current Location"}
+            </button>
+
+            <LocationPicker
+              type="pickup"
+              initialLocation={
+                form.pickup.latitude &&
+                  form.pickup.longitude
+                  ? {
+                    latitude: Number(
+                      form.pickup.latitude
+                    ),
+                    longitude: Number(
+                      form.pickup.longitude
+                    ),
+                  }
+                  : undefined
+              }
+              onConfirm={handlePickupConfirm}
+            />
+
+
+            {/* Selected pickup */}
+
+
+            {form.pickup.latitude && (
+              <div className="mt-4 p-4 bg-green-50 rounded-xl">
+
+                <div className="flex items-start justify-between gap-3">
+
+                  <div className="min-w-0">
+
+                    <p className="font-semibold text-green-700">
+                      Pickup Selected
+                    </p>
+
+                    <p className="text-sm text-gray-700 mt-1">
+                      {form.pickup.address}
+                    </p>
+
+                    {/* <p className="text-xs text-gray-500 mt-1">
+        {form.pickup.latitude},{" "}
+        {form.pickup.longitude}
+      </p> */}
+
+                  </div>
+
+                  <a
+                    href={`https://www.google.com/maps?q=${form.pickup.latitude},${form.pickup.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+        shrink-0
+        inline-flex
+        items-center
+        gap-2
+        px-3
+        py-2
+        rounded-xl
+        bg-blue-600
+        text-white
+        text-sm
+        font-semibold
+        shadow-sm
+        hover:bg-blue-700
+        active:scale-95
+        transition-all
+      "
+                  >
+                    <Navigation size={16} />
+                    Navigate
+                  </a>
+
+                </div>
+
+              </div>
+            )}
+
+          </div>
           </div>
 
           {/* Drop */}
@@ -198,17 +402,17 @@ export default function GoodsAuto() {
               }
             />
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 mb-3">
               <input
                 className="border rounded-lg p-3"
-                placeholder="Latitude"
-                value={form.drop.latitude}
+                placeholder="Receiver Name"
+                value={form.drop.name}
                 onChange={(e) =>
                   setForm({
                     ...form,
                     drop: {
                       ...form.drop,
-                      latitude: e.target.value,
+                      name: e.target.value,
                     },
                   })
                 }
@@ -216,19 +420,134 @@ export default function GoodsAuto() {
 
               <input
                 className="border rounded-lg p-3"
-                placeholder="Longitude"
-                value={form.drop.longitude}
+                placeholder="Receiver Phone"
+                value={form.drop.phone}
+                minLength={10}
+                maxLength={10}
                 onChange={(e) =>
                   setForm({
                     ...form,
                     drop: {
                       ...form.drop,
-                      longitude: e.target.value,
+                      phone: e.target.value,
                     },
                   })
                 }
               />
             </div>
+
+        <div className="bg-white rounded-xl shadow p-5 mb-5">
+
+            
+
+            <button
+              type="button"
+              onClick={() => handleGPS("drop")}
+              disabled={locationLoading}
+              className="
+    inline-flex
+    items-center
+    gap-2
+    px-4
+    py-2
+    rounded-full
+    bg-blue-50
+    text-blue-600
+    border
+    border-blue-100
+    font-semibold
+    text-sm
+    hover:bg-blue-600
+    hover:text-white
+    disabled:opacity-50
+    transition-all
+    mb-4
+  "
+            >
+              <Navigation size={16} />
+
+              {locationLoading
+                ? "Getting Location..."
+                : "Use Current Location"}
+            </button>
+
+            <LocationPicker
+              type="drop"
+              initialLocation={
+                form.drop.latitude &&
+                  form.drop.longitude
+                  ? {
+                    latitude: Number(
+                      form.drop.latitude
+                    ),
+                    longitude: Number(
+                      form.drop.longitude
+                    ),
+                  }
+                  : undefined
+              }
+              onConfirm={handleDropConfirm}
+            />
+
+
+
+            {/* Selected drop */}
+
+            {form.drop.latitude && (
+              <div className="mt-4 p-4 bg-green-50 rounded-xl">
+
+                <div className="flex items-start justify-between gap-3">
+
+                  <div className="min-w-0">
+
+                    <p className="font-semibold text-green-700">
+                      Pickup Selected
+                    </p>
+
+                    <p className="text-sm text-gray-700 mt-1">
+                      {form.drop.address}
+                    </p>
+
+                    {/* <p className="text-xs text-gray-500 mt-1">
+        {form.drop.latitude},{" "}
+        {form.drop.longitude}
+      </p> */}
+
+                  </div>
+
+                  <a
+                    href={`https://www.google.com/maps?q=${form.drop.latitude},${form.drop.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+        shrink-0
+        inline-flex
+        items-center
+        gap-2
+        px-3
+        py-2
+        rounded-xl
+        bg-blue-600
+        text-white
+        text-sm
+        font-semibold
+        shadow-sm
+        hover:bg-blue-700
+        active:scale-95
+        transition-all
+        mb-4
+      "
+                  >
+                    <Navigation size={16} />
+                    Navigate
+                  </a>
+
+                </div>
+
+              </div>
+            )}
+
+          </div>
           </div>
 
         {/* goods */}
