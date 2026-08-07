@@ -470,6 +470,7 @@ export default function PassengerAuto() {
               className="w-full border rounded-lg p-3 mb-3"
               placeholder="Passenger Name"
               value={form.passenger.name}
+              maxLength={20}
               onChange={(e) =>
                 setForm((prev) => ({
                   ...prev,
@@ -486,6 +487,8 @@ export default function PassengerAuto() {
               className="w-full border rounded-lg p-3 mb-3"
               placeholder="Mobile Number"
               value={form.passenger.phone}
+              minLength={10}
+              maxLength={10}
               onChange={(e) =>
                 setForm((prev) => ({
                   ...prev,
@@ -611,7 +614,7 @@ export default function PassengerAuto() {
                 {form.pickup.address}
               </p>
             </div>
-            
+
 
             <div>
               <p className="text-sm text-gray-500">
