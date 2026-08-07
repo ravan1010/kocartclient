@@ -54,6 +54,9 @@ export default function PassengerAuto() {
     try {
       const location = await getCurrentLocation();
 
+          console.log("GPS LOCATION:", location);
+
+
       if (type === "pickup") {
         handlePickupConfirm(location);
       } else {
