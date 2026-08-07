@@ -365,6 +365,7 @@ export default function PassengerAuto() {
     hover:text-white
     disabled:opacity-50
     transition-all
+    mb-4
   "
             >
               <Navigation size={16} />
@@ -438,6 +439,7 @@ export default function PassengerAuto() {
         hover:bg-blue-700
         active:scale-95
         transition-all
+        mb-4
       "
                   >
                     <Navigation size={16} />
