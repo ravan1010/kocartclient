@@ -328,7 +328,7 @@ const openDropMap = () => {
                 : "Use Current Location"}
             </button>
 
-            <LocationPicker
+            {/* <LocationPicker
               type="pickup"
               initialLocation={
                 form.pickup.latitude &&
@@ -344,8 +344,8 @@ const openDropMap = () => {
                   : undefined
               }
               onConfirm={handlePickupConfirm}
-            />
-            
+            /> */}
+
             <button
   type="button"
   onClick={openPickupMap}
