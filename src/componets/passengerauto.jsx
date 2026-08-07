@@ -614,6 +614,34 @@ export default function PassengerAuto() {
                 {form.pickup.address}
               </p>
             </div>
+            <div>
+               <a
+                    href={`https://www.google.com/maps?q=${form.pickup.latitude},${form.pickup.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+        shrink-0
+        inline-flex
+        items-center
+        gap-2
+        px-3
+        py-2
+        rounded-xl
+        bg-blue-600
+        text-white
+        text-sm
+        font-semibold
+        shadow-sm
+        hover:bg-blue-700
+        active:scale-95
+        transition-all
+      "
+                  >
+                    <Navigation size={16} />
+                    Navigate
+                  </a>
+            </div>
+
 
 
             <div>
@@ -624,6 +652,34 @@ export default function PassengerAuto() {
               <p className="font-medium">
                 {form.drop.address}
               </p>
+            </div>
+
+            <div>
+               <a
+                    href={`https://www.google.com/maps?q=${form.drop.latitude},${form.drop.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+        shrink-0
+        inline-flex
+        items-center
+        gap-2
+        px-3
+        py-2
+        rounded-xl
+        bg-blue-600
+        text-white
+        text-sm
+        font-semibold
+        shadow-sm
+        hover:bg-blue-700
+        active:scale-95
+        transition-all
+      "
+                  >
+                    <Navigation size={16} />
+                    Navigate
+                  </a>
             </div>
 
             <div>

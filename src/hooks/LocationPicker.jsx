@@ -258,7 +258,7 @@ const LocationPicker = ({
 
       {/* Selected Address */}
 
-      <div className="mt-4 bg-gray-50 rounded-xl p-4">
+      {/* <div className="mt-4 bg-gray-50 rounded-xl p-4">
 
         <p className="text-xs text-gray-500">
           Selected location
@@ -276,7 +276,7 @@ const LocationPicker = ({
 
         </div>
 
-      </div>
+      </div> */}
 
 
       {/* Confirm */}
