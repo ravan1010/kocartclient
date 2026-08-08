@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { Navigation } from "lucide-react";
@@ -41,6 +41,29 @@ export default function PassengerAuto() {
   const [oneclick, setOneclick] = useState(1);
 
   const isDisabled = oneclick !== 1;
+
+  // ---------------------------------
+  //      active orders check
+  // ---------------------------------
+
+  useEffect(() => {
+  const checkActiveOrder = async () => {
+    try {
+      const res = await api.get("/api/auto/active");
+
+      if (res.data.order) {
+        navigate(
+          `/PassengerAuto/order/${res.data.order._id}`,
+          { replace: true }
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  checkActiveOrder();
+  }, []);
 
   // =====================================================
   // OPEN MAP
@@ -204,7 +227,7 @@ export default function PassengerAuto() {
       if (res.data.success) {
         setOneclick(1);
 
-        navigate("/PassengerAuto/orders");
+        navigate(`/PassengerAuto/order/${res.data.order._id}`);
       }
     } catch (err) {
       console.log(err);
@@ -244,23 +267,6 @@ export default function PassengerAuto() {
             <h2 className="font-bold text-xl mb-4">
               📍 Pickup
             </h2>
-
-             <div className="bg-white rounded-xl shadow p-5 mb-5">
-              <input
-                className="w-full border rounded-lg p-3 mb-3"
-                placeholder="Pickup Address"
-                value={form.pickup.address}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    pickup: {
-                      ...form.pickup,
-                      address: e.target.value,
-                    },
-                  })
-                }
-              />
-            </div>
 
             <button
               type="button"
@@ -365,24 +371,6 @@ export default function PassengerAuto() {
             <h2 className="font-bold text-xl mb-4">
               📍 Drop
             </h2>
-
-            
-            <div className="bg-white rounded-xl shadow p-5 mb-5">
-              <input
-                className="w-full border rounded-lg p-3 mb-3"
-                placeholder="Drop Address"
-                value={form.drop.address}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    drop: {
-                      ...form.drop,
-                      address: e.target.value,
-                    },
-                  })
-                }
-              />
-            </div>
 
             <button
               type="button"
