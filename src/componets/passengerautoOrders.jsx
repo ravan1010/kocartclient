@@ -234,9 +234,9 @@ export default function PassengerAutoOrders() {
 
             {/* Header */}
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-50 text-xl">
+              {/* <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-50 text-xl">
                 🚕
-              </div>
+              </div> */}
 
               <div>
                 <h3 className="text-lg font-bold text-gray-900">
@@ -304,7 +304,7 @@ export default function PassengerAutoOrders() {
             </div>
 
             {/* Pickup OTP */}
-            {order.status === "driver_arrived" && order.otp?.pickup && (
+            {order.status === "driver_arrived" && (
               <div className="mt-5 rounded-2xl border border-dashed border-indigo-300 bg-indigo-50 p-5 text-center">
                 <p className="text-sm font-medium text-indigo-600">
                   Pickup OTP
