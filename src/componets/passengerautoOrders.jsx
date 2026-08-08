@@ -229,8 +229,7 @@ export default function PassengerAutoOrders() {
       {(
         order.status === "driver_arrived" ||
         order.status === "picked_up"
-      ) &&
-        order.partner && (
+      ) && (
           <div className="mt-5 rounded-2xl border border-gray-100 bg-white p-5 shadow-md">
 
             {/* Header */}
