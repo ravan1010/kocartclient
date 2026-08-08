@@ -297,7 +297,7 @@ export default function PassengerAutoOrders() {
                 </span>
 
                 <span className="rounded-lg bg-gray-900 px-3 py-1 text-sm font-bold tracking-wide text-white">
-                  {order.driver?.vehicalNO}
+                   {order.driver?.vehicleNo}
                 </span>
               </div>
 
