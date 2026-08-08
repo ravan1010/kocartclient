@@ -272,10 +272,10 @@ export default function PassengerAutoOrders() {
                 </span>
 
                 <a
-                  href={`tel:${order.driver?.Number}`}
+                  href={`tel:$ ${order.driver?.number}`}
                   className="font-semibold text-indigo-600 hover:text-indigo-700"
                 >
-                  {order.driver?.Number}
+                    {order.driver?.number}
                 </a>
               </div>
 
@@ -286,7 +286,7 @@ export default function PassengerAutoOrders() {
                 </span>
 
                 <span className="font-semibold text-gray-900">
-                  {order.driver?.vehicalName}
+                  {order.driver?.vehicleName}
                 </span>
               </div>
 
