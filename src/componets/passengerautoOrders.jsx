@@ -311,7 +311,7 @@ export default function PassengerAutoOrders() {
                 </p>
 
                 <p className="mt-2 text-3xl font-extrabold tracking-[0.4em] text-indigo-900">
-                  {order.otp?.pickup}
+                  {order.otp?.pickupOtp}
                 </p>
 
                 <p className="mt-2 text-xs text-indigo-600">
@@ -321,14 +321,14 @@ export default function PassengerAutoOrders() {
             )}
 
             {/* Delivery OTP */}
-            {order.status === "picked_up" && order.otp?.delivery && (
+            {order.status === "picked_up" &&  (
               <div className="mt-5 rounded-2xl border border-dashed border-green-300 bg-green-50 p-5 text-center">
                 <p className="text-sm font-medium text-green-600">
                   Delivery OTP
                 </p>
 
                 <p className="mt-2 text-3xl font-extrabold tracking-[0.4em] text-green-900">
-                  {order.otp?.delivery}
+                  {order.otp?.deliveryOtp}
                 </p>
 
                 <p className="mt-2 text-xs text-green-600">
