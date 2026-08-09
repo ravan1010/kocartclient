@@ -7,7 +7,7 @@ export default function PassengerAutoOrders() {
   const navigate = useNavigate();
 
   const [order, setOrder] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); 
 
   const fetchOrders = async () => {
     try {

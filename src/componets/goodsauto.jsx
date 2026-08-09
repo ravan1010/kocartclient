@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { Navigation } from "lucide-react";
@@ -52,6 +52,28 @@ export default function GoodsAuto() {
   const isDisabled =
     oneclick !== 1;
 
+  // ---------------------------------
+  //      active orders check
+  // ---------------------------------
+
+  useEffect(() => {
+  const checkActiveOrder = async () => {
+    try {
+      const res = await api.get("/api/auto/active");
+
+      if (res.data.order) {
+        navigate(
+          `/PassengerAuto/order/${res.data.order._id}`,
+          { replace: true }
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  checkActiveOrder();
+  }, []); 
 
   // =====================================================
   // OPEN MAP
@@ -216,7 +238,7 @@ export default function GoodsAuto() {
       {/* =========================
           STEP 1
       ========================== */}
-
+ 
       {step === 1 && (
         <>
           <h1 className="text-3xl font-bold mb-6">
@@ -229,21 +251,6 @@ export default function GoodsAuto() {
             <h2 className="font-bold text-xl mb-4">
               Pickup
             </h2>
-
-            <input
-              className="w-full border rounded-lg p-3 mb-3"
-              placeholder="Pickup Address"
-              value={form.pickup.address}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  pickup: {
-                    ...form.pickup,
-                    address: e.target.value,
-                  },
-                })
-              }
-            />
 
             <div className="grid grid-cols-2 gap-3 mb-3">
               <input
@@ -381,21 +388,6 @@ export default function GoodsAuto() {
             <h2 className="font-bold text-xl mb-4">
               Drop
             </h2>
-
-            <input
-              className="w-full border rounded-lg p-3 mb-3"
-              placeholder="Drop Address"
-              value={form.drop.address}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  drop: {
-                    ...form.drop,
-                    address: e.target.value,
-                  },
-                })
-              }
-            />
 
             <div className="grid grid-cols-2 gap-3 mb-3">
               <input
