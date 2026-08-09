@@ -7,7 +7,7 @@ import {
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
-
+  
 import useMapLocation from "./useMapLocation";
 import MapCenterUpdater from "./MapCenterUpdater";
 import useCurrentLocation from "./useCurrentLocation";
@@ -29,20 +29,27 @@ const RecenterMap = ({ location }) => {
     const lat = Number(location.latitude);
     const lng = Number(location.longitude);
 
-    if (
-      !Number.isFinite(lat) ||
-      !Number.isFinite(lng)
-    ) {
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
       return;
     }
 
-    map.setView(
-      [lat, lng],
-      17,
-      {
-        animate: true,
-      }
+    // Only recenter if the map is far from the requested location
+    const currentCenter = map.getCenter();
+
+    const distance = map.distance(
+      currentCenter,
+      [lat, lng]
     );
+
+    if (distance > 20) {
+      map.setView(
+        [lat, lng],
+        map.getZoom(), // keep current zoom
+        {
+          animate: true,
+        }
+      );
+    }
   }, [
     location?.latitude,
     location?.longitude,

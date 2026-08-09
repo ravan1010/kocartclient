@@ -3,7 +3,7 @@ import api from "../api";
 
 const DEFAULT_LOCATION = {
   latitude: 12.2958,
-  longitude: 76.6394,
+  longitude: 76.6394,  
 };
 
 const useMapLocation = (initialLocation = null) => {

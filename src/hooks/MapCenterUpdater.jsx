@@ -13,7 +13,7 @@ const MapCenterUpdater = ({
         center.lat,
         center.lng
       );
-    },
+    }, 
   });
 
   return null;
