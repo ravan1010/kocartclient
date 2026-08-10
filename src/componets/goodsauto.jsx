@@ -258,7 +258,7 @@ export default function GoodsAuto() {
             <h2 className="font-bold text-xl mb-4">
               Pickup
             </h2>
-{/* 
+
             <div className="grid grid-cols-2 gap-3 mb-3">
               <input
                 className="border rounded-lg p-3"
@@ -292,7 +292,7 @@ export default function GoodsAuto() {
                   })
                 }
               />
-            </div> */}
+            </div>
 
             <button
               type="button"
