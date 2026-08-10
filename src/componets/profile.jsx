@@ -62,24 +62,10 @@ const Profile = () => {
           </Link>
 
           <Link
-            to="/bikeParcel/orders"
+            to="/auto/all/orders"
             className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
           >
-            parcel order
-          </Link>
-
-          <Link
-            to="/PassengerAuto/orders"
-            className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
-          >
-            passenger auto order
-          </Link>
-
-          <Link
-            to="/goodsAuto/orders"
-            className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
-          >
-            goods auto order
+            auto bookings
           </Link>
 
           <a

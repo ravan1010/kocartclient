@@ -44,6 +44,7 @@ import PassengerAuto from './componets/passengerauto';
 import PassengerAutoOrders from './componets/passengerautoOrders';
 import GoodsAuto from './componets/goodsauto';
 import GoodsAutoOrders from './componets/goodsautoOrdes';
+import AutoOrders from './componets/autoOrder';
 
 
 function App() {
@@ -81,6 +82,9 @@ function App() {
 
           <Route path='/goodsAuto' element={ <GoodsAuto /> } />
           <Route path='/goodsAuto/order/:orderId' element={< GoodsAutoOrders /> } />
+
+
+          <Route path='/auto/all/orders' element={<AutoOrders /> } />
           
           
           //admin signup
