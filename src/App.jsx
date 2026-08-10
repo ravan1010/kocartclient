@@ -80,7 +80,7 @@ function App() {
           <Route path='/PassengerAuto/order/:orderId' element={< PassengerAutoOrders /> } />
 
           <Route path='/goodsAuto' element={ <GoodsAuto /> } />
-          <Route path='/goodsAuto/orders' element={< GoodsAutoOrders /> } />
+          <Route path='/goodsAuto/order/:orderId' element={< GoodsAutoOrders /> } />
           
           
           //admin signup

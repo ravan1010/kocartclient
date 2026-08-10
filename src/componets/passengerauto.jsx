@@ -255,7 +255,7 @@ export default function PassengerAuto() {
       {step === 1 && (
         <>
           <h1 className="text-3xl font-bold mb-6">
-            🚖 Passenger Auto Booking
+             Passenger Auto Booking
           </h1>
 
           {/* =================================================

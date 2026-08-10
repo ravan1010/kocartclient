@@ -87,35 +87,42 @@ export default function GoodsAuto() {
     setLocationPicker("drop");
   };
 
-  // -----------------------------
-  // Pickup location
-  // -----------------------------
+ // =====================================================
+ // PICKUP CONFIRM
+ // =====================================================
 
-  const handlePickupConfirm = (location) => {
+ const handlePickupConfirm = (location) => {
     setForm((prev) => ({
       ...prev,
+
       pickup: {
         address: location.address,
         latitude: location.latitude,
         longitude: location.longitude,
       },
     }));
+
+    setLocationPicker(null);
   };
 
-  // -----------------------------
-  // Drop location
-  // -----------------------------
+  // =====================================================
+  // DROP CONFIRM
+  // =====================================================
 
   const handleDropConfirm = (location) => {
     setForm((prev) => ({
       ...prev,
+
       drop: {
         address: location.address,
         latitude: location.latitude,
         longitude: location.longitude,
       },
     }));
+
+    setLocationPicker(null);
   };
+
 
   // =====================================================
   // FULL SCREEN MAP
@@ -215,7 +222,7 @@ export default function GoodsAuto() {
           },
         },
 
-        passenger: form.goods,
+        goods: form.goods,
         payment: form.payment,
         distance,
         amount,
@@ -223,7 +230,7 @@ export default function GoodsAuto() {
         .then((res) => {
           if (res.data.success) {
             setOneclick(1)
-            navigate(`/goodsAuto/orders`)
+            navigate(`/goodsAuto/order/${res.data.order._id}`)
           }
         }
         )
@@ -242,7 +249,7 @@ export default function GoodsAuto() {
       {step === 1 && (
         <>
           <h1 className="text-3xl font-bold mb-6">
-            🚖 Passenger Auto Booking
+            goods Auto Booking
           </h1>
 
           {/* Pickup */}
@@ -251,7 +258,7 @@ export default function GoodsAuto() {
             <h2 className="font-bold text-xl mb-4">
               Pickup
             </h2>
-
+{/* 
             <div className="grid grid-cols-2 gap-3 mb-3">
               <input
                 className="border rounded-lg p-3"
@@ -285,7 +292,7 @@ export default function GoodsAuto() {
                   })
                 }
               />
-            </div>
+            </div> */}
 
             <button
               type="button"
