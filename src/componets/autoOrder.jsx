@@ -1,8 +1,10 @@
+
 import { useEffect, useState } from "react";
 import api from "../api";
 
 export default function AutoOrders() {
-  const [orders, setOrders] = useState();
+  // ✅ Always start with an array
+  const [orders, setOrders] = useState([]);
 
   const [year, setYear] = useState(
     new Date().getFullYear()
@@ -24,11 +26,31 @@ export default function AutoOrders() {
         );
 
         if (res.data.success) {
-          setOrders(res.data.orders);
+          // Backend returns two arrays
+          const passengerOrders =
+            res.data.passengerOrders || [];
+
+          const goodsOrders =
+            res.data.goodsOrders || [];
+
+          // Combine both
+          const allOrders = [
+            ...passengerOrders,
+            ...goodsOrders,
+          ].sort(
+            (a, b) =>
+              new Date(b.createdAt) -
+              new Date(a.createdAt)
+          );
+
+          setOrders(allOrders);
+        } else {
+          setOrders([]);
         }
 
       } catch (error) {
-        console.error(error);
+        console.error("Failed to fetch orders:", error);
+        setOrders([]);
       } finally {
         setLoading(false);
       }
@@ -92,6 +114,12 @@ export default function AutoOrders() {
       {/* Orders */}
       {loading ? (
         <p>Loading orders...</p>
+      ) : orders.length === 0 ? (
+        <div className="bg-gray-50 rounded-2xl p-8 text-center">
+          <p className="text-gray-500">
+            No orders found for this month.
+          </p>
+        </div>
       ) : (
         <div className="space-y-4">
 
@@ -101,42 +129,60 @@ export default function AutoOrders() {
               className="bg-white border rounded-2xl p-5 shadow-sm"
             >
 
-              <div className="flex justify-between">
+              {/* Header */}
+              <div className="flex justify-between gap-4">
 
                 <div>
-                  <h3 className="font-bold">
-                    {order.serviceType === "passenger"
+                  <h3 className="font-bold text-lg">
+
+                    {order.serviceType === "auto_passenger"
                       ? "🚗 Passenger Auto"
                       : "📦 Goods Auto"}
+
                   </h3>
 
                   <p className="text-sm text-gray-500">
-                    {new Date(
-                      order.createdAt
-                    ).toLocaleDateString()}
+                    {order.createdAt
+                      ? new Date(
+                          order.createdAt
+                        ).toLocaleDateString()
+                      : "-"}
                   </p>
                 </div>
 
-                <span className="font-semibold">
-                  {order.status}
+                <span className="font-semibold capitalize">
+                  {order.status || "-"}
                 </span>
 
               </div>
 
-              <div className="mt-3">
+              {/* Pickup / Drop */}
+              <div className="mt-4 space-y-2">
+
                 <p>
-                  Pickup:{" "}
+                  <span className="font-semibold">
+                    Pickup:
+                  </span>{" "}
                   {order.pickup?.address || "-"}
                 </p>
 
                 <p>
-                  Drop:{" "}
+                  <span className="font-semibold">
+                    Drop:
+                  </span>{" "}
                   {order.drop?.address || "-"}
                 </p>
+
               </div>
 
-              {order.serviceType === "goods_auto-" && (
-                <div className="mt-3 bg-gray-50 p-3 rounded-xl">
+              {/* Goods Details */}
+              {order.serviceType === "goods_auto" && (
+                <div className="mt-4 bg-gray-50 p-4 rounded-xl">
+
+                  <h4 className="font-bold mb-2">
+                    📦 Goods Details
+                  </h4>
+
                   <p>
                     Item:{" "}
                     {order.goods?.itemType || "-"}
@@ -144,13 +190,35 @@ export default function AutoOrders() {
 
                   <p>
                     Weight:{" "}
-                    {order.goods?.estimatedWeight || 0} kg
+                    {order.goods?.estimatedWeight ?? 0} kg
                   </p>
 
                   <p>
                     Helpers:{" "}
-                    {order.goods?.helpersRequired || 0}
+                    {order.goods?.helpersRequired ?? 0}
                   </p>
+
+                  <p>
+                    Loading:{" "}
+                    {order.goods?.loadingRequired
+                      ? "Required"
+                      : "Not Required"}
+                  </p>
+
+                  <p>
+                    Unloading:{" "}
+                    {order.goods?.unloadingRequired
+                      ? "Required"
+                      : "Not Required"}
+                  </p>
+
+                  {order.goods?.instructions && (
+                    <p className="mt-2">
+                      Instructions:{" "}
+                      {order.goods.instructions}
+                    </p>
+                  )}
+
                 </div>
               )}
 
@@ -163,3 +231,4 @@ export default function AutoOrders() {
     </div>
   );
 }
+
