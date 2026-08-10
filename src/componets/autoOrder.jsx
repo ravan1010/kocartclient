@@ -105,7 +105,7 @@ export default function AutoOrders() {
 
                 <div>
                   <h3 className="font-bold">
-                    {order.orderType === "passenger"
+                    {order.serviceType === "passenger"
                       ? "🚗 Passenger Auto"
                       : "📦 Goods Auto"}
                   </h3>
@@ -135,7 +135,7 @@ export default function AutoOrders() {
                 </p>
               </div>
 
-              {order.orderType === "goods" && (
+              {order.serviceType === "goods_auto-" && (
                 <div className="mt-3 bg-gray-50 p-3 rounded-xl">
                   <p>
                     Item:{" "}
