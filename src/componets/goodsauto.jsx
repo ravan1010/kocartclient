@@ -263,41 +263,6 @@ export default function GoodsAuto() {
               Pickup
             </h2>
 
-            <div className="grid grid-cols-2 gap-3 mb-3">
-              <input
-                className="border rounded-lg p-3"
-                placeholder="Sender Name"
-                value={form.pickup.name}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    pickup: {
-                      ...form.pickup,
-                      name: e.target.value,
-                    },
-                  })
-                }
-              />
-
-              <input
-                type="tel"
-                className="border rounded-lg p-3"
-                placeholder="Sender Phone"
-                value={form.pickup.phone}
-                minLength={10}
-                maxLength={10}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    pickup: {
-                      ...form.pickup,
-                      phone: e.target.value,
-                    },
-                  })
-                }
-              />
-            </div>
-
             <button
               type="button"
               onClick={openPickupMap}
@@ -401,41 +366,6 @@ export default function GoodsAuto() {
               Drop
             </h2>
 
-            <div className="grid grid-cols-2 gap-3 mb-3">
-              <input
-                className="border rounded-lg p-3"
-                placeholder="Receiver Name"
-                value={form.drop.name}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    drop: {
-                      ...form.drop,
-                      name: e.target.value,
-                    },
-                  })
-                }
-              />
-
-              <input
-                type="tel"
-                className="border rounded-lg p-3"
-                placeholder="Receiver Phone"
-                value={form.drop.phone}
-                minLength={10}
-                maxLength={10}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    drop: {
-                      ...form.drop,
-                      phone: e.target.value,
-                    },
-                  })
-                }
-              />
-            </div>
-
             <button
               type="button"
               onClick={openDropMap}
@@ -534,6 +464,78 @@ export default function GoodsAuto() {
             <h2 className="text-xl font-bold mb-4">
               🚚 Goods Details
             </h2>
+
+            {/* Sender  */}
+            <div className="grid grid-cols-2 gap-3 mb-3">
+              <input
+                className="border rounded-lg p-3"
+                placeholder="Sender Name"
+                value={form.pickup.name}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    pickup: {
+                      ...form.pickup,
+                      name: e.target.value,
+                    },
+                  })
+                }
+              />
+
+              <input
+                type="tel"
+                className="border rounded-lg p-3"
+                placeholder="Sender Phone"
+                value={form.pickup.phone}
+                minLength={10}
+                maxLength={10}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    pickup: {
+                      ...form.pickup,
+                      phone: e.target.value,
+                    },
+                  })
+                }
+              />
+            </div>
+
+            {/* Receiver  */}
+            <div className="grid grid-cols-2 gap-3 mb-3">
+              <input
+                className="border rounded-lg p-3"
+                placeholder="Receiver Name"
+                value={form.drop.name}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    drop: {
+                      ...form.drop,
+                      name: e.target.value,
+                    },
+                  })
+                }
+              />
+
+              <input
+                type="tel"
+                className="border rounded-lg p-3"
+                placeholder="Receiver Phone"
+                value={form.drop.phone}
+                minLength={10}
+                maxLength={10}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    drop: {
+                      ...form.drop,
+                      phone: e.target.value,
+                    },
+                  })
+                }
+              />
+            </div>
 
             {/* Item Type */}
             <div className="mb-4">
