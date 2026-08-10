@@ -603,92 +603,119 @@ export default function PassengerAuto() {
       ================================================= */}
 
       {step === 2 && (
-        <div className="bg-white rounded-xl shadow p-6">
+  <div className="bg-white rounded-2xl shadow p-6">
 
-          <h2 className="text-2xl font-bold mb-4">
-            Ride Summary
-          </h2>
+    <h2 className="text-2xl font-bold mb-5">
+      Passenger Summary
+    </h2>
 
-          <div className="space-y-4">
+    {/* Passenger Details */}
+    <div className="bg-gray-50 rounded-2xl p-4 space-y-4">
 
-            <div>
-              <p className="text-sm text-gray-500">
-                Pickup
-              </p>
+      <h3 className="font-bold text-lg">
+        👤 Passenger Details
+      </h3>
 
-              <p className="font-medium">
-                {form.pickup.address}
-              </p>
-            </div>
+      <div className="flex justify-between">
+        <span className="text-gray-500">
+          Passenger Name
+        </span>
+        <span className="font-semibold">
+          {form.passenger?.name || "-"}
+        </span>
+      </div>
 
-            <div>
-              <p className="text-sm text-gray-500">
-                Drop
-              </p>
+      <div className="flex justify-between">
+        <span className="text-gray-500">
+          Phone
+        </span>
+        <span className="font-semibold">
+          {form.passenger?.phone || "-"}
+        </span>
+      </div>
 
-              <p className="font-medium">
-                {form.drop.address}
-              </p>
-            </div>
+    </div>
 
-            <div>
-              <p className="text-sm text-gray-500">
-                Distance
-              </p>
+    {/* Trip Details */}
+    <div className="mt-4 bg-gray-50 rounded-2xl p-4 space-y-4">
 
-              <p className="font-semibold">
-                {distance?.toFixed(2)} km
-              </p>
-            </div>
+      <h3 className="font-bold text-lg">
+        🚗 Trip Details
+      </h3>
 
-            <div>
-              <p className="text-sm text-gray-500">
-                Fare
-              </p>
+      <div className="flex justify-between">
+        <span className="text-gray-500">
+          Pickup
+        </span>
+        <span className="font-semibold text-right max-w-[65%]">
+          {form.pickup.address || "-"}
+        </span>
+      </div>
 
-              <p className="font-semibold">
-                Auto driver will call you
-                and tell the amount
-              </p>
-            </div>
+      <div className="flex justify-between">
+        <span className="text-gray-500">
+          Drop
+        </span>
+        <span className="font-semibold text-right max-w-[65%]">
+          {form.drop.address || "-"}
+        </span>
+      </div>
 
-          </div>
+      <div className="flex justify-between">
+        <span className="text-gray-500">
+          Distance
+        </span>
+        <span className="font-semibold">
+          {distance?.toFixed(2)} km
+        </span>
+      </div>
 
-          <div className="flex gap-4 mt-6">
+      <div className="flex justify-between">
+        <span className="text-gray-500">
+          Payment
+        </span>
+        <span className="font-semibold capitalize">
+          {form.payment.method}
+        </span>
+      </div>
 
-            <button
-              onClick={() => setStep(1)}
-              className="
-                w-1/2
-                bg-gray-300
-                p-3
-                rounded-lg
-              "
-            >
-              Back
-            </button>
+    </div>
 
-            <button
-              disabled={isDisabled}
-              onClick={handleSubmit}
-              className="
-                w-1/2
-                bg-green-600
-                disabled:bg-gray-400
-                text-white
-                p-3
-                rounded-lg
-              "
-            >
-              {oneclick === 2
-                ? "Booking..."
-                : "Confirm Ride"}
-            </button>
+    {/* Amount */}
+    <div className="mt-4 bg-green-50 rounded-2xl p-4">
+      <p className="text-gray-500 text-sm">
+        Estimated Amount
+      </p>
 
-          </div>
+      <p className="text-xl font-bold text-green-600">
+        Auto driver will call you and confirm the amount
+      </p>
+    </div>
 
-        </div>
-      )}
+    {/* Buttons */}
+    <div className="flex gap-4 mt-6">
+
+      <button
+        type="button"
+        onClick={() => setStep(1)}
+        className="w-1/2 bg-gray-200 hover:bg-gray-300 p-3 rounded-xl font-semibold"
+      >
+        Back
+      </button>
+
+      <button
+        type="button"
+        disabled={isDisabled}
+        onClick={handleSubmit}
+        className="w-1/2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white p-3 rounded-xl font-semibold"
+      >
+        Confirm Ride
+      </button>
+
+    </div>
+
+  </div>
+)}
 
     </div>
   );
