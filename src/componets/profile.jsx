@@ -10,6 +10,9 @@ const Profile = () => {
 
   const [number, setNumber] = useState("");
   const [toadmin, setToadmin] = useState("");
+  const [order, setorder] = useState();
+  const [auto, setauto] = useState();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +23,9 @@ const Profile = () => {
         ]);
 
         setNumber(settingRes.data.number || "");
-        
+        setorder(settingRes.data.order || 0);
+        setauto(settingRes.data.autobooking || 0);
+
 
         if (adminRes.data.success) {
           setToadmin(adminRes.data.slug || "adminlandmark");
@@ -53,21 +58,23 @@ const Profile = () => {
           >
             📍 Address List
           </Link>
+          {order !== 0 && (
+            <Link
+              to="/order"
+              className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
+            >
+              order
+            </Link>
+          )}
 
-          <Link
-            to="/order"
-            className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
-          >
-            order
-          </Link>
-
-          <Link
-            to="/auto/all/orders"
-            className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
-          >
-            auto bookings
-          </Link>
-
+          {auto !== 0 && (
+            <Link
+              to="/auto/all/orders"
+              className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
+            >
+              auto bookings
+            </Link>
+          )}
           <a
             href="https://expo.dev/artifacts/eas/qJiqLQB6fTNh6sAIzXZuo-r2m9EPT0RHHPE1AfTCQJc.apk"
             className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
@@ -76,13 +83,13 @@ const Profile = () => {
           </a>
 
           {isAdmin ? (
-              <Link
-                to={`/adminlandmark/dashboard`}
-                className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
-              >
-                🧑‍💼 Partner Dashboard
-              </Link>
-            
+            <Link
+              to={`/adminlandmark/dashboard`}
+              className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
+            >
+              🧑‍💼 Partner Dashboard
+            </Link>
+
           ) : (
             <Link
               to="/admin"
