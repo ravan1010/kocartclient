@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api";
 
 export default function AutoOrders() {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState();
 
   const [year, setYear] = useState(
     new Date().getFullYear()
