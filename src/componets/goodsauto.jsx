@@ -269,6 +269,7 @@ export default function GoodsAuto() {
               />
 
               <input
+                type="tel"
                 className="border rounded-lg p-3"
                 placeholder="Sender Phone"
                 value={form.pickup.phone}
@@ -406,6 +407,7 @@ export default function GoodsAuto() {
               />
 
               <input
+                type="tel"
                 className="border rounded-lg p-3"
                 placeholder="Receiver Phone"
                 value={form.drop.phone}

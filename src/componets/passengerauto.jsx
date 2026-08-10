@@ -493,6 +493,7 @@ export default function PassengerAuto() {
             />
 
             <input
+              type="tel"
               className="w-full border rounded-lg p-3 mb-3"
               placeholder="Mobile Number"
               value={form.passenger.phone}
