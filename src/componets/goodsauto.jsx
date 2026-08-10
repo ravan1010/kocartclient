@@ -57,23 +57,23 @@ export default function GoodsAuto() {
   // ---------------------------------
 
   useEffect(() => {
-  const checkActiveOrder = async () => {
-    try {
-      const res = await api.get("/api/auto/active");
+    const checkActiveOrder = async () => {
+      try {
+        const res = await api.get("/api/auto/active");
 
-      if (res.data.order) {
-        navigate(
-          `/PassengerAuto/order/${res.data.order._id}`,
-          { replace: true }
-        );
+        if (res.data.order) {
+          navigate(
+            `/PassengerAuto/order/${res.data.order._id}`,
+            { replace: true }
+          );
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    };
 
-  checkActiveOrder();
-  }, []); 
+    checkActiveOrder();
+  }, []);
 
   // =====================================================
   // OPEN MAP
@@ -87,11 +87,11 @@ export default function GoodsAuto() {
     setLocationPicker("drop");
   };
 
- // =====================================================
- // PICKUP CONFIRM
- // =====================================================
+  // =====================================================
+  // PICKUP CONFIRM
+  // =====================================================
 
- const handlePickupConfirm = (location) => {
+  const handlePickupConfirm = (location) => {
     setForm((prev) => ({
       ...prev,
 
@@ -201,6 +201,8 @@ export default function GoodsAuto() {
     try {
       await api.post("/api/goods-auto/order", {
         pickup: {
+          name: form.pickup.name,
+          phone: form.pickup.phone,
           address: form.pickup.address,
           location: {
             type: "Point",
@@ -212,6 +214,8 @@ export default function GoodsAuto() {
         },
 
         drop: {
+          name: form.drop.name,
+          phone: form.drop.phone,
           address: form.drop.address,
           location: {
             type: "Point",
@@ -245,7 +249,7 @@ export default function GoodsAuto() {
       {/* =========================
           STEP 1
       ========================== */}
- 
+
       {step === 1 && (
         <>
           <h1 className="text-3xl font-bold mb-6">
@@ -706,30 +710,157 @@ export default function GoodsAuto() {
       )}
 
       {step === 2 && (
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-white rounded-2xl shadow p-6">
 
-          <h2 className="text-2xl font-bold mb-4">
-            Ride Summary
+          <h2 className="text-2xl font-bold mb-5">
+            Summary
           </h2>
 
-          <p>Distance : {distance?.toFixed(2)} km</p>
-          <p> amount : auto driver will call you, he tell amount </p>
+          {/* Goods Details */}
+          <div className="bg-gray-50 rounded-2xl p-4 space-y-4">
+
+            <h3 className="font-bold text-lg">
+              📦 Goods Details
+            </h3>
+
+            <div className="flex justify-between">
+              <span className="text-gray-500">
+                Item Type
+              </span>
+              <span className="font-semibold text-gray-900">
+                {form.goods.itemType || "-"}
+              </span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="text-gray-500">
+                Estimated Weight
+              </span>
+              <span className="font-semibold">
+                {form.goods.estimatedWeight
+                  ? `${form.goods.estimatedWeight} kg`
+                  : "-"}
+              </span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="text-gray-500">
+                Helpers Required
+              </span>
+              <span className="font-semibold">
+                {form.goods.helpersRequired ?? 0}
+              </span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="text-gray-500">
+                Loading
+              </span>
+              <span
+                className={
+                  form.goods.loadingRequired
+                    ? "font-semibold text-green-600"
+                    : "font-semibold text-gray-500"
+                }
+              >
+                {form.goods.loadingRequired
+                  ? "Required"
+                  : "Not Required"}
+              </span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="text-gray-500">
+                Unloading
+              </span>
+              <span
+                className={
+                  form.goods.unloadingRequired
+                    ? "font-semibold text-green-600"
+                    : "font-semibold text-gray-500"
+                }
+              >
+                {form.goods.unloadingRequired
+                  ? "Required"
+                  : "Not Required"}
+              </span>
+            </div>
+
+            {/* Instructions */}
+            {form.goods.instructions && (
+              <div className="pt-3 border-t border-gray-200">
+                <p className="text-gray-500 text-sm mb-1">
+                  Instructions
+                </p>
+
+                <p className="font-medium text-gray-800">
+                  {form.goods.instructions}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Trip Details */}
+          <div className="mt-4 bg-gray-50 rounded-2xl p-4 space-y-4">
+
+            <h3 className="font-bold text-lg">
+              🚚 Trip Details
+            </h3>
+
+            <div className="flex justify-between">
+              <span className="text-gray-500">
+                Distance
+              </span>
+
+              <span className="font-semibold">
+                {distance?.toFixed(2)} km
+              </span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="text-gray-500">
+                Payment
+              </span>
+
+              <span className="font-semibold capitalize">
+                {form.payment.method}
+              </span>
+            </div>
+
+            <div className="pt-3 border-t border-gray-200">
+              <p className="text-gray-500 text-sm">
+                Estimated Amount
+              </p>
+
+              <p className="text-xl font-bold text-green-600">
+                Auto driver will call you and confirm the amount
+              </p>
+            </div>
+
+          </div>
+
+          {/* Buttons */}
           <div className="flex gap-4 mt-6">
+
             <button
+              type="button"
               onClick={() => setStep(1)}
-              className="w-1/2 bg-gray-300 p-3 rounded-lg"
+              className="w-1/2 bg-gray-200 hover:bg-gray-300 p-3 rounded-xl font-semibold"
             >
               Back
             </button>
 
             <button
+              type="button"
               disabled={isDisabled}
               onClick={handleSubmit}
-              className="w-1/2 bg-green-600 text-white p-3 rounded-lg"
+              className="w-1/2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white p-3 rounded-xl font-semibold"
             >
-              Confirm Ride
+              Confirm Order
             </button>
+
           </div>
+
         </div>
       )}
     </div>
