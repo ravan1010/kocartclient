@@ -24,6 +24,7 @@ export default function GoodsAutoOrders() {
       }
 
       setOrder(res.data.order);
+      console.log(res.data.order)
 
     } catch (err) {
       console.log(err);
