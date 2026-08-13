@@ -13,7 +13,7 @@ export default function GoodsAutoOrders() {
 
   const fetchOrders = async () => {
     try {
-      const res = await api.get(`/api/passenger-auto/order/${orderId}`);
+      const res = await api.get(`/api/goods-auto/order/${orderId}`);
 
       // completed / cancelled
       if (!res.data.order) {
