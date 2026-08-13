@@ -46,7 +46,7 @@ export default function GoodsAutoOrders() {
     setLoading(true);
 
     const response = await api.post(
-      "/api/driver/assign",
+      "/api/partner/driver/assign",
       {
         orderId: order._id,
         driverId,
