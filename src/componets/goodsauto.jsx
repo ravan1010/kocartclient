@@ -63,7 +63,7 @@ export default function GoodsAuto() {
 
         if (res.data.order) {
           navigate(
-            `/PassengerAuto/order/${res.data.order._id}`,
+            `/goodsAuto/order/${res.data.order._id}`,
             { replace: true }
           );
         }
