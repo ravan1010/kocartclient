@@ -40,6 +40,30 @@ export default function GoodsAutoOrders() {
     return () => clearInterval(interval);
   }, [orderId]);
 
+  const assignDriver = async (driverId) => {
+  try {
+    setLoading(true);
+
+    const response = await api.post(
+      "/api/driver/assign",
+      {
+        orderId: order._id,
+        driverId,
+      }
+    );
+
+    if (response.data.success) {
+      // Refresh order
+      fetchOrders();
+    }
+
+  } catch (error) {
+    console.error("Assign driver error:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
   if (loading) return <p>Loading...</p>;
 
    if (!order) {
@@ -49,45 +73,143 @@ export default function GoodsAutoOrders() {
   return (
         <div className="space-y-4">
       {order.status === "pending" && (
-        <div className="flex min-h-[60vh] items-center justify-center px-4">
-          <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-lg border border-gray-100">
+  <>
+    {/* Searching */}
+    {order.selectDriver.length === 0 && (
+      <div className="flex min-h-[60vh] items-center justify-center px-4">
+        <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-lg border border-gray-100">
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-50">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-indigo-200 border-t-indigo-600"></div>
+          </div>
 
-            {/* Loading Animation */}
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-50">
-              <div className="h-10 w-10 animate-spin rounded-full border-4 border-indigo-200 border-t-indigo-600"></div>
-            </div>
+          <h2 className="text-2xl font-bold text-gray-900">
+            Finding a goods auto
+          </h2>
 
-            <h2 className="text-2xl font-bold text-gray-900">
-              Finding a goods auto
-            </h2>
+          <p className="mt-3 text-sm leading-6 text-gray-500">
+            We're looking for a nearby driver for your ride.
+            Please wait a moment.
+          </p>
 
-            <p className="mt-3 text-sm leading-6 text-gray-500">
-              We're looking for a nearby driver for your ride.
-              Please wait a moment.
+          <div className="mt-6 rounded-xl bg-gray-50 px-4 py-3">
+            <p className="text-sm font-medium text-gray-700">
+              Searching for drivers...
             </p>
 
-            {/* Status */}
-            <div className="mt-6 rounded-xl bg-gray-50 px-4 py-3">
-              <p className="text-sm font-medium text-gray-700">
-                Searching for drivers...
-              </p>
-
-              <div className="mt-2 flex justify-center gap-1">
-                <span className="h-2 w-2 animate-bounce rounded-full bg-indigo-500"></span>
-                <span
-                  className="h-2 w-2 animate-bounce rounded-full bg-indigo-500"
-                  style={{ animationDelay: "150ms" }}
-                ></span>
-                <span
-                  className="h-2 w-2 animate-bounce rounded-full bg-indigo-500"
-                  style={{ animationDelay: "300ms" }}
-                ></span>
-              </div>
+            <div className="mt-2 flex justify-center gap-1">
+              <span className="h-2 w-2 animate-bounce rounded-full bg-indigo-500"></span>
+              <span
+                className="h-2 w-2 animate-bounce rounded-full bg-indigo-500"
+                style={{ animationDelay: "150ms" }}
+              ></span>
+              <span
+                className="h-2 w-2 animate-bounce rounded-full bg-indigo-500"
+                style={{ animationDelay: "300ms" }}
+              ></span>
             </div>
-
           </div>
         </div>
-      )}
+      </div>
+    )}
+
+    {/* Drivers found */}
+    {order.selectDriver.length !== 0 && (
+      <div className="min-h-[60vh] bg-gray-50 px-4 py-6">
+        <div className="mx-auto max-w-xl">
+
+          <div className="mb-5">
+            <h2 className="text-2xl font-bold text-gray-900">
+              Goods Auto Available
+            </h2>
+
+            <p className="mt-1 text-sm text-gray-500">
+              Choose the driver and amount you prefer.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {order.selectDriver.map((item, index) => (
+              <div
+                key={item.driver?._id || index}
+                className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+              >
+                {/* Driver */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-lg font-bold text-indigo-600">
+                      {item.driver?.name?.charAt(0)?.toUpperCase() || "D"}
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold text-gray-900">
+                        {item.driver?.name || "Goods Auto Driver"}
+                      </h3>
+
+                      <p className="text-sm text-gray-500">
+                        {item.driver?.vehicalNO || "Auto"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Amount */}
+                  <div className="text-right">
+                    <p className="text-xs text-gray-500">
+                      Driver Amount
+                    </p>
+
+                    <p className="text-2xl font-bold text-green-600">
+                      ₹{item.amount}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Distance / ETA */}
+                <div className="mt-5 grid grid-cols-2 gap-3">
+
+                  <div className="rounded-xl bg-gray-50 p-3 text-center">
+                    <p className="text-xs text-gray-500">
+                      Distance
+                    </p>
+
+                    <p className="mt-1 font-semibold text-gray-900">
+                      {item.DistanceKm != null
+                        ? `${Number(item.DistanceKm).toFixed(1)} km`
+                        : "--"}
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl bg-gray-50 p-3 text-center">
+                    <p className="text-xs text-gray-500">
+                      Arrival
+                    </p>
+
+                    <p className="mt-1 font-semibold text-gray-900">
+                      {item.EtaMinutes != null
+                        ? `${item.EtaMinutes} min`
+                        : "--"}
+                    </p>
+                  </div>
+
+                </div>
+
+                {/* Assign button */}
+                <button
+                  onClick={() => assignDriver(item.driver?._id)}
+                  disabled={!item.driver?._id}
+                  className="mt-5 w-full rounded-xl bg-indigo-600 py-3.5 font-semibold text-white transition hover:bg-indigo-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-gray-300"
+                >
+                  Assign This Driver
+                </button>
+
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </div>
+    )}
+  </>
+)}
 
        {order.status === "driver_assigned" && (
         <div className="min-h-[60vh] flex items-center justify-center px-4">
