@@ -144,9 +144,7 @@ export default function GoodsAutoOrders() {
                     </p>
 
                     <p className="text-2xl font-bold text-green-600">
-                      ₹{item.amount}{
-                        item.driver
-                      }
+                      ₹{item.amount}
                     </p>
                   </div>
                 </div>
