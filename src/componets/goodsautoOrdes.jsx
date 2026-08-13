@@ -144,7 +144,9 @@ export default function GoodsAutoOrders() {
                     </p>
 
                     <p className="text-2xl font-bold text-green-600">
-                      ₹{item.amount}
+                      ₹{item.amount}{
+                        item.driver
+                      }
                     </p>
                   </div>
                 </div>
@@ -180,8 +182,8 @@ export default function GoodsAutoOrders() {
 
                 {/* Assign button */}
                 <button
-                  onClick={() => assignDriver(item.driver?._id)}
-                  disabled={!item.driver?._id}
+                  onClick={() => assignDriver(item.driver)}
+                  disabled={!item.driver}
                   className="mt-5 w-full rounded-xl bg-indigo-600 py-3.5 font-semibold text-white transition hover:bg-indigo-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-gray-300"
                 >
                   Assign This Driver
