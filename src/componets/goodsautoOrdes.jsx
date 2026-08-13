@@ -135,7 +135,7 @@ export default function GoodsAutoOrders() {
                 className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
               >
                 {/* Driver */}
-                <div className="flex items-center justify-center">
+                <div className="flex items-center">
 
                   {/* Amount */}
                   <div className="text-right">
