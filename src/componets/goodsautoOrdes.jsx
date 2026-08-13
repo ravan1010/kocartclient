@@ -48,7 +48,7 @@ export default function GoodsAutoOrders() {
 
   return (
         <div className="space-y-4">
-      {order.status === "pending" && order.onPending?.Pending === false && (
+      {order.status === "pending" && (
         <div className="flex min-h-[60vh] items-center justify-center px-4">
           <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-lg border border-gray-100">
 
