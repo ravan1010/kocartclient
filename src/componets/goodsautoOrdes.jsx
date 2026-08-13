@@ -75,7 +75,7 @@ export default function GoodsAutoOrders() {
       {order.status === "pending" && (
   <>
     {/* Searching */}
-    {order.selectDriver.length === 0 && (
+    {order?.selectDriver?.length === 0 && (
       <div className="flex min-h-[60vh] items-center justify-center px-4">
         <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-lg border border-gray-100">
           <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-50">
@@ -113,7 +113,7 @@ export default function GoodsAutoOrders() {
     )}
 
     {/* Drivers found */}
-    {order.selectDriver.length !== 0 && (
+    {order?.selectDriver?.length > 0  && (
       <div className="min-h-[60vh] bg-gray-50 px-4 py-6">
         <div className="mx-auto max-w-xl">
 
@@ -128,7 +128,7 @@ export default function GoodsAutoOrders() {
           </div>
 
           <div className="space-y-4">
-            {order.selectDriver.map((item, index) => (
+            {order?.selectDriver?.map((item, index) => (
               <div
                 key={item.driver?._id || index}
                 className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
