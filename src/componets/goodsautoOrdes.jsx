@@ -136,11 +136,6 @@ export default function GoodsAutoOrders() {
               >
                 {/* Driver */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-lg font-bold text-indigo-600">
-                      {item.driver?.name?.charAt(0)?.toUpperCase() || "D"}
-                    </div>
-                  </div>
 
                   {/* Amount */}
                   <div className="text-right">
