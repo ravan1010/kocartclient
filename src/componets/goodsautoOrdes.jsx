@@ -139,16 +139,6 @@ export default function GoodsAutoOrders() {
                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-lg font-bold text-indigo-600">
                       {item.driver?.name?.charAt(0)?.toUpperCase() || "D"}
                     </div>
-
-                    <div>
-                      <h3 className="font-semibold text-gray-900">
-                        {item.driver?.name || "Goods Auto Driver"}
-                      </h3>
-
-                      <p className="text-sm text-gray-500">
-                        {item.driver?.vehicalNO || "Auto"}
-                      </p>
-                    </div>
                   </div>
 
                   {/* Amount */}
