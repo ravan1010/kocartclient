@@ -208,10 +208,6 @@ export default function GoodsAuto() {
       return
     }
 
-    if(!form.pickup.latitude || !form.pickup.longitude ||
-      !form.
-    )
-
     setOneclick(2)
 
     try {
