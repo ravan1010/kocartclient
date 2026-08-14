@@ -162,8 +162,8 @@ export default function GoodsAuto() {
         !form.pickup.name ||
         !form.pickup.phone ||
         !form.drop.name ||
-        !form.drop.phone ||
-      
+        !form.drop.phone 
+
       ) {
         alert("Please select pickup and drop locations and details");
         return;
