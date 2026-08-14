@@ -197,256 +197,628 @@ export default function GoodsAutoOrders() {
   </>
 )}
 
-       {order.status === "driver_assigned" && (
-        <div className="min-h-[60vh] flex items-center justify-center px-4">
-          <div className="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-xl border border-gray-100">
+      {order.status === "driver_assigned" && (
+  <div className="min-h-[60vh] bg-gray-50 flex items-center justify-center px-4 py-6">
 
-            {/* Header */}
-            <div className="bg-indigo-600 px-6 py-5 text-white">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-indigo-100">
-                    Passenger Auto
-                  </p>
+    <div className="w-full max-w-md overflow-hidden rounded-[28px] bg-white shadow-xl border border-gray-100">
 
-                  <h2 className="mt-1 text-2xl font-bold">
-                    Driver Assigned
-                  </h2>
-                </div>
+      {/* ================= HEADER ================= */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-600 to-violet-600 px-5 sm:px-6 py-6 text-white">
 
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
+        {/* Decorative background */}
+        <div className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-white/10" />
+        <div className="absolute -left-12 -bottom-16 w-40 h-40 rounded-full bg-white/5" />
+
+        <div className="relative flex items-start justify-between gap-4">
+
+          {/* Title */}
+          <div className="min-w-0">
+
+            <div className="flex items-center gap-2">
+
+              <div className="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center">
+                <span className="text-xl">
                   🚕
-                </div>
+                </span>
               </div>
 
-              <p className="mt-3 text-sm text-indigo-100">
-                Your driver is on the way to your pickup location.
-              </p>
-            </div>
-
-            {/* Order ID */}
-            <div className="px-6 pt-5">
-              <div className="rounded-xl bg-gray-50 px-4 py-3">
-                <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
-                  Order ID
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-indigo-100">
+                 3 wheel goods Auto
                 </p>
 
-                <p className="mt-1 font-bold text-gray-800">
-                  {order.orderId}
-                </p>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <span className="w-2 h-2 rounded-full bg-green-300 animate-pulse" />
+
+                  <span className="text-xs text-indigo-100">
+                    Driver Assigned
+                  </span>
+                </div>
               </div>
+
             </div>
 
-            {/* Driver Details */}
-            <div className="px-6 py-5">
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-gray-400">
-                Driver Details
-              </h3>
+            <h2 className="mt-4 text-2xl font-extrabold">
+              Driver Assigned
+            </h2>
 
-              <div className="space-y-4">
+            <p className="mt-1 text-sm text-indigo-100 leading-5">
+              Your driver is on the way to your pickup location.
+            </p>
 
-                {/* Driver */}
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-50 text-xl">
-                    👤
-                  </div>
+          </div>
 
-                  <div>
-                    <p className="text-xs text-gray-400">
-                      Driver
-                    </p>
 
-                    <p className="font-semibold text-gray-900">
-                      {order.driver?.name}
-                    </p>
-                  </div>
-                </div>
+          {/* SOS */}
+          <a
+            href="tel:8088303214"
+            className="
+              shrink-0
+              flex
+              items-center
+              justify-center
+              gap-2
+              min-w-[76px]
+              h-12
+              px-4
+              rounded-2xl
+              bg-white
+              text-red-600
+              font-extrabold
+              text-sm
+              shadow-lg
+              shadow-indigo-900/20
+              hover:bg-red-50
+              active:scale-95
+              transition-all
+              duration-200
+            "
+          >
+            <span className="text-lg">
+              📞
+            </span>
 
-                {/* Phone */}
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-50 text-xl">
-                    📞
-                  </div>
+            <span>
+              SOS
+            </span>
+          </a>
 
-                  <div>
-                    <p className="text-xs text-gray-400">
-                      Phone
-                    </p>
+        </div>
 
-                    <p className="font-semibold text-gray-900">
-                      {order.driver?.number}
-                    </p>
-                  </div>
-                </div>
+      </div>
 
-                {/* Vehicle */}
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-50 text-xl">
-                    🚕
-                  </div>
 
-                  <div>
-                    <p className="text-xs text-gray-400">
-                      Vehicle
-                    </p>
+      {/* ================= ORDER ID ================= */}
+      <div className="px-5 sm:px-6 pt-5">
 
-                    <p className="font-semibold text-gray-900">
-                      {order.driver?.vehicleName}
-                    </p>
+        <div className="flex items-center justify-between gap-3 rounded-2xl bg-gray-50 border border-gray-100 px-4 py-4">
 
-                    <p className="text-sm text-gray-500">
-                      {order.driver?.vehicleNo}
-                    </p>
-                  </div>
-                </div>
+          <div className="min-w-0">
 
-              </div>
+            <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+              Order ID
+            </p>
+
+            <p className="mt-1 font-extrabold text-gray-900 truncate">
+              {order.orderId}
+            </p>
+
+          </div>
+
+          <div className="w-10 h-10 rounded-xl bg-white border border-gray-100 flex items-center justify-center shrink-0">
+            <span className="text-lg">
+              📋
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      {/* ================= DRIVER DETAILS ================= */}
+      <div className="px-5 sm:px-6 py-6">
+
+        <div className="flex items-center justify-between mb-4">
+
+          <div>
+            <h3 className="text-base font-extrabold text-gray-900">
+              Driver Details
+            </h3>
+
+            <p className="text-xs text-gray-500 mt-1">
+              Your assigned driver information
+            </p>
+          </div>
+
+          <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
+            👤
+          </div>
+
+        </div>
+
+
+        <div className="space-y-3">
+
+          {/* Driver */}
+          <div className="flex items-center gap-3 rounded-2xl bg-gray-50 border border-gray-100 p-3">
+
+            <div className="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-xl shrink-0">
+              👤
             </div>
 
-            {/* ETA */}
-            <div className="mx-6 mb-6 rounded-2xl bg-indigo-50 p-5 text-center">
+            <div className="min-w-0">
 
-              <div className="mb-2 text-3xl">
-                🕐
-              </div>
-
-              <p className="text-sm font-medium text-indigo-600">
-                Driver is on the way
+              <p className="text-xs text-gray-400">
+                Driver
               </p>
 
-              <p className="mt-1 text-2xl font-bold text-indigo-900">
-                {order.driverEtaMinutes} min
+              <p className="font-bold text-gray-900 truncate">
+                {order.driver?.name}
               </p>
 
-              <p className="mt-1 text-xs text-indigo-600">
-                Estimated arrival time
-              </p>
-
-              {order.driverDistanceKm != null && (
-                <p className="mt-2 text-sm text-gray-500">
-                  {order.driverDistanceKm} km away
-                </p>
-              )}
             </div>
 
           </div>
+
+
+          {/* Phone */}
+          <a
+            href={`tel:${order.driver?.number}`}
+            className="
+              flex
+              items-center
+              justify-between
+              gap-3
+              rounded-2xl
+              bg-gray-50
+              border
+              border-gray-100
+              p-3
+              hover:bg-green-50
+              hover:border-green-100
+              transition-all
+            "
+          >
+
+            <div className="flex items-center gap-3">
+
+              <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-xl shrink-0">
+                📞
+              </div>
+
+              <div>
+
+                <p className="text-xs text-gray-400">
+                  Phone
+                </p>
+
+                <p className="font-bold text-green-600">
+                  {order.driver?.number}
+                </p>
+
+              </div>
+
+            </div>
+
+            <span className="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+              →
+            </span>
+
+          </a>
+
+
+          {/* Vehicle */}
+          <div className="flex items-center justify-between gap-3 rounded-2xl bg-gray-50 border border-gray-100 p-3">
+
+            <div className="flex items-center gap-3">
+
+              <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-xl shrink-0">
+                🚕
+              </div>
+
+              <div>
+
+                <p className="text-xs text-gray-400">
+                  Vehicle
+                </p>
+
+                <p className="font-bold text-gray-900">
+                  {order.driver?.vehicleName}
+                </p>
+
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {order.driver?.vehicleNo}
+                </p>
+
+              </div>
+
+            </div>
+
+            <span className="px-2.5 py-1.5 rounded-lg bg-gray-900 text-white text-[10px] font-bold tracking-wide">
+              AUTO
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      {/* ================= ETA ================= */}
+      <div className="px-5 sm:px-6 pb-6">
+
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 p-6 text-center">
+
+          {/* Decorative circle */}
+          <div className="absolute -right-8 -top-8 w-24 h-24 rounded-full bg-indigo-100/70" />
+
+          <div className="relative">
+
+            <div className="mx-auto w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-2xl mb-3">
+              🕐
+            </div>
+
+            <p className="text-sm font-bold text-indigo-600">
+              Driver is on the way
+            </p>
+
+            <p className="mt-1 text-3xl font-black text-indigo-950">
+              {order.driverEtaMinutes}
+              <span className="text-lg font-bold ml-1">
+                min
+              </span>
+            </p>
+
+            <p className="mt-1 text-xs text-indigo-500">
+              Estimated arrival time
+            </p>
+
+            {order.driverDistanceKm != null && (
+              <div className="inline-flex items-center gap-1.5 mt-4 px-3 py-1.5 rounded-full bg-white/80 border border-indigo-100 text-xs font-semibold text-gray-600">
+                📍 {order.driverDistanceKm} km away
+              </div>
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
+
+ {/* Driver Details */}
+{(
+  order.status === "driver_arrived" ||
+  order.status === "picked_up"
+) && (
+  <div className="mt-5 overflow-hidden rounded-[28px] border border-gray-100 bg-white shadow-lg">
+
+    {/* ================= HEADER ================= */}
+    <div
+      className={`relative overflow-hidden px-5 sm:px-6 py-5 text-white ${
+        order.status === "driver_arrived"
+          ? "bg-gradient-to-br from-indigo-600 via-indigo-600 to-violet-600"
+          : "bg-gradient-to-br from-green-600 via-green-600 to-emerald-500"
+      }`}
+    >
+
+      {/* Decorative circles */}
+      <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/10" />
+      <div className="absolute -left-12 -bottom-16 h-32 w-32 rounded-full bg-white/5" />
+
+      <div className="relative flex items-start justify-between gap-4">
+
+        {/* Title */}
+        <div className="min-w-0">
+
+          <div className="flex items-center gap-2">
+
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm">
+              <span className="text-xl">
+                🚕
+              </span>
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-white/70">
+                Driver Details
+              </p>
+
+              <div className="mt-1 flex items-center gap-1.5">
+
+                <span className="h-2 w-2 animate-pulse rounded-full bg-white" />
+
+                <span className="text-xs font-medium text-white/80">
+                  {order.status === "driver_arrived"
+                    ? "Driver Arrived"
+                    : "Ride in Progress"}
+                </span>
+
+              </div>
+            </div>
+
+          </div>
+
+          <h3 className="mt-4 text-xl font-extrabold">
+            {order.status === "driver_arrived"
+              ? "Your driver has arrived"
+              : "Your ride is in progress"}
+          </h3>
+
+        </div>
+
+
+        {/* SOS */}
+        <a
+          href="tel:8088303214"
+          className="
+            shrink-0
+            flex
+            h-11
+            min-w-[72px]
+            items-center
+            justify-center
+            gap-2
+            rounded-2xl
+            bg-white
+            px-3
+            text-sm
+            font-extrabold
+            text-red-600
+            shadow-lg
+            shadow-black/10
+            transition-all
+            duration-200
+            hover:bg-red-50
+            active:scale-95
+          "
+        >
+          <span className="text-base">
+            📞
+          </span>
+
+          <span>
+            SOS
+          </span>
+        </a>
+
+      </div>
+
+    </div>
+
+
+    {/* ================= DRIVER INFORMATION ================= */}
+    <div className="p-5 sm:p-6">
+
+      <div className="space-y-3">
+
+        {/* Name */}
+        <div className="flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-3">
+
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-100 text-lg">
+            👤
+          </div>
+
+          <div className="min-w-0 flex-1">
+
+            <p className="text-xs text-gray-400">
+              Name
+            </p>
+
+            <p className="mt-0.5 truncate font-bold text-gray-900">
+              {order.driver?.name}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        {/* Phone */}
+        <a
+          href={`tel:${order.driver?.number}`}
+          className="
+            flex
+            items-center
+            justify-between
+            gap-3
+            rounded-2xl
+            border
+            border-gray-100
+            bg-gray-50
+            p-3
+            transition-all
+            duration-200
+            hover:border-green-200
+            hover:bg-green-50
+            active:scale-[0.99]
+          "
+        >
+
+          <div className="flex items-center gap-3">
+
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-100 text-lg">
+              📞
+            </div>
+
+            <div>
+
+              <p className="text-xs text-gray-400">
+                Phone
+              </p>
+
+              <p className="mt-0.5 font-bold text-green-600">
+                {order.driver?.number}
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-green-100 text-green-600">
+            →
+          </div>
+
+        </a>
+
+
+        {/* Vehicle */}
+        <div className="flex items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-3">
+
+          <div className="flex items-center gap-3">
+
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-lg">
+              🚕
+            </div>
+
+            <div>
+
+              <p className="text-xs text-gray-400">
+                Vehicle
+              </p>
+
+              <p className="mt-0.5 font-bold text-gray-900">
+                {order.driver?.vehicleName}
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* Vehicle Number */}
+        <div className="flex items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-3">
+
+          <div className="flex items-center gap-3">
+
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gray-200 text-lg">
+              🔢
+            </div>
+
+            <div>
+
+              <p className="text-xs text-gray-400">
+                Vehicle No.
+              </p>
+
+              <p className="mt-0.5 font-bold text-gray-900">
+                Vehicle Registration
+              </p>
+
+            </div>
+
+          </div>
+
+          <span className="shrink-0 rounded-xl bg-gray-900 px-3 py-2 text-xs font-extrabold tracking-wider text-white">
+            {order.driver?.vehicleNo}
+          </span>
+
+        </div>
+
+
+        {/* Amount */}
+        <div className="flex items-center justify-between gap-3 rounded-2xl border border-yellow-100 bg-gradient-to-r from-yellow-50 to-amber-50 p-4">
+
+          <div className="flex items-center gap-3">
+
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-yellow-100 text-lg">
+              ₹
+            </div>
+
+            <div>
+
+              <p className="text-xs text-gray-500">
+                Ride Amount
+              </p>
+
+              <p className="mt-0.5 text-sm font-semibold text-gray-700">
+                Total fare
+              </p>
+
+            </div>
+
+          </div>
+
+          <span className="text-2xl font-black text-yellow-700">
+            ₹{order.amount}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      {/* ================= PICKUP OTP ================= */}
+      {order.status === "driver_arrived" && (
+        <div className="relative mt-5 overflow-hidden rounded-3xl border border-dashed border-indigo-300 bg-gradient-to-br from-indigo-50 to-violet-50 p-6 text-center">
+
+          <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-indigo-100/60" />
+
+          <div className="relative">
+
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-100 text-xl">
+              🔐
+            </div>
+
+            <p className="text-xs font-bold uppercase tracking-wider text-indigo-500">
+              Pickup OTP
+            </p>
+
+            <p className="mt-3 rounded-2xl bg-white px-4 py-3 text-4xl font-black tracking-[0.35em] text-indigo-950 shadow-sm">
+              {order.otp?.pickupOtp}
+            </p>
+
+            <p className="mt-3 text-xs font-medium text-indigo-600">
+              Share this OTP with your driver
+            </p>
+
+          </div>
+
         </div>
       )}
 
-    {/* Driver Details */}
-      {(
-        order.status === "driver_arrived" ||
-        order.status === "picked_up"
-      ) && (
-          <div className="mt-5 rounded-2xl border border-gray-100 bg-white p-5 shadow-md">
 
-            {/* Header */}
-            <div className="mb-4 flex items-center gap-3">
-              {/* <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-50 text-xl">
-                🚕
-              </div> */}
+      {/* ================= DELIVERY OTP ================= */}
+      {order.status === "picked_up" && (
+        <div className="relative mt-5 overflow-hidden rounded-3xl border border-dashed border-green-300 bg-gradient-to-br from-green-50 to-emerald-50 p-6 text-center">
 
-              <div>
-                <h3 className="text-lg font-bold text-gray-900">
-                  Driver Details
-                </h3>
+          <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-green-100/60" />
 
-                <p className="text-sm text-gray-500">
-                  {order.status === "driver_arrived"
-                    ? "Your driver has arrived"
-                    : "Your ride is in progress"}
-                </p>
-              </div>
+          <div className="relative">
+
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-green-100 text-xl">
+              🔐
             </div>
 
-            {/* Driver information */}
-            <div className="space-y-3">
+            <p className="text-xs font-bold uppercase tracking-wider text-green-600">
+              Delivery OTP
+            </p>
 
-              {/* Name */}
-              <div className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3">
-                <span className="text-sm font-medium text-gray-500">
-                  Name
-                </span>
+            <p className="mt-3 rounded-2xl bg-white px-4 py-3 text-4xl font-black tracking-[0.35em] text-green-950 shadow-sm">
+              {order.otp?.deliveryOtp}
+            </p>
 
-                <span className="font-semibold text-gray-900">
-                  {order.driver?.name}
-                </span>
-              </div>
-
-              {/* Phone */}
-              <div className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3">
-                <span className="text-sm font-medium text-gray-500">
-                  Phone
-                </span>
-
-                <a
-                  href={`tel:$ ${order.driver?.number}`}
-                  className="font-semibold text-indigo-600 hover:text-indigo-700"
-                >
-                    {order.driver?.number}
-                </a>
-              </div>
-
-              {/* Vehicle */}
-              <div className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3">
-                <span className="text-sm font-medium text-gray-500">
-                  Vehicle
-                </span>
-
-                <span className="font-semibold text-gray-900">
-                  {order.driver?.vehicleName}
-                </span>
-              </div>
-
-              {/* Vehicle Number */}
-              <div className="flex items-center justify-between rounded-xl bg-gray-50 px-4 py-3">
-                <span className="text-sm font-medium text-gray-500">
-                  Vehicle No.
-                </span>
-
-                <span className="rounded-lg bg-gray-900 px-3 py-1 text-sm font-bold tracking-wide text-white">
-                   {order.driver?.vehicleNo}
-                </span>
-              </div>
-
-            </div>
-
-            {/* Pickup OTP */}
-            {order.status === "driver_arrived" && (
-              <div className="mt-5 rounded-2xl border border-dashed border-indigo-300 bg-indigo-50 p-5 text-center">
-                <p className="text-sm font-medium text-indigo-600">
-                  Pickup OTP
-                </p>
-
-                <p className="mt-2 text-3xl font-extrabold tracking-[0.4em] text-indigo-900">
-                  {order.otp?.pickupOtp}
-                </p>
-
-                <p className="mt-2 text-xs text-indigo-600">
-                  Share this OTP with your driver
-                </p>
-              </div>
-            )}
-
-            {/* Delivery OTP */}
-            {order.status === "picked_up" &&  (
-              <div className="mt-5 rounded-2xl border border-dashed border-green-300 bg-green-50 p-5 text-center">
-                <p className="text-sm font-medium text-green-600">
-                  Delivery OTP
-                </p>
-
-                <p className="mt-2 text-3xl font-extrabold tracking-[0.4em] text-green-900">
-                  {order.otp?.deliveryOtp}
-                </p>
-
-                <p className="mt-2 text-xs text-green-600">
-                  Share this OTP with your driver at the destination
-                </p>
-              </div>
-            )}
+            <p className="mt-3 text-xs font-medium text-green-600">
+              Share this OTP with your driver at the destination
+            </p>
 
           </div>
-        )}
+
+        </div>
+      )}
+
+    </div>
+
+  </div>
+)}
 </div>
   );
 }

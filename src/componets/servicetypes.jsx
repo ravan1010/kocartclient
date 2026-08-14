@@ -265,7 +265,7 @@ export default function ServerTypes() {
             className="group relative bg-gradient-to-br from-sky-50 to-blue-50 border border-blue-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden"
           >                <div>
               <h2 className="text-2xl font-extrabold text-teal-900 group-hover:text-teal-600 transition-colors">
-                Goods Auto
+                3 wheel Goods Auto
               </h2>
               <p className="text-sm text-gray-600 mt-1">
                 Transport items & shipments
