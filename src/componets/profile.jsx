@@ -81,7 +81,7 @@ const Profile = () => {
           >
             Download
           </a>
-
+{/* 
           {isAdmin ? (
             <Link
               to={`/adminlandmark/dashboard`}
@@ -97,7 +97,7 @@ const Profile = () => {
             >
               🤝 Become a Partner
             </Link>
-          )}
+          )} */}
         </div>
 
         <Footer />
