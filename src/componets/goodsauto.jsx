@@ -830,13 +830,13 @@ export default function GoodsAuto() {
             </div>
 
             <div className="pt-3 border-t border-gray-200">
-              <p className="text-gray-500 text-sm">
+              {/* <p className="text-gray-500 text-sm">
                 Estimated Amount
               </p>
 
               <p className="text-xl font-bold text-green-600">
                 Auto driver will call you and confirm the amount
-              </p>
+              </p> */}
             </div>
 
           </div>
