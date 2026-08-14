@@ -158,9 +158,21 @@ export default function GoodsAuto() {
         !form.pickup.latitude ||
         !form.pickup.longitude ||
         !form.drop.latitude ||
-        !form.drop.longitude
+        !form.drop.longitude ||
+        !form.pickup.name ||
+        !form.pickup.phone ||
+        !form.drop.name ||
+        !form.drop.phone ||
+      
       ) {
-        alert("Please select pickup and drop locations");
+        alert("Please select pickup and drop locations and details");
+        return;
+      }
+
+      if(  !form.goods.itemType ||
+        !form.goods.estimatedWeight
+      ){
+        alert("please enter goods item and weight")
         return;
       }
 
@@ -195,6 +207,10 @@ export default function GoodsAuto() {
     if (oneclick === 2) {
       return
     }
+
+    if(!form.pickup.latitude || !form.pickup.longitude ||
+      !form.
+    )
 
     setOneclick(2)
 
