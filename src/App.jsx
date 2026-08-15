@@ -60,6 +60,10 @@ function App() {
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
           <Route path="/contact-information-policy" element={<ContactInformationPolicy />} />
 
+   <Route
+  path="/location-picker"
+  element={<AppFullScreenLocationPicker />}
+/>
         //user email or number for signup
           <Route path='/signup' element={<SignupOne />} />
           <Route path='/client-auth-success' element={<Clientverify />} />
@@ -86,10 +90,7 @@ function App() {
 
 
           <Route path='/auto/all/orders' element={<AutoOrders /> } />
-          <Route
-  path="/location-picker"
-  element={<AppFullScreenLocationPicker />}
-/>
+       
           
           //admin signup
             <Route path='/admin' element={<MarchentSignup />} />
