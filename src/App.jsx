@@ -45,6 +45,7 @@ import PassengerAutoOrders from './componets/passengerautoOrders';
 import GoodsAuto from './componets/goodsauto';
 import GoodsAutoOrders from './componets/goodsautoOrdes';
 import AutoOrders from './componets/autoOrder';
+import FullScreenLocationPicker from './hooks/FullScreenLocationPicker';
 
 
 function App() {
@@ -85,7 +86,10 @@ function App() {
 
 
           <Route path='/auto/all/orders' element={<AutoOrders /> } />
-          
+          <Route
+  path="/location-picker"
+  element={<FullScreenLocationPicker />}
+/>
           
           //admin signup
             <Route path='/admin' element={<MarchentSignup />} />
