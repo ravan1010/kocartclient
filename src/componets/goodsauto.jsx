@@ -267,8 +267,10 @@ export default function GoodsAuto() {
       {step === 1 && (
         <>
           <h1 className="text-3xl font-bold mb-6">
-            goods Auto Booking
-          </h1>
+{type === "goods_auto"
+  ? "3-Wheel Goods Auto Booking"
+  : "4-Wheel Goods Auto Booking"}
+            </h1>
 
           {/* Pickup */}
 
