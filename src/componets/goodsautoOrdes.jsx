@@ -1027,7 +1027,7 @@ export default function GoodsAutoOrders() {
 
                 </div>
 
-
+  
                 {/* Vehicle Number */}
                 <div className="flex items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-3">
 

@@ -85,7 +85,7 @@ function App() {
           <Route path='/PassengerAuto' element={ <PassengerAuto /> } />
           <Route path='/PassengerAuto/order/:orderId' element={< PassengerAutoOrders /> } />
 
-          <Route path='/goodsAuto' element={ <GoodsAuto /> } />
+          <Route path='/goodsAuto/:type' element={ <GoodsAuto /> } />
           <Route path='/goodsAuto/order/:orderId' element={< GoodsAutoOrders /> } />
 
 

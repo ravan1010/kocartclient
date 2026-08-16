@@ -1,13 +1,14 @@
 
 import { useEffect, useState } from "react";
 import api from "../api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Navigation } from "lucide-react";
 import FullScreenLocationPicker from "../hooks/FullScreenLocationPicker";
 
 
 export default function GoodsAuto() {
   const navigate = useNavigate();
+  const { type } = useParams();
 
   // Which map is open?
   const [locationPicker, setLocationPicker] = useState(null);
@@ -242,6 +243,7 @@ export default function GoodsAuto() {
         payment: form.payment,
         distance,
         amount,
+        type,
       })
         .then((res) => {
           if (res.data.success) {
@@ -349,7 +351,7 @@ export default function GoodsAuto() {
                   >
                     <Navigation size={16} />
                     Navigate
-                  </a>
+                  </a>   
 
                 </div>
 
