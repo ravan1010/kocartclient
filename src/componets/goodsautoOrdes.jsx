@@ -17,7 +17,7 @@ export default function GoodsAutoOrders() {
 
       // completed / cancelled
       if (!res.data.order) {
-        navigate("/goods-auto", {
+        navigate("/", {
           replace: true,
         });
         return;
