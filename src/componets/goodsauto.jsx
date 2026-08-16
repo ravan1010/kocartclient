@@ -74,6 +74,7 @@ export default function GoodsAuto() {
     };
 
     checkActiveOrder();
+    console.log(type)
   }, []);
 
   // =====================================================
@@ -207,7 +208,7 @@ export default function GoodsAuto() {
 
     if (oneclick === 2) {
       return
-    }
+    }  
 
     setOneclick(2)
 
