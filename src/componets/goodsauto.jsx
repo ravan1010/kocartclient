@@ -254,8 +254,15 @@ export default function GoodsAuto() {
         }
         )
     } catch (err) {
-      console.log(err);
-    }
+    console.error("CREATE GOODS AUTO ORDER ERROR:", err);
+    console.error("ERROR MESSAGE:", err.message);
+    console.error("ERROR STACK:", err.stack);
+
+    return res.status(500).json({
+        success: false,
+        message: err.message,
+    });
+}
   };
 
   return (
