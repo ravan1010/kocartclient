@@ -16,9 +16,15 @@ export default function ServerTypes() {
   const [loadingLoc, setLoadingLoc] = useState(false);
   const [locationError, setLocationError] = useState("");
 
-  useEffect(() => {
+ useEffect(() => {
+  load();
+
+  const interval = setInterval(() => {
     load();
-  }, []);
+  }, 5000); // 5 seconds
+
+  return () => clearInterval(interval);
+}, []);
 
   const load = async () => {
     try {

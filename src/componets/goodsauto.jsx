@@ -7,7 +7,7 @@ import FullScreenLocationPicker from "../hooks/FullScreenLocationPicker";
 
 
 export default function GoodsAuto() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const { type } = useParams();
 
   // Which map is open?
