@@ -212,52 +212,6 @@ export default function ServerTypes() {
           </button>
         )}
 
-        {/* Bike Parcel Card */}
-        {services.includes("bike_parcel") && (
-          <button
-            onClick={() => navigate("/bike-parcel")}
-            className="group relative bg-gradient-to-br from-sky-50 to-blue-50 border border-blue-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden"
-          >
-            <div>
-              <h2 className="text-2xl font-extrabold text-blue-900 group-hover:text-blue-600 transition-colors">
-                Parcel delivery
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Express, contactless delivery
-              </p>
-            </div>
-            <div className="flex items-end justify-between mt-6">
-              <div className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
-                →
-              </div>
-              <div className="text-5xl select-none">🏍️</div>
-            </div>
-          </button>
-        )}
-
-        {/* Passenger Auto Card */}
-        {services.includes("auto_passenger") && (
-          <button
-            onClick={() => navigate("/PassengerAuto")}
-            className="group relative bg-gradient-to-br from-sky-50 to-blue-50 border border-blue-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden"
-          >
-            <div>
-              <h2 className="text-2xl font-extrabold text-yellow-900 group-hover:text-yellow-600 transition-colors">
-                Passenger Auto
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Affordable city rides
-              </p>
-            </div>
-            <div className="flex items-end justify-between mt-6">
-              <div className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-yellow-600 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-300">
-                →
-              </div>
-              <div className="text-5xl select-none">🛺</div>
-            </div>
-          </button>
-        )}
-
         {/* Goods Auto Card */}
         {services.includes("goods_auto") && (
           <button
