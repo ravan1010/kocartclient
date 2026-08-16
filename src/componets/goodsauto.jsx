@@ -258,10 +258,7 @@ export default function GoodsAuto() {
     console.error("ERROR MESSAGE:", err.message);
     console.error("ERROR STACK:", err.stack);
 
-    return res.status(500).json({
-        success: false,
-        message: err.message,
-    });
+
 }
   };
 
