@@ -257,8 +257,6 @@ export default function GoodsAuto() {
     console.error("CREATE GOODS AUTO ORDER ERROR:", err);
     console.error("ERROR MESSAGE:", err.message);
     console.error("ERROR STACK:", err.stack);
-
-
 }
   };
 
