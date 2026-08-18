@@ -8,10 +8,11 @@ import Navbar from "./navbar"
 
 export default function ServerTypes() {
   const navigate = useNavigate();
-
+ 
   const [services, setServices] = useState([]);
   const [category, setCategory] = useState([]);
   const [city, setCity] = useState("");
+  const [user, setuser] = useState();
   const [loading, setLoading] = useState(true);
   const [loadingLoc, setLoadingLoc] = useState(false);
   const [locationError, setLocationError] = useState("");
@@ -32,6 +33,7 @@ export default function ServerTypes() {
       setServices(res.data.serviceTypes || []);
       setCategory(res.data.category || []);
       setCity(res.data.city || "");
+      setuser(res.data.user || '')
     } catch (err) {
       console.log(err);
     } finally {
@@ -119,6 +121,25 @@ export default function ServerTypes() {
       setLoadingLoc(false);
     }
   };
+
+if(user === false ){
+  return(
+    <div className="flex justify-between border-t w-full p-2">
+            <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
+              KO<span className="text-orange-600">CA</span>RT
+            </div>
+            <div>
+              <button
+                onClick={changeLocation}
+                disabled={loadingLoc}
+                className="px-4 py-2 text-sm font-semibold rounded-xl disabled:opacity-50 border border-gray-300 hover:border-gray-400 bg-white shadow-sm transition-all text-gray-700 flex items-center gap-2"
+              >
+                {loadingLoc ? "Updating..." : "📍 turn on Location"}
+              </button>
+            </div>
+          </div>
+  )
+}
 
   if (loading) {
     return (
