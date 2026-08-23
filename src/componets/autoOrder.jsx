@@ -304,15 +304,15 @@ export default function AutoOrders() {
 
                             {order.createdAt
                               ? new Date(
-                                  order.createdAt
-                                ).toLocaleDateString(
-                                  "en-IN",
-                                  {
-                                    day: "2-digit",
-                                    month: "short",
-                                    year: "numeric",
-                                  }
-                                )
+                                order.createdAt
+                              ).toLocaleDateString(
+                                "en-IN",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                }
+                              )
                               : "-"}
 
                           </p>
@@ -481,10 +481,9 @@ export default function AutoOrders() {
                               mt-1
                               text-sm
                               font-bold
-                              ${
-                                order.goods?.loadingRequired
-                                  ? "text-green-600"
-                                  : "text-gray-500"
+                              ${order.goods?.loadingRequired
+                                ? "text-green-600"
+                                : "text-gray-500"
                               }
                             `}
                           >
@@ -510,10 +509,9 @@ export default function AutoOrders() {
                           className={`
                             text-sm
                             font-bold
-                            ${
-                              order.goods?.unloadingRequired
-                                ? "text-green-600"
-                                : "text-gray-500"
+                            ${order.goods?.unloadingRequired
+                              ? "text-green-600"
+                              : "text-gray-500"
                             }
                           `}
                         >
@@ -544,6 +542,52 @@ export default function AutoOrders() {
                       )}
 
                     </div>
+
+                    {/* ================= DRIVER RATING ================= */}
+
+                    {order.status === "completed" && (
+                      <div className="mt-4 rounded-2xl border border-yellow-100 bg-yellow-50/50 p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs font-semibold uppercase text-gray-400">
+                              Delivery Partner Rating
+                            </p>
+
+                            {order.rating ? (
+                              <div className="mt-2 flex items-center gap-2">
+                                <div className="flex items-center">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <span
+                                      key={star}
+                                      className={`text-xl ${star <= order.rating
+                                          ? "text-yellow-400"
+                                          : "text-gray-300"
+                                        }`}
+                                    >
+                                      ★
+                                    </span>
+                                  ))}
+                                </div>
+
+                                <span className="text-sm font-bold text-gray-700">
+                                  {order.rating}/5
+                                </span>
+                              </div>
+                            ) : (
+                              <p className="mt-2 text-sm font-medium text-gray-500">
+                                Not rated yet
+                              </p>
+                            )}
+                          </div>
+
+                          {order.rating && (
+                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
+                              <span className="text-2xl">⭐</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
 
                   </div>
 
