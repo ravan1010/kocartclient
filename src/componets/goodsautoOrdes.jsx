@@ -469,7 +469,7 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
 
                         {/* Assign Button */}
                         <button
-                          onClick={() => assignDriver(item.driver)}
+                          onClick={() => assignDriver(item.driver?._id)}
                           disabled={!item.driver || loading}
                           className="
                   mt-5
