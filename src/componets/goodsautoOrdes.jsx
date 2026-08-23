@@ -365,14 +365,8 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
                               </p>
 
                               <p className="mt-0.5 truncate font-bold text-gray-900">
-                                {item.driver?.name || "Goods Auto Driver"}
+                                {item.vehical || item. || "Goods Auto Driver"}
                               </p>
-
-                              {item.driver?.vehicleNo && (
-                                <p className="mt-0.5 text-xs font-medium text-gray-500">
-                                  {item.driver.vehicleNo}
-                                </p>
-                              )}
 
                               {/* Rating */}
                               <div className="mt-1 flex items-center gap-1.5">
