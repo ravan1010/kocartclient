@@ -110,7 +110,7 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
     setSubmittingRating(true);
 
     const res = await api.post(
-      `/api/goods-auto/order/${order._id}/rating`,
+      `/api/partner/rating`,
       {
         orderId: order._id,
         partnerId: order.driver,
