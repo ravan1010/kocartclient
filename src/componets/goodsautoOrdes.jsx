@@ -114,23 +114,38 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
       {
         orderId: order._id,
         partnerId: order.driver,
-        rating
+        rating,
       },
       {
         withCredentials: true,
       }
     );
 
+    console.log("Rating success:", res.data);
+
     if (res.data.success) {
       setRatingSubmitted(true);
     }
-  } catch (error) {
-    console.error("Rating submit error:", error);
 
-    alert(
+  } catch (error) {
+
+    console.error("========== RATING ERROR ==========");
+    console.error("Error:", error);
+    console.error("Message:", error.message);
+    console.error("Response:", error.response);
+    console.error("Status:", error.response?.status);
+    console.error("Data:", error.response?.data);
+    console.error("Backend message:", error.response?.data?.message);
+    console.error("===================================");
+
+    const message =
       error.response?.data?.message ||
-        "Unable to submit rating"
-    );
+      error.response?.data?.error ||
+      error.message ||
+      "Unable to submit rating";
+
+    alert(message);
+
   } finally {
     setSubmittingRating(false);
   }
@@ -142,9 +157,6 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
   if (!order) {
     return null;
   }
-
-  
-
 
   return (
     <div className="space-y-4">
