@@ -106,14 +106,25 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
     return;
   }
 
+  const partnerId =
+    typeof order.driver === "object"
+      ? order.driver?._id
+      : order.driver;
+
+  console.log("Rating data:", {
+    orderId: order._id,
+    partnerId,
+    rating,
+  });
+
   try {
     setSubmittingRating(true);
 
     const res = await api.post(
-      `/api/partner/rating`,
+      "/api/partner/rating",
       {
         orderId: order._id,
-        partnerId: order.driver,
+        partnerId,
         rating,
       },
       {
@@ -121,31 +132,24 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
       }
     );
 
-    console.log("Rating success:", res.data);
+    console.log("Rating response:", res.data);
 
     if (res.data.success) {
       setRatingSubmitted(true);
     }
-
   } catch (error) {
-
     console.error("========== RATING ERROR ==========");
-    console.error("Error:", error);
-    console.error("Message:", error.message);
-    console.error("Response:", error.response);
     console.error("Status:", error.response?.status);
-    console.error("Data:", error.response?.data);
-    console.error("Backend message:", error.response?.data?.message);
+    console.error("Backend response:", error.response?.data);
+    console.error("Error:", error.message);
     console.error("===================================");
 
-    const message =
+    alert(
       error.response?.data?.message ||
       error.response?.data?.error ||
       error.message ||
-      "Unable to submit rating";
-
-    alert(message);
-
+      "Unable to submit rating"
+    );
   } finally {
     setSubmittingRating(false);
   }
