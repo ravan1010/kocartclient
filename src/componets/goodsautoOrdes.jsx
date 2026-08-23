@@ -1366,6 +1366,28 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
                   >
                     Skip for now
                   </button>
+                  <button
+                  onClick={() => navigate("/")}
+                  className="
+                    mt-5 flex h-14 w-full
+                    items-center justify-center gap-2
+                    rounded-2xl
+                    bg-gray-900
+                    text-sm font-extrabold text-white
+                    shadow-lg
+                    transition-all
+                    hover:bg-gray-800
+                    active:scale-[0.98]
+                  "
+                >
+                  <span className="text-lg">
+                    🏠
+                  </span>
+
+                  <span>
+                    Go to Home
+                  </span>
+                </button>
 
                 </>
               ) : (
