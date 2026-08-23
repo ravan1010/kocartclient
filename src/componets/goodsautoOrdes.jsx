@@ -365,7 +365,7 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
                               </p>
 
                               <p className="mt-0.5 truncate font-bold text-gray-900">
-                                {item.vehical || item. || "Goods Auto Driver"}
+                                {item.vehical || item.serviceType || "Goods Auto Driver"}
                               </p>
 
                               {/* Rating */}
