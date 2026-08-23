@@ -9,13 +9,16 @@ export default function GoodsAutoOrders() {
 
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+const [rating, setRating] = useState(0);
+const [submittingRating, setSubmittingRating] = useState(false);
+const [ratingSubmitted, setRatingSubmitted] = useState(false);
 
 
   const fetchOrders = async () => {
     try {
       const res = await api.get(`/api/goods-auto/order/${orderId}`);
 
-      // completed / cancelled
+      // cancelled
       if (!res.data.order) {
         navigate("/", {
           replace: true,
@@ -97,11 +100,51 @@ export default function GoodsAutoOrders() {
     }
   };
 
+  const submitRating = async () => {
+  if (!rating) {
+    alert("Please select a rating");
+    return;
+  }
+
+  try {
+    setSubmittingRating(true);
+
+    const res = await api.post(
+      `/api/goods-auto/order/${order._id}/rating`,
+      {
+        orderId: order._id,
+        partnerId: order.driver,
+        rating
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (res.data.success) {
+      setRatingSubmitted(true);
+    }
+  } catch (error) {
+    console.error("Rating submit error:", error);
+
+    alert(
+      error.response?.data?.message ||
+        "Unable to submit rating"
+    );
+  } finally {
+    setSubmittingRating(false);
+  }
+};
+
+
   if (loading) return <p>Loading...</p>;
 
   if (!order) {
     return null;
   }
+
+  
+
 
   return (
     <div className="space-y-4">
@@ -330,6 +373,27 @@ export default function GoodsAutoOrders() {
                                   {item.driver.vehicleNo}
                                 </p>
                               )}
+
+                              {/* Rating */}
+                              <div className="mt-1 flex items-center gap-1.5">
+
+                                <span className="text-sm text-yellow-400">
+                                  ★
+                                </span>
+
+                                <span className="text-sm font-bold text-gray-800">
+                                  {item.driver?.rating?.average
+                                    ? Number(item.driver.rating.average).toFixed(1)
+                                    : "New"}
+                                </span>
+
+                                {item.driver?.rating?.count > 0 && (
+                                  <span className="text-xs text-gray-400">
+                                    ({item.driver.rating.count})
+                                  </span>
+                                )}
+
+                              </div>
 
                             </div>
 
@@ -837,8 +901,8 @@ export default function GoodsAutoOrders() {
             {/* ================= HEADER ================= */}
             <div
               className={`relative overflow-hidden px-5 sm:px-6 py-5 text-white ${order.status === "driver_arrived"
-                  ? "bg-gradient-to-br from-indigo-600 via-indigo-600 to-violet-600"
-                  : "bg-gradient-to-br from-green-600 via-green-600 to-emerald-500"
+                ? "bg-gradient-to-br from-indigo-600 via-indigo-600 to-violet-600"
+                : "bg-gradient-to-br from-green-600 via-green-600 to-emerald-500"
                 }`}
             >
 
@@ -1027,7 +1091,7 @@ export default function GoodsAutoOrders() {
 
                 </div>
 
-  
+
                 {/* Vehicle Number */}
                 <div className="flex items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-3">
 
@@ -1153,6 +1217,241 @@ export default function GoodsAutoOrders() {
 
           </div>
         )}
+
+      
+      {order.status === "completed" && (
+        <div className="min-h-[70vh] bg-gray-50 px-4 py-8 flex items-center justify-center">
+
+          <div className="w-full max-w-md overflow-hidden rounded-[28px] bg-white border border-gray-100 shadow-xl">
+
+            {/* Header */}
+            <div className="relative overflow-hidden bg-gradient-to-br from-green-600 via-green-600 to-emerald-500 px-6 py-8 text-center text-white">
+
+              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10" />
+              <div className="absolute -left-12 -bottom-16 h-40 w-40 rounded-full bg-white/5" />
+
+              <div className="relative">
+
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg">
+
+                  <span className="text-4xl">
+                    ✓
+                  </span>
+
+                </div>
+
+                <h2 className="mt-5 text-2xl font-black">
+                  Delivery Completed
+                </h2>
+
+                <p className="mt-2 text-sm text-green-100">
+                  Your goods auto delivery has been completed successfully.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            {/* Content */}
+            <div className="p-6">
+
+              {!ratingSubmitted && !order.rating?.rating ? (
+                <>
+                  {/* Rating title */}
+                  <div className="text-center">
+
+                    <h3 className="text-xl font-extrabold text-gray-900">
+                      Rate your driver
+                    </h3>
+
+                    <p className="mt-1 text-sm text-gray-500">
+                      How was your delivery experience?
+                    </p>
+
+                  </div>
+
+
+                  {/* Stars */}
+                  <div className="mt-6 flex justify-center gap-2">
+
+                    {[1, 2, 3, 4, 5].map((star) => (
+
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setRating(star)}
+                        className={`
+                          flex h-12 w-12 items-center justify-center
+                          rounded-xl text-3xl transition-all
+                          ${
+                            star <= rating
+                              ? "bg-yellow-50 text-yellow-400 scale-110"
+                              : "bg-gray-50 text-gray-300"
+                          }
+                        `}
+                      >
+                        ★
+                      </button>
+
+                    ))}
+
+                  </div>
+
+
+                  {/* Rating text */}
+                  <div className="mt-3 text-center">
+
+                    {rating > 0 && (
+                      <p className="text-sm font-bold text-gray-700">
+                        {rating === 5 && "Excellent! 😍"}
+                        {rating === 4 && "Very Good! 😊"}
+                        {rating === 3 && "Good 👍"}
+                        {rating === 2 && "Could be better 😐"}
+                        {rating === 1 && "Poor 😞"}
+                      </p>
+                    )}
+
+                  </div>
+
+
+                  {/* Submit */}
+                  <button
+                    onClick={submitRating}
+                    disabled={!rating || submittingRating}
+                    className="
+                      mt-5 flex h-14 w-full
+                      items-center justify-center gap-2
+                      rounded-2xl
+                      bg-indigo-600
+                      text-sm font-extrabold text-white
+                      shadow-lg shadow-indigo-200
+                      transition-all
+                      hover:bg-indigo-700
+                      active:scale-[0.98]
+                      disabled:cursor-not-allowed
+                      disabled:bg-gray-300
+                      disabled:shadow-none
+                    "
+                  >
+
+                    {submittingRating ? (
+                      <>
+                        <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-lg">
+                          ⭐
+                        </span>
+
+                        Submit Rating
+                      </>
+                    )}
+
+                  </button>
+
+
+                  {/* Skip */}
+                  <button
+                    onClick={() => setRatingSubmitted(true)}
+                    disabled={submittingRating}
+                    className="
+                      mt-3 w-full py-3
+                      text-sm font-semibold
+                      text-gray-400
+                      hover:text-gray-600
+                    "
+                  >
+                    Skip for now
+                  </button>
+
+                </>
+              ) : (
+                <>
+                  {/* Rating submitted */}
+                  <div className="py-5 text-center">
+
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+
+                      <span className="text-3xl">
+                        ✓
+                      </span>
+
+                    </div>
+
+                    <h3 className="mt-5 text-xl font-extrabold text-gray-900">
+                      Thank you!
+                    </h3>
+
+                    <p className="mt-2 text-sm leading-6 text-gray-500">
+                      Your feedback helps us improve our delivery service.
+                    </p>
+
+                    {/* Show selected stars */}
+                    <div className="mt-5 flex justify-center gap-1">
+
+                      {[1, 2, 3, 4, 5].map((star) => (
+
+                        <span
+                          key={star}
+                          className={`
+                            text-3xl
+                            ${
+                              star <=
+                              (rating || order.rating?.rating || 0)
+                                ? "text-yellow-400"
+                                : "text-gray-200"
+                            }
+                          `}
+                        >
+                          ★
+                        </span>
+
+                      ))}
+
+                    </div>
+
+                  </div>
+
+                </>
+              )}
+
+
+              {/* Home button */}
+              {(ratingSubmitted || order.rating?.rating) && (
+                <button
+                  onClick={() => navigate("/")}
+                  className="
+                    mt-5 flex h-14 w-full
+                    items-center justify-center gap-2
+                    rounded-2xl
+                    bg-gray-900
+                    text-sm font-extrabold text-white
+                    shadow-lg
+                    transition-all
+                    hover:bg-gray-800
+                    active:scale-[0.98]
+                  "
+                >
+                  <span className="text-lg">
+                    🏠
+                  </span>
+
+                  <span>
+                    Go to Home
+                  </span>
+                </button>
+              )}
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
+  
     </div>
   );
 }
