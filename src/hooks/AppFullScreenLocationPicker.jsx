@@ -269,7 +269,7 @@ const AppFullScreenLocationPicker = ({
     */
 
     setSearchText(
-      selectedAddress
+      
     );
 
     /*
