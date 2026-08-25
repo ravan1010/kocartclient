@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -10,7 +10,6 @@ import "leaflet/dist/leaflet.css";
 import useMapLocation from "./useMapLocation";
 import MapCenterUpdater from "./MapCenterUpdater";
 import useCurrentLocation from "./useCurrentLocation";
-
 import { Navigation } from "lucide-react";
 
 /*
@@ -66,7 +65,7 @@ const RecenterMap = ({ location }) => {
 |--------------------------------------------------------------------------
 */
 
-const AppFullScreenLocationPicker = ({
+const AppFullScreen = ({
   type = "pickup",
   initialLocation,
   onConfirm,
@@ -75,7 +74,7 @@ const AppFullScreenLocationPicker = ({
 
   /*
   |--------------------------------------------------------------------------
-  | URL PARAMETERS
+  | Read location from URL
   |--------------------------------------------------------------------------
   */
 
@@ -83,7 +82,8 @@ const AppFullScreenLocationPicker = ({
     window.location.search
   );
 
-  const urlType = params.get("type");
+  const urlType =
+    params.get("type");
 
   const urlLatitude =
     Number(params.get("latitude"));
@@ -93,7 +93,7 @@ const AppFullScreenLocationPicker = ({
 
   /*
   |--------------------------------------------------------------------------
-  | LOCATION TYPE
+  | Final type
   |--------------------------------------------------------------------------
   */
 
@@ -102,7 +102,7 @@ const AppFullScreenLocationPicker = ({
 
   /*
   |--------------------------------------------------------------------------
-  | INITIAL LOCATION
+  | Final initial location
   |--------------------------------------------------------------------------
   */
 
@@ -117,7 +117,7 @@ const AppFullScreenLocationPicker = ({
 
   /*
   |--------------------------------------------------------------------------
-  | MAP LOCATION
+  | Map Location Hook
   |--------------------------------------------------------------------------
   */
 
@@ -126,11 +126,13 @@ const AppFullScreenLocationPicker = ({
     address,
     updateLocation,
     reverseGeocode,
-  } = useMapLocation(urlLocation);
+  } = useMapLocation(
+    urlLocation
+  );
 
   /*
   |--------------------------------------------------------------------------
-  | CURRENT LOCATION
+  | Current GPS
   |--------------------------------------------------------------------------
   */
 
@@ -141,160 +143,20 @@ const AppFullScreenLocationPicker = ({
 
   /*
   |--------------------------------------------------------------------------
-  | SEARCH STATE
-  |--------------------------------------------------------------------------
-  */
-
-  const [searchText, setSearchText] = useState("");
-
-  const [searchResults, setSearchResults] =
-    useState([]);
-
-  const [searchLoading, setSearchLoading] =
-    useState(false);
-
-  /*
-  |--------------------------------------------------------------------------
-  | SEARCH LOCATION
-  |--------------------------------------------------------------------------
-  */
-
-  const searchLocation = async (text) => {
-
-    if (!text.trim() || text.trim().length < 3) {
-      setSearchResults([]);
-      return;
-    }
-
-    try {
-
-      setSearchLoading(true);
-
-      const response = await fetch(
-        `https://api.geoapify.com/v1/geocode/autocomplete?` +
-        `text=${encodeURIComponent(text)}` +
-        `&limit=5` +
-        `&filter=countrycode:in` +
-        `&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`
-      );
-
-      const data = await response.json();
-
-      setSearchResults(
-        data.features || []
-      );
-
-    } catch (error) {
-
-      console.error(
-        "Location search error:",
-        error
-      );
-
-      setSearchResults([]);
-
-    } finally {
-
-      setSearchLoading(false);
-
-    }
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | SEARCH DEBOUNCE
+  | Reverse Geocode
   |--------------------------------------------------------------------------
   */
 
   useEffect(() => {
-
-    const timer = setTimeout(() => {
-
-      if (
-        searchText.trim().length >= 3
-      ) {
-        searchLocation(searchText);
-      } else {
-        setSearchResults([]);
-      }
-
-    }, 400);
-
-    return () => clearTimeout(timer);
-
-  }, [searchText]);
-
-  /*
-  |--------------------------------------------------------------------------
-  | SELECT SEARCH RESULT
-  |--------------------------------------------------------------------------
-  */
-
-  const handleSearchSelect = (feature) => {
-
-    if (
-      !feature ||
-      !feature.geometry ||
-      !feature.geometry.coordinates
-    ) {
-      return;
-    }
-
-    const [
-      longitude,
-      latitude,
-    ] = feature.geometry.coordinates;
-
-    const selectedAddress =
-      feature.properties?.formatted || "";
-
-    console.log(
-      "📍 Search selected:",
-      latitude,
-      longitude,
-      selectedAddress
-    );
-
-    /*
-    | Update map
-    */
-
-    updateLocation(
-      Number(latitude),
-      Number(longitude)
-    );
-
-    /*
-    | Fill search box
-    */
-
-    setSearchText(
-      selectedAddress
-    );
-
-    /*
-    | Close suggestions
-    */
-
-    setSearchResults([]);
-
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | REVERSE GEOCODE
-  |--------------------------------------------------------------------------
-  */
-
-  useEffect(() => {
-
     if (!location) return;
 
-    const lat =
-      Number(location.latitude);
+    const lat = Number(
+      location.latitude
+    );
 
-    const lng =
-      Number(location.longitude);
+    const lng = Number(
+      location.longitude
+    );
 
     if (
       !Number.isFinite(lat) ||
@@ -307,7 +169,6 @@ const AppFullScreenLocationPicker = ({
       lat,
       lng
     );
-
   }, [
     location?.latitude,
     location?.longitude,
@@ -315,7 +176,7 @@ const AppFullScreenLocationPicker = ({
 
   /*
   |--------------------------------------------------------------------------
-  | MAP LOCATION CHANGED
+  | Map Location Changed
   |--------------------------------------------------------------------------
   */
 
@@ -323,26 +184,25 @@ const AppFullScreenLocationPicker = ({
     latitude,
     longitude
   ) => {
-
     updateLocation(
       latitude,
       longitude
     );
-
   };
 
   /*
   |--------------------------------------------------------------------------
-  | SEND MESSAGE TO REACT NATIVE
+  | Send message to React Native
   |--------------------------------------------------------------------------
   */
 
-  const sendToReactNative = (data) => {
+  const sendToReactNative = (
+    data
+  ) => {
 
     if (
       window.ReactNativeWebView
     ) {
-
       window.ReactNativeWebView.postMessage(
         JSON.stringify(data)
       );
@@ -355,7 +215,7 @@ const AppFullScreenLocationPicker = ({
 
   /*
   |--------------------------------------------------------------------------
-  | CURRENT LOCATION
+  | Current Location
   |--------------------------------------------------------------------------
   */
 
@@ -372,10 +232,6 @@ const AppFullScreenLocationPicker = ({
           currentLocation.longitude
         );
 
-        setSearchText("");
-
-        setSearchResults([]);
-
       } catch (error) {
 
         console.error(
@@ -386,13 +242,12 @@ const AppFullScreenLocationPicker = ({
         alert(
           "Unable to get your current location. Please allow location permission."
         );
-
       }
     };
 
   /*
   |--------------------------------------------------------------------------
-  | CANCEL
+  | Cancel
   |--------------------------------------------------------------------------
   */
 
@@ -403,6 +258,9 @@ const AppFullScreenLocationPicker = ({
         type: "LOCATION_CANCEL",
       });
 
+    /*
+     * Normal Web usage
+     */
     if (
       !sent &&
       onCancel
@@ -413,7 +271,7 @@ const AppFullScreenLocationPicker = ({
 
   /*
   |--------------------------------------------------------------------------
-  | CONFIRM
+  | Confirm
   |--------------------------------------------------------------------------
   */
 
@@ -460,25 +318,18 @@ const AppFullScreenLocationPicker = ({
     };
 
     /*
-    |--------------------------------------------------------------------------
-    | React Native WebView
-    |--------------------------------------------------------------------------
-    */
-
+     * React Native WebView
+     */
     const sent =
       sendToReactNative(result);
 
     /*
-    |--------------------------------------------------------------------------
-    | Normal React Web
-    |--------------------------------------------------------------------------
-    */
-
+     * Normal React Web
+     */
     if (
       !sent &&
       onConfirm
     ) {
-
       onConfirm({
         type: locationType,
         latitude,
@@ -486,14 +337,12 @@ const AppFullScreenLocationPicker = ({
         address:
           address || "",
       });
-
     }
-
   };
 
   /*
   |--------------------------------------------------------------------------
-  | LOADING
+  | Loading
   |--------------------------------------------------------------------------
   */
 
@@ -540,12 +389,11 @@ const AppFullScreenLocationPicker = ({
 
   /*
   |--------------------------------------------------------------------------
-  | MAIN UI
+  | Main UI
   |--------------------------------------------------------------------------
   */
 
   return (
-
     <div
       className="
         fixed
@@ -589,9 +437,8 @@ const AppFullScreenLocationPicker = ({
 
       </MapContainer>
 
-
       {/* ==========================================================
-          TOP SEARCH BAR
+          TOP BAR
       ========================================================== */}
 
       <div
@@ -611,247 +458,58 @@ const AppFullScreenLocationPicker = ({
             rounded-2xl
             shadow-lg
             p-4
+            flex
+            items-center
+            gap-3
           "
         >
 
-          {/* HEADER */}
-
-          <div
+          <button
+            type="button"
+            onClick={handleCancel}
             className="
+              w-10
+              h-10
+              rounded-full
+              bg-gray-100
               flex
               items-center
-              gap-3
+              justify-center
+              text-xl
+              hover:bg-gray-200
+              active:scale-95
             "
           >
+            ←
+          </button>
 
-            <button
-              type="button"
-              onClick={handleCancel}
+          <div>
+
+            <h2
               className="
-                w-10
-                h-10
-                rounded-full
-                bg-gray-100
-                flex
-                items-center
-                justify-center
-                text-xl
-                hover:bg-gray-200
-                active:scale-95
-                flex-shrink-0
+                font-bold
+                text-gray-900
               "
             >
-              ←
-            </button>
+              {locationType === "pickup"
+                ? "Select Pickup Location"
+                : "Select Drop Location"}
+            </h2>
 
-
-            <div>
-
-              <h2
-                className="
-                  font-bold
-                  text-gray-900
-                "
-              >
-                {locationType === "pickup"
-                  ? "Select Pickup Location"
-                  : "Select Drop Location"}
-              </h2>
-
-              <p
-                className="
-                  text-xs
-                  text-gray-500
-                "
-              >
-                Search or move the map
-              </p>
-
-            </div>
-
-          </div>
-
-
-          {/* ======================================================
-              SEARCH INPUT
-          ====================================================== */}
-
-          <div className="relative mt-4">
-
-            <div
+            <p
               className="
-                flex
-                items-center
-                gap-2
-                border
-                border-gray-200
-                rounded-xl
-                px-3
-                py-3
-                bg-gray-50
-                focus-within:border-indigo-500
-                focus-within:bg-white
+                text-xs
+                text-gray-500
               "
             >
-
-              <span className="text-lg">
-                🔍
-              </span>
-
-
-              <input
-                type="text"
-                value={searchText}
-                onChange={(e) =>
-                  setSearchText(
-                    e.target.value
-                  )
-                }
-                placeholder="Search location..."
-                className="
-                  flex-1
-                  outline-none
-                  bg-transparent
-                  text-sm
-                  text-gray-900
-                "
-              />
-
-
-              {searchLoading && (
-
-                <div
-                  className="
-                    w-4
-                    h-4
-                    border-2
-                    border-gray-300
-                    border-t-indigo-600
-                    rounded-full
-                    animate-spin
-                  "
-                />
-
-              )}
-
-            </div>
-
-
-            {/* ==================================================
-                SEARCH RESULTS
-            ================================================== */}
-
-            {searchResults.length > 0 && (
-
-              <div
-                className="
-                  absolute
-                  left-0
-                  right-0
-                  top-full
-                  mt-2
-                  bg-white
-                  rounded-xl
-                  shadow-2xl
-                  border
-                  border-gray-100
-                  overflow-hidden
-                  z-[2000]
-                  max-h-72
-                  overflow-y-auto
-                "
-              >
-
-                {searchResults.map(
-                  (feature, index) => {
-
-                    const properties =
-                      feature.properties || {};
-
-                    return (
-
-                      <button
-                        key={
-                          properties.place_id ||
-                          index
-                        }
-                        type="button"
-                        onClick={() =>
-                          handleSearchSelect(
-                            feature
-                          )
-                        }
-                        className="
-                          w-full
-                          text-left
-                          px-4
-                          py-3
-                          hover:bg-gray-50
-                          active:bg-gray-100
-                          border-b
-                          last:border-b-0
-                        "
-                      >
-
-                        <div
-                          className="
-                            flex
-                            gap-3
-                          "
-                        >
-
-                          <span className="text-lg">
-                            📍
-                          </span>
-
-
-                          <div className="flex-1">
-
-                            <p
-                              className="
-                                text-sm
-                                font-semibold
-                                text-gray-900
-                              "
-                            >
-                              {properties.name ||
-                                properties.street ||
-                                "Location"}
-                            </p>
-
-
-                            <p
-                              className="
-                                text-xs
-                                text-gray-500
-                                mt-1
-                                line-clamp-2
-                              "
-                            >
-                              {properties.formatted}
-                            </p>
-
-                          </div>
-
-                        </div>
-
-                      </button>
-
-                    );
-
-                  }
-                )}
-
-              </div>
-
-            )}
+              Move the map to select location
+            </p>
 
           </div>
 
         </div>
 
       </div>
-
 
       {/* ==========================================================
           CENTER MARKER
@@ -875,16 +533,15 @@ const AppFullScreenLocationPicker = ({
 
       </div>
 
-
       {/* ==========================================================
           CURRENT LOCATION BUTTON
       ========================================================== */}
-
+{/* 
       <div
         className="
           absolute
           right-4
-          bottom-[220px]
+          bottom-[210px]
           z-[1000]
         "
       >
@@ -928,8 +585,7 @@ const AppFullScreenLocationPicker = ({
 
         </button>
 
-      </div>
-
+      </div> */}
 
       {/* ==========================================================
           BOTTOM PANEL
@@ -965,7 +621,6 @@ const AppFullScreenLocationPicker = ({
             Selected location
           </p>
 
-
           <p
             className="
               font-semibold
@@ -973,14 +628,11 @@ const AppFullScreenLocationPicker = ({
               mb-4
             "
           >
-
             {locationLoading
               ? "Getting your current location..."
               : address ||
                 "Finding address..."}
-
           </p>
-
 
           <button
             type="button"
@@ -1021,4 +673,4 @@ const AppFullScreenLocationPicker = ({
   );
 };
 
-export default AppFullScreenLocationPicker;
+export default AppFullScreen;
