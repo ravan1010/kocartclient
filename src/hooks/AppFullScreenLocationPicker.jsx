@@ -108,11 +108,11 @@ const AppFullScreenLocationPicker = ({
 
   const urlLocation =
     Number.isFinite(urlLatitude) &&
-    Number.isFinite(urlLongitude)
+      Number.isFinite(urlLongitude)
       ? {
-          latitude: urlLatitude,
-          longitude: urlLongitude,
-        }
+        latitude: urlLatitude,
+        longitude: urlLongitude,
+      }
       : initialLocation;
 
   /*
@@ -269,7 +269,7 @@ const AppFullScreenLocationPicker = ({
     */
 
     setSearchText(
-      
+
     );
 
     /*
@@ -653,11 +653,11 @@ const AppFullScreenLocationPicker = ({
                   text-gray-900
                 "
               >
-                {locationType === "user" &&
-                   "Select Location" }
-                {locationType === "pickup"
-                  ? "Select Pickup Location"
-                  : "Select Drop Location"}
+                {locationType === "user"
+                  ? "Location"
+                  : locationType === "pickup"
+                    ? "Pickup"
+                    : "Drop"}
               </h2>
 
               <p
@@ -979,7 +979,7 @@ const AppFullScreenLocationPicker = ({
             {locationLoading
               ? "Getting your current location..."
               : address ||
-                "Finding address..."}
+              "Finding address..."}
 
           </p>
 
@@ -1008,11 +1008,11 @@ const AppFullScreenLocationPicker = ({
           >
 
             Confirm{" "}
-          {locationType === "user" &&
-                   "Location" }
-          {locationType === "pickup"
-              ? "Pickup"
-              : "Drop"}
+            {locationType === "user"
+              ? "Location"
+              : locationType === "pickup"
+                ? "Pickup"
+                : "Drop"}
 
           </button>
 
