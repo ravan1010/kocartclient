@@ -1009,7 +1009,7 @@ const AppFullScreenLocationPicker = ({
 
             Confirm{" "}
           {locationType === "user" &&
-                   "Select Location" }
+                   "Location" }
           {locationType === "pickup"
               ? "Pickup"
               : "Drop"}
