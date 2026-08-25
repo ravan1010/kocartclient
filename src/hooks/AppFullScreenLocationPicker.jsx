@@ -536,7 +536,7 @@ const AppFullScreenLocationPicker = ({
       {/* ==========================================================
           CURRENT LOCATION BUTTON
       ========================================================== */}
-
+{/* 
       <div
         className="
           absolute
@@ -585,7 +585,7 @@ const AppFullScreenLocationPicker = ({
 
         </button>
 
-      </div>
+      </div> */}
 
       {/* ==========================================================
           BOTTOM PANEL
