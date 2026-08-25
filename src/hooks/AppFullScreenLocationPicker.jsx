@@ -653,6 +653,8 @@ const AppFullScreenLocationPicker = ({
                   text-gray-900
                 "
               >
+                {locationType === "user" &&
+                   "Select Location" }
                 {locationType === "pickup"
                   ? "Select Pickup Location"
                   : "Select Drop Location"}
@@ -880,7 +882,7 @@ const AppFullScreenLocationPicker = ({
           CURRENT LOCATION BUTTON
       ========================================================== */}
 
-      <div
+      {/* <div
         className="
           absolute
           right-4
@@ -928,7 +930,7 @@ const AppFullScreenLocationPicker = ({
 
         </button>
 
-      </div>
+      </div> */}
 
 
       {/* ==========================================================
@@ -1006,8 +1008,9 @@ const AppFullScreenLocationPicker = ({
           >
 
             Confirm{" "}
-
-            {locationType === "pickup"
+          {locationType === "user" &&
+                   "Select Location" }
+          {locationType === "pickup"
               ? "Pickup"
               : "Drop"}
 
