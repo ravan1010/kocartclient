@@ -9,13 +9,12 @@ import "leaflet/dist/leaflet.css";
 
 import useMapLocation from "./useMapLocation";
 import MapCenterUpdater from "./MapCenterUpdater";
-import useCurrentLocation from "./useCurrentLocation";
 
 import { Navigation } from "lucide-react";
 
 /*
 |--------------------------------------------------------------------------
-| Recenter Map
+| RECENTER MAP
 |--------------------------------------------------------------------------
 */
 
@@ -62,7 +61,7 @@ const RecenterMap = ({ location }) => {
 
 /*
 |--------------------------------------------------------------------------
-| Full Screen Location Picker
+| MAIN LOCATION PICKER
 |--------------------------------------------------------------------------
 */
 
@@ -108,11 +107,11 @@ const AppFullScreenLocationPicker = ({
 
   const urlLocation =
     Number.isFinite(urlLatitude) &&
-      Number.isFinite(urlLongitude)
+    Number.isFinite(urlLongitude)
       ? {
-        latitude: urlLatitude,
-        longitude: urlLongitude,
-      }
+          latitude: urlLatitude,
+          longitude: urlLongitude,
+        }
       : initialLocation;
 
   /*
@@ -130,22 +129,12 @@ const AppFullScreenLocationPicker = ({
 
   /*
   |--------------------------------------------------------------------------
-  | CURRENT LOCATION
-  |--------------------------------------------------------------------------
-  */
-
-  const {
-    getCurrentLocation,
-    loading: locationLoading,
-  } = useCurrentLocation();
-
-  /*
-  |--------------------------------------------------------------------------
   | SEARCH STATE
   |--------------------------------------------------------------------------
   */
 
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] =
+    useState("");
 
   const [searchResults, setSearchResults] =
     useState([]);
@@ -155,13 +144,142 @@ const AppFullScreenLocationPicker = ({
 
   /*
   |--------------------------------------------------------------------------
+  | SERVICE AVAILABILITY
+  |--------------------------------------------------------------------------
+  */
+
+  const [
+    serviceAvailability,
+    setServiceAvailability,
+  ] = useState(null);
+
+  const [
+    availabilityLoading,
+    setAvailabilityLoading,
+  ] = useState(false);
+
+  /*
+  |--------------------------------------------------------------------------
+  | CHECK SERVICE AVAILABILITY
+  |--------------------------------------------------------------------------
+  |
+  | Whenever map location changes:
+  |
+  | frontend
+  |    ↓
+  | latitude + longitude
+  |    ↓
+  | backend
+  |    ↓
+  | check JSON service locations
+  |    ↓
+  | <= 5km = available
+  | > 5km = coming soon
+  |
+  */
+
+  useEffect(() => {
+    if (!location) return;
+
+    const latitude =
+      Number(location.latitude);
+
+    const longitude =
+      Number(location.longitude);
+
+    if (
+      !Number.isFinite(latitude) ||
+      !Number.isFinite(longitude)
+    ) {
+      return;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | DEBOUNCE
+    |--------------------------------------------------------------------------
+    */
+
+    const timer = setTimeout(async () => {
+
+      try {
+        setAvailabilityLoading(true);
+
+        const response = await fetch(
+          `${
+            import.meta.env.VITE_API_URL
+          }/api/service/check`,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify({
+              latitude,
+              longitude,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            "Availability API failed"
+          );
+        }
+
+        const data =
+          await response.json();
+
+        console.log(
+          "Service availability:",
+          data
+        );
+
+        setServiceAvailability(data);
+
+      } catch (error) {
+
+        console.error(
+          "Service availability error:",
+          error
+        );
+
+        setServiceAvailability({
+          success: false,
+          available: false,
+          message:
+            "Unable to check service availability",
+        });
+
+      } finally {
+        setAvailabilityLoading(false);
+      }
+
+    }, 700);
+
+    return () =>
+      clearTimeout(timer);
+
+  }, [
+    location?.latitude,
+    location?.longitude,
+  ]);
+
+  /*
+  |--------------------------------------------------------------------------
   | SEARCH LOCATION
   |--------------------------------------------------------------------------
   */
 
   const searchLocation = async (text) => {
 
-    if (!text.trim() || text.trim().length < 3) {
+    if (
+      !text.trim() ||
+      text.trim().length < 3
+    ) {
       setSearchResults([]);
       return;
     }
@@ -175,10 +293,13 @@ const AppFullScreenLocationPicker = ({
         `text=${encodeURIComponent(text)}` +
         `&limit=5` +
         `&filter=countrycode:in` +
-        `&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`
+        `&apiKey=${
+          import.meta.env.VITE_GEOAPIFY_KEY
+        }`
       );
 
-      const data = await response.json();
+      const data =
+        await response.json();
 
       setSearchResults(
         data.features || []
@@ -220,7 +341,8 @@ const AppFullScreenLocationPicker = ({
 
     }, 400);
 
-    return () => clearTimeout(timer);
+    return () =>
+      clearTimeout(timer);
 
   }, [searchText]);
 
@@ -230,7 +352,9 @@ const AppFullScreenLocationPicker = ({
   |--------------------------------------------------------------------------
   */
 
-  const handleSearchSelect = (feature) => {
+  const handleSearchSelect = (
+    feature
+  ) => {
 
     if (
       !feature ||
@@ -246,7 +370,8 @@ const AppFullScreenLocationPicker = ({
     ] = feature.geometry.coordinates;
 
     const selectedAddress =
-      feature.properties?.formatted || "";
+      feature.properties?.formatted ||
+      "";
 
     console.log(
       "📍 Search selected:",
@@ -256,7 +381,9 @@ const AppFullScreenLocationPicker = ({
     );
 
     /*
-    | Update map
+    |--------------------------------------------------------------------------
+    | UPDATE MAP
+    |--------------------------------------------------------------------------
     */
 
     updateLocation(
@@ -265,19 +392,22 @@ const AppFullScreenLocationPicker = ({
     );
 
     /*
-    | Fill search box
+    |--------------------------------------------------------------------------
+    | SHOW SELECTED ADDRESS
+    |--------------------------------------------------------------------------
     */
 
     setSearchText(
-
+      selectedAddress
     );
 
     /*
-    | Close suggestions
+    |--------------------------------------------------------------------------
+    | CLOSE RESULTS
+    |--------------------------------------------------------------------------
     */
 
     setSearchResults([]);
-
   };
 
   /*
@@ -328,7 +458,6 @@ const AppFullScreenLocationPicker = ({
       latitude,
       longitude
     );
-
   };
 
   /*
@@ -337,7 +466,9 @@ const AppFullScreenLocationPicker = ({
   |--------------------------------------------------------------------------
   */
 
-  const sendToReactNative = (data) => {
+  const sendToReactNative = (
+    data
+  ) => {
 
     if (
       window.ReactNativeWebView
@@ -352,43 +483,6 @@ const AppFullScreenLocationPicker = ({
 
     return false;
   };
-
-  /*
-  |--------------------------------------------------------------------------
-  | CURRENT LOCATION
-  |--------------------------------------------------------------------------
-  */
-
-  const handleCurrentLocation =
-    async () => {
-
-      try {
-
-        const currentLocation =
-          await getCurrentLocation();
-
-        updateLocation(
-          currentLocation.latitude,
-          currentLocation.longitude
-        );
-
-        setSearchText("");
-
-        setSearchResults([]);
-
-      } catch (error) {
-
-        console.error(
-          "Current location error:",
-          error
-        );
-
-        alert(
-          "Unable to get your current location. Please allow location permission."
-        );
-
-      }
-    };
 
   /*
   |--------------------------------------------------------------------------
@@ -419,6 +513,12 @@ const AppFullScreenLocationPicker = ({
 
   const handleConfirm = () => {
 
+    /*
+    |--------------------------------------------------------------------------
+    | LOCATION REQUIRED
+    |--------------------------------------------------------------------------
+    */
+
     if (!location) {
 
       alert(
@@ -427,6 +527,46 @@ const AppFullScreenLocationPicker = ({
 
       return;
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SERVICE CHECK
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      availabilityLoading
+    ) {
+
+      alert(
+        "Checking service availability. Please wait."
+      );
+
+      return;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SERVICE NOT AVAILABLE
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      !serviceAvailability?.available
+    ) {
+
+      alert(
+        "Service is not available in this location yet. Coming soon!"
+      );
+
+      return;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LAT LNG
+    |--------------------------------------------------------------------------
+    */
 
     const latitude =
       Number(location.latitude);
@@ -446,8 +586,16 @@ const AppFullScreenLocationPicker = ({
       return;
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | RESULT
+    |--------------------------------------------------------------------------
+    */
+
     const result = {
-      type: "LOCATION_SELECTED",
+
+      type:
+        "LOCATION_SELECTED",
 
       locationType,
 
@@ -457,11 +605,24 @@ const AppFullScreenLocationPicker = ({
 
       address:
         address || "",
+
+      serviceAvailable:
+        true,
+
+      serviceArea:
+        serviceAvailability.serviceArea ||
+        null,
+
     };
+
+    console.log(
+      "📍 Final location:",
+      result
+    );
 
     /*
     |--------------------------------------------------------------------------
-    | React Native WebView
+    | REACT NATIVE
     |--------------------------------------------------------------------------
     */
 
@@ -470,7 +631,7 @@ const AppFullScreenLocationPicker = ({
 
     /*
     |--------------------------------------------------------------------------
-    | Normal React Web
+    | NORMAL REACT WEB
     |--------------------------------------------------------------------------
     */
 
@@ -480,20 +641,32 @@ const AppFullScreenLocationPicker = ({
     ) {
 
       onConfirm({
-        type: locationType,
+
+        type:
+          locationType,
+
         latitude,
+
         longitude,
+
         address:
           address || "",
+
+        serviceAvailable:
+          true,
+
+        serviceArea:
+          serviceAvailability.serviceArea ||
+          null,
+
       });
 
     }
-
   };
 
   /*
   |--------------------------------------------------------------------------
-  | LOADING
+  | LOADING MAP
   |--------------------------------------------------------------------------
   */
 
@@ -573,7 +746,9 @@ const AppFullScreenLocationPicker = ({
       >
 
         <TileLayer
-          url={`https://maps.geoapify.com/v1/tile/osm-bright-smooth/{z}/{x}/{y}.png?apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`}
+          url={`https://maps.geoapify.com/v1/tile/osm-bright-smooth/{z}/{x}/{y}.png?apiKey=${
+            import.meta.env.VITE_GEOAPIFY_KEY
+          }`}
           attribution="© OpenStreetMap contributors"
         />
 
@@ -591,7 +766,7 @@ const AppFullScreenLocationPicker = ({
 
 
       {/* ==========================================================
-          TOP SEARCH BAR
+          TOP SEARCH
       ========================================================== */}
 
       <div
@@ -644,7 +819,6 @@ const AppFullScreenLocationPicker = ({
               ←
             </button>
 
-
             <div>
 
               <h2
@@ -678,7 +852,9 @@ const AppFullScreenLocationPicker = ({
               SEARCH INPUT
           ====================================================== */}
 
-          <div className="relative mt-4">
+          <div
+            className="relative mt-4"
+          >
 
             <div
               className="
@@ -700,7 +876,6 @@ const AppFullScreenLocationPicker = ({
                 🔍
               </span>
 
-
               <input
                 type="text"
                 value={searchText}
@@ -718,7 +893,6 @@ const AppFullScreenLocationPicker = ({
                   text-gray-900
                 "
               />
-
 
               {searchLoading && (
 
@@ -765,10 +939,14 @@ const AppFullScreenLocationPicker = ({
               >
 
                 {searchResults.map(
-                  (feature, index) => {
+                  (
+                    feature,
+                    index
+                  ) => {
 
                     const properties =
-                      feature.properties || {};
+                      feature.properties ||
+                      {};
 
                     return (
 
@@ -806,8 +984,9 @@ const AppFullScreenLocationPicker = ({
                             📍
                           </span>
 
-
-                          <div className="flex-1">
+                          <div
+                            className="flex-1"
+                          >
 
                             <p
                               className="
@@ -821,7 +1000,6 @@ const AppFullScreenLocationPicker = ({
                                 "Location"}
                             </p>
 
-
                             <p
                               className="
                                 text-xs
@@ -830,7 +1008,9 @@ const AppFullScreenLocationPicker = ({
                                 line-clamp-2
                               "
                             >
-                              {properties.formatted}
+                              {
+                                properties.formatted
+                              }
                             </p>
 
                           </div>
@@ -879,61 +1059,6 @@ const AppFullScreenLocationPicker = ({
 
 
       {/* ==========================================================
-          CURRENT LOCATION BUTTON
-      ========================================================== */}
-
-      {/* <div
-        className="
-          absolute
-          right-4
-          bottom-[220px]
-          z-[1000]
-        "
-      >
-
-        <button
-          type="button"
-          onClick={
-            handleCurrentLocation
-          }
-          disabled={
-            locationLoading
-          }
-          className="
-            w-12
-            h-12
-            rounded-full
-            bg-white
-            shadow-xl
-            border
-            border-gray-200
-            flex
-            items-center
-            justify-center
-            text-blue-600
-            hover:bg-blue-50
-            active:scale-95
-            transition
-            disabled:opacity-60
-          "
-          title="Use current location"
-        >
-
-          <Navigation
-            size={22}
-            className={
-              locationLoading
-                ? "animate-pulse"
-                : ""
-            }
-          />
-
-        </button>
-
-      </div> */}
-
-
-      {/* ==========================================================
           BOTTOM PANEL
       ========================================================== */}
 
@@ -957,6 +1082,10 @@ const AppFullScreenLocationPicker = ({
           "
         >
 
+          {/* ======================================================
+              ADDRESS
+          ====================================================== */}
+
           <p
             className="
               text-xs
@@ -967,7 +1096,6 @@ const AppFullScreenLocationPicker = ({
             Selected location
           </p>
 
-
           <p
             className="
               font-semibold
@@ -975,28 +1103,268 @@ const AppFullScreenLocationPicker = ({
               mb-4
             "
           >
-
-            {locationLoading
-              ? "Getting your current location..."
-              : address ||
+            {address ||
               "Finding address..."}
-
           </p>
 
 
+          {/* ======================================================
+              AVAILABILITY LOADING
+          ====================================================== */}
+
+          {availabilityLoading && (
+
+            <div
+              className="
+                mb-4
+                rounded-xl
+                bg-gray-50
+                border
+                border-gray-200
+                p-3
+                flex
+                items-center
+                gap-3
+              "
+            >
+
+              <div
+                className="
+                  w-5
+                  h-5
+                  border-2
+                  border-gray-300
+                  border-t-indigo-600
+                  rounded-full
+                  animate-spin
+                "
+              />
+
+              <div>
+
+                <p
+                  className="
+                    text-sm
+                    font-semibold
+                    text-gray-700
+                  "
+                >
+                  Checking availability...
+                </p>
+
+                <p
+                  className="
+                    text-xs
+                    text-gray-500
+                  "
+                >
+                  Checking service within 5 km
+                </p>
+
+              </div>
+
+            </div>
+
+          )}
+
+
+          {/* ======================================================
+              SERVICE AVAILABLE
+          ====================================================== */}
+
+          {!availabilityLoading &&
+            serviceAvailability?.available && (
+
+              <div
+                className="
+                  mb-4
+                  rounded-xl
+                  bg-green-50
+                  border
+                  border-green-200
+                  p-3
+                "
+              >
+
+                <div
+                  className="
+                    flex
+                    items-center
+                    gap-2
+                  "
+                >
+
+                  <div
+                    className="
+                      w-7
+                      h-7
+                      rounded-full
+                      bg-green-500
+                      text-white
+                      flex
+                      items-center
+                      justify-center
+                      font-bold
+                    "
+                  >
+                    ✓
+                  </div>
+
+                  <div>
+
+                    <p
+                      className="
+                        text-sm
+                        font-bold
+                        text-green-700
+                      "
+                    >
+                      Service Available
+                    </p>
+
+                    <p
+                      className="
+                        text-xs
+                        text-green-600
+                      "
+                    >
+                      We deliver to this location
+                    </p>
+
+                  </div>
+
+                </div>
+
+                {serviceAvailability.distanceKm && (
+
+                  <p
+                    className="
+                      text-xs
+                      text-green-600
+                      mt-2
+                    "
+                  >
+                    {serviceAvailability.distanceKm}
+                    {" "}
+                    km from service area
+                  </p>
+
+                )}
+
+              </div>
+
+            )}
+
+
+          {/* ======================================================
+              SERVICE NOT AVAILABLE
+          ====================================================== */}
+
+          {!availabilityLoading &&
+            serviceAvailability &&
+            !serviceAvailability.available && (
+
+              <div
+                className="
+                  mb-4
+                  rounded-xl
+                  bg-orange-50
+                  border
+                  border-orange-200
+                  p-3
+                "
+              >
+
+                <div
+                  className="
+                    flex
+                    items-center
+                    gap-2
+                  "
+                >
+
+                  <div
+                    className="
+                      w-7
+                      h-7
+                      rounded-full
+                      bg-orange-500
+                      text-white
+                      flex
+                      items-center
+                      justify-center
+                      font-bold
+                    "
+                  >
+                    !
+                  </div>
+
+                  <div>
+
+                    <p
+                      className="
+                        text-sm
+                        font-bold
+                        text-orange-700
+                      "
+                    >
+                      Coming Soon
+                    </p>
+
+                    <p
+                      className="
+                        text-xs
+                        text-orange-600
+                      "
+                    >
+                      Service is not available
+                      in this location yet.
+                    </p>
+
+                  </div>
+
+                </div>
+
+                {serviceAvailability.distanceToNearestKm && (
+
+                  <p
+                    className="
+                      text-xs
+                      text-orange-600
+                      mt-2
+                    "
+                  >
+                    Nearest service area is{" "}
+                    {
+                      serviceAvailability.distanceToNearestKm
+                    }{" "}
+                    km away.
+                  </p>
+
+                )}
+
+              </div>
+
+            )}
+
+
+          {/* ======================================================
+              CONFIRM BUTTON
+          ====================================================== */}
+
           <button
             type="button"
-            onClick={
-              handleConfirm
-            }
+            onClick={handleConfirm}
             disabled={
-              locationLoading
+              availabilityLoading ||
+              !serviceAvailability?.available
             }
             className="
               w-full
               bg-indigo-600
               hover:bg-indigo-700
               disabled:bg-gray-400
+              disabled:cursor-not-allowed
               text-white
               py-4
               rounded-2xl
@@ -1007,12 +1375,17 @@ const AppFullScreenLocationPicker = ({
             "
           >
 
-            Confirm{" "}
-            {locationType === "user"
-              ? "Location"
-              : locationType === "pickup"
-                ? "Pickup"
-                : "Drop"}
+            {availabilityLoading
+              ? "Checking..."
+              : serviceAvailability?.available
+                ? `Confirm ${
+                    locationType === "user"
+                      ? "Location"
+                      : locationType === "pickup"
+                        ? "Pickup"
+                        : "Drop"
+                  }`
+                : "Service Coming Soon"}
 
           </button>
 
