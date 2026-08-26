@@ -191,6 +191,7 @@ const AppFullScreenLocationPicker = ({
   }
 
   if (!location) {
+    setServiceAvailability(null);
     return;
   }
 
@@ -273,7 +274,7 @@ const AppFullScreenLocationPicker = ({
   locationType,
   location?.latitude,
   location?.longitude,
-  ]);
+]);
 
   /*
   |--------------------------------------------------------------------------
