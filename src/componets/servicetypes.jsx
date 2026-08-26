@@ -238,50 +238,8 @@ if(user === false ){
             </div>
           </button>
         )}
+        
 
-        {/* Goods Auto Card */}
-        {services.includes("goods_auto") && (
-          <button
-            onClick={() => navigate("/goodsAuto/goods_auto")}
-            className="group relative bg-gradient-to-br from-sky-50 to-blue-50 border border-blue-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden"
-          >                <div>
-              <h2 className="text-2xl font-extrabold text-teal-900 group-hover:text-teal-600 transition-colors">
-                3 wheel Goods Auto
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Transport items & shipments
-              </p>
-            </div>
-            <div className="flex items-end justify-between mt-6">
-              <div className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-teal-600 group-hover:bg-teal-600 group-hover:text-white transition-all duration-300">
-                →
-              </div>
-              <div className="text-5xl select-none">🚚</div>
-            </div>
-          </button>
-        )}
-
-        {/* 4 wheel Goods Auto Card */}
-        {services.includes("4_wheel_goods_auto") && (
-          <button
-            onClick={() => navigate("/goodsAuto/4_wheel_goods_auto")}
-            className="group relative bg-gradient-to-br from-sky-50 to-blue-50 border border-blue-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden"
-          >   <div>
-              <h2 className="text-2xl font-extrabold text-teal-900 group-hover:text-teal-600 transition-colors">
-                4 wheel Goods Auto
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Transport items & shipments
-              </p>
-            </div>
-            <div className="flex items-end justify-between mt-6">
-              <div className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-teal-600 group-hover:bg-teal-600 group-hover:text-white transition-all duration-300">
-                →
-              </div>
-              <div className="text-5xl select-none">🚚</div>
-            </div>
-          </button>
-        )}
 
         {/* Empty State */}
         {services.length === 0 && category.length === 0 && (
