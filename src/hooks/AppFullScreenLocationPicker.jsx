@@ -107,11 +107,11 @@ const AppFullScreenLocationPicker = ({
 
   const urlLocation =
     Number.isFinite(urlLatitude) &&
-    Number.isFinite(urlLongitude)
+      Number.isFinite(urlLongitude)
       ? {
-          latitude: urlLatitude,
-          longitude: urlLongitude,
-        }
+        latitude: urlLatitude,
+        longitude: urlLongitude,
+      }
       : initialLocation;
 
   /*
@@ -179,102 +179,101 @@ const AppFullScreenLocationPicker = ({
   */
 
   useEffect(() => {
-  // Availability check only for:
-  // user + pickup
-  if (
-    locationType !== "user" &&
-    locationType !== "pickup"
-  ) {
-    setServiceAvailability(null);
-    setAvailabilityLoading(false);
-    return;
-  }
-
-  if (!location) {
-    setServiceAvailability(null);
-    return;
-  }
-
-  const latitude =
-    Number(location.latitude);
-
-  const longitude =
-    Number(location.longitude);
-
-  if (
-    !Number.isFinite(latitude) ||
-    !Number.isFinite(longitude)
-  ) {
-    setServiceAvailability(null);
-    return;
-  }
-
-  const timer = setTimeout(async () => {
-    try {
-      setAvailabilityLoading(true);
-
-      const response = await fetch(
-        `${
-          import.meta.env.VITE_API_URL
-        }/api/check`,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-
-          body: JSON.stringify({
-            latitude,
-            longitude,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          "Availability API failed"
-        );
-      }
-
-      const data =
-        await response.json();
-
-      console.log(
-        "Service availability:",
-        data
-      );
-
-      setServiceAvailability(data);
-
-    } catch (error) {
-      console.error(
-        "Service availability error:",
-        error
-      );
-
-      setServiceAvailability({
-        success: false,
-        available: false,
-        message:
-          "Unable to check service availability",
-      });
-
-    } finally {
+    // Availability check only for:
+    // user + pickup
+    if (
+      locationType !== "user" &&
+      locationType !== "pickup"
+    ) {
+      setServiceAvailability(null);
       setAvailabilityLoading(false);
+      return;
     }
-  }, 700);
 
-  return () => {
-    clearTimeout(timer);
-  };
+    if (!location) {
+      setServiceAvailability(null);
+      return;
+    }
 
-}, [
-  locationType,
-  location?.latitude,
-  location?.longitude,
-]);
+    const latitude =
+      Number(location.latitude);
+
+    const longitude =
+      Number(location.longitude);
+
+    if (
+      !Number.isFinite(latitude) ||
+      !Number.isFinite(longitude)
+    ) {
+      setServiceAvailability(null);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        setAvailabilityLoading(true);
+
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL
+          }/api/check`,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify({
+              latitude,
+              longitude,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            "Availability API failed"
+          );
+        }
+
+        const data =
+          await response.json();
+
+        console.log(
+          "Service availability:",
+          data
+        );
+
+        setServiceAvailability(data);
+
+      } catch (error) {
+        console.error(
+          "Service availability error:",
+          error
+        );
+
+        setServiceAvailability({
+          success: false,
+          available: false,
+          message:
+            "Unable to check service availability",
+        });
+
+      } finally {
+        setAvailabilityLoading(false);
+      }
+    }, 700);
+
+    return () => {
+      clearTimeout(timer);
+    };
+
+  }, [
+    locationType,
+    location?.latitude,
+    location?.longitude,
+  ]);
 
   /*
   |--------------------------------------------------------------------------
@@ -301,8 +300,7 @@ const AppFullScreenLocationPicker = ({
         `text=${encodeURIComponent(text)}` +
         `&limit=5` +
         `&filter=countrycode:in` +
-        `&apiKey=${
-          import.meta.env.VITE_GEOAPIFY_KEY
+        `&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY
         }`
       );
 
@@ -519,118 +517,118 @@ const AppFullScreenLocationPicker = ({
   |--------------------------------------------------------------------------
   */
 
- const handleConfirm = () => {
+  const handleConfirm = () => {
 
-  // --------------------------------
-  // LOCATION REQUIRED
-  // --------------------------------
+    // --------------------------------
+    // LOCATION REQUIRED
+    // --------------------------------
 
-  if (!location) {
-    alert(
-      "Please select a location"
-    );
-
-    return;
-  }
-
-  // --------------------------------
-  // Availability check ONLY for
-  // user and pickup
-  // --------------------------------
-
-  if (
-    locationType === "user" ||
-    locationType === "pickup"
-  ) {
-
-    if (availabilityLoading) {
+    if (!location) {
       alert(
-        "Checking service availability. Please wait."
+        "Please select a location"
       );
 
       return;
     }
+
+    // --------------------------------
+    // Availability check ONLY for
+    // user and pickup
+    // --------------------------------
 
     if (
-      !serviceAvailability?.available
+      locationType === "user" ||
+      locationType === "pickup"
     ) {
-      alert(
-        "Service is not available in this location yet. Coming soon!"
-      );
+
+      if (availabilityLoading) {
+        alert(
+          "Checking service availability. Please wait."
+        );
+
+        return;
+      }
+
+      if (
+        !serviceAvailability?.available
+      ) {
+        alert(
+          "Service is not available in this location yet. Coming soon!"
+        );
+
+        return;
+      }
+    }
+
+    // --------------------------------
+    // LAT LNG
+    // --------------------------------
+
+    const latitude =
+      Number(location.latitude);
+
+    const longitude =
+      Number(location.longitude);
+
+    if (
+      !Number.isFinite(latitude) ||
+      !Number.isFinite(longitude)
+    ) {
+      alert("Invalid location");
 
       return;
     }
-  }
 
-  // --------------------------------
-  // LAT LNG
-  // --------------------------------
+    // --------------------------------
+    // RESULT
+    // --------------------------------
 
-  const latitude =
-    Number(location.latitude);
+    const result = {
+      type: "LOCATION_SELECTED",
 
-  const longitude =
-    Number(location.longitude);
+      locationType,
 
-  if (
-    !Number.isFinite(latitude) ||
-    !Number.isFinite(longitude)
-  ) {
-    alert("Invalid location");
+      latitude,
 
-    return;
-  }
+      longitude,
 
-  // --------------------------------
-  // RESULT
-  // --------------------------------
+      address: address || "",
 
-  const result = {
-    type: "LOCATION_SELECTED",
+      // Only true for user/pickup
+      serviceAvailable:
+        locationType === "user" ||
+          locationType === "pickup"
+          ? true
+          : null,
 
-    locationType,
-
-    latitude,
-
-    longitude,
-
-    address: address || "",
-
-    // Only true for user/pickup
-    serviceAvailable:
-      locationType === "user" ||
-      locationType === "pickup"
-        ? true
-        : null,
-
-    serviceArea:
-      locationType === "user" ||
-      locationType === "pickup"
-        ? serviceAvailability?.serviceArea ||
+      serviceArea:
+        locationType === "user" ||
+          locationType === "pickup"
+          ? serviceAvailability?.serviceArea ||
           null
-        : null,
+          : null,
+    };
+
+    console.log(
+      "📍 Final location:",
+      result
+    );
+
+    // --------------------------------
+    // REACT NATIVE
+    // --------------------------------
+
+    const sent =
+      sendToReactNative(result);
+
+    // --------------------------------
+    // NORMAL REACT
+    // --------------------------------
+
+    if (!sent && onConfirm) {
+      onConfirm(result);
+    }
   };
-
-  console.log(
-    "📍 Final location:",
-    result
-  );
-
-  // --------------------------------
-  // REACT NATIVE
-  // --------------------------------
-
-  const sent =
-    sendToReactNative(result);
-
-  // --------------------------------
-  // NORMAL REACT
-  // --------------------------------
-
-  if (!sent && onConfirm) {
-    onConfirm(result);
-  }
-};
 
   /*
   |--------------------------------------------------------------------------
@@ -714,9 +712,8 @@ const AppFullScreenLocationPicker = ({
       >
 
         <TileLayer
-          url={`https://maps.geoapify.com/v1/tile/osm-bright-smooth/{z}/{x}/{y}.png?apiKey=${
-            import.meta.env.VITE_GEOAPIFY_KEY
-          }`}
+          url={`https://maps.geoapify.com/v1/tile/osm-bright-smooth/{z}/{x}/{y}.png?apiKey=${import.meta.env.VITE_GEOAPIFY_KEY
+            }`}
           attribution="© OpenStreetMap contributors"
         />
 
@@ -1324,8 +1321,12 @@ const AppFullScreenLocationPicker = ({
             type="button"
             onClick={handleConfirm}
             disabled={
-              availabilityLoading ||
-              !serviceAvailability?.available
+              (locationType === "user" ||
+                locationType === "pickup") &&
+              (
+                availabilityLoading ||
+                !serviceAvailability?.available
+              )
             }
             className="
               w-full
@@ -1346,13 +1347,12 @@ const AppFullScreenLocationPicker = ({
             {availabilityLoading
               ? "Checking..."
               : serviceAvailability?.available
-                ? `Confirm ${
-                    locationType === "user"
-                      ? "Location"
-                      : locationType === "pickup"
-                        ? "Pickup"
-                        : "Drop"
-                  }`
+                ? `Confirm ${locationType === "user"
+                  ? "Location"
+                  : locationType === "pickup"
+                    ? "Pickup"
+                    : "Drop"
+                }`
                 : "Service Coming Soon"}
 
           </button>
