@@ -240,7 +240,6 @@ if(user === false ){
         )}
         
 
-
         {/* Empty State */}
         {services.length === 0 && category.length === 0 && (
           <div className="col-span-full text-center py-16 text-gray-400 font-medium text-lg">
