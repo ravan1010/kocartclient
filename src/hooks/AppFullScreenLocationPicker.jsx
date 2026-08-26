@@ -179,94 +179,102 @@ const AppFullScreenLocationPicker = ({
   */
 
   useEffect(() => {
-    if (!location) return;
+  // Availability check only for:
+  // user + pickup
+  if (
+    locationType !== "user" &&
+    locationType !== "pickup"
+  ) {
+    setServiceAvailability(null);
+    setAvailabilityLoading(false);
+    return;
+  }
 
-    const latitude =
-      Number(location.latitude);
+  if (!location) {
+    setServiceAvailability(null);
+    return;
+  }
 
-    const longitude =
-      Number(location.longitude);
+  const latitude =
+    Number(location.latitude);
 
-    if (
-      !Number.isFinite(latitude) ||
-      !Number.isFinite(longitude)
-    ) {
-      return;
-    }
+  const longitude =
+    Number(location.longitude);
 
-    /*
-    |--------------------------------------------------------------------------
-    | DEBOUNCE
-    |--------------------------------------------------------------------------
-    */
+  if (
+    !Number.isFinite(latitude) ||
+    !Number.isFinite(longitude)
+  ) {
+    setServiceAvailability(null);
+    return;
+  }
 
-    const timer = setTimeout(async () => {
+  const timer = setTimeout(async () => {
+    try {
+      setAvailabilityLoading(true);
 
-      try {
-        setAvailabilityLoading(true);
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_API_URL
+        }/api/check`,
+        {
+          method: "POST",
 
-        const response = await fetch(
-          `${
-            import.meta.env.VITE_API_URL
-          }/api/check`,
-          {
-            method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify({
-              latitude,
-              longitude,
-            }),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            "Availability API failed"
-          );
+          body: JSON.stringify({
+            latitude,
+            longitude,
+          }),
         }
+      );
 
-        const data =
-          await response.json();
-
-        console.log(
-          "Service availability:",
-          data
+      if (!response.ok) {
+        throw new Error(
+          "Availability API failed"
         );
-
-        setServiceAvailability(data);
-
-      } catch (error) {
-
-        console.error(
-          "Service availability error:",
-          error
-        );
-
-        setServiceAvailability({
-          success: false,
-          available: false,
-          message:
-            "Unable to check service availability",
-        });
-
-      } finally {
-        setAvailabilityLoading(false);
       }
 
-    }, 700);
+      const data =
+        await response.json();
 
-    return () =>
-      clearTimeout(timer);
+      console.log(
+        "Service availability:",
+        data
+      );
 
-  }, [
-    location?.latitude,
-    location?.longitude,
-  ]);
+      setServiceAvailability(data);
+
+    } catch (error) {
+      console.error(
+        "Service availability error:",
+        error
+      );
+
+      setServiceAvailability({
+        success: false,
+        available: false,
+        message:
+          "Unable to check service availability",
+      });
+
+    } finally {
+      setAvailabilityLoading(false);
+    }
+  }, 700);
+
+  return () => {
+    clearTimeout(timer);
+  };
+
+}, [
+  locationType,
+  location?.latitude,
+  location?.longitude,
+]);
 
   /*
   |--------------------------------------------------------------------------
