@@ -519,33 +519,31 @@ const AppFullScreenLocationPicker = ({
   |--------------------------------------------------------------------------
   */
 
-  const handleConfirm = () => {
+ const handleConfirm = () => {
 
-    /*
-    |--------------------------------------------------------------------------
-    | LOCATION REQUIRED
-    |--------------------------------------------------------------------------
-    */
+  // --------------------------------
+  // LOCATION REQUIRED
+  // --------------------------------
 
-    if (!location) {
+  if (!location) {
+    alert(
+      "Please select a location"
+    );
 
-      alert(
-        "Please select a location"
-      );
+    return;
+  }
 
-      return;
-    }
+  // --------------------------------
+  // Availability check ONLY for
+  // user and pickup
+  // --------------------------------
 
-    /*
-    |--------------------------------------------------------------------------
-    | SERVICE CHECK
-    |--------------------------------------------------------------------------
-    */
+  if (
+    locationType === "user" ||
+    locationType === "pickup"
+  ) {
 
-    if (
-      availabilityLoading
-    ) {
-
+    if (availabilityLoading) {
       alert(
         "Checking service availability. Please wait."
       );
@@ -553,124 +551,86 @@ const AppFullScreenLocationPicker = ({
       return;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | SERVICE NOT AVAILABLE
-    |--------------------------------------------------------------------------
-    */
-
     if (
       !serviceAvailability?.available
     ) {
-
       alert(
         "Service is not available in this location yet. Coming soon!"
       );
 
       return;
     }
+  }
 
-    /*
-    |--------------------------------------------------------------------------
-    | LAT LNG
-    |--------------------------------------------------------------------------
-    */
+  // --------------------------------
+  // LAT LNG
+  // --------------------------------
 
-    const latitude =
-      Number(location.latitude);
+  const latitude =
+    Number(location.latitude);
 
-    const longitude =
-      Number(location.longitude);
+  const longitude =
+    Number(location.longitude);
 
-    if (
-      !Number.isFinite(latitude) ||
-      !Number.isFinite(longitude)
-    ) {
+  if (
+    !Number.isFinite(latitude) ||
+    !Number.isFinite(longitude)
+  ) {
+    alert("Invalid location");
 
-      alert(
-        "Invalid location"
-      );
+    return;
+  }
 
-      return;
-    }
+  // --------------------------------
+  // RESULT
+  // --------------------------------
 
-    /*
-    |--------------------------------------------------------------------------
-    | RESULT
-    |--------------------------------------------------------------------------
-    */
+  const result = {
+    type: "LOCATION_SELECTED",
 
-    const result = {
+    locationType,
 
-      type:
-        "LOCATION_SELECTED",
+    latitude,
 
-      locationType,
+    longitude,
 
-      latitude,
+    address: address || "",
 
-      longitude,
+    // Only true for user/pickup
+    serviceAvailable:
+      locationType === "user" ||
+      locationType === "pickup"
+        ? true
+        : null,
 
-      address:
-        address || "",
-
-      serviceAvailable:
-        true,
-
-      serviceArea:
-        serviceAvailability.serviceArea ||
-        null,
-
-    };
-
-    console.log(
-      "📍 Final location:",
-      result
-    );
-
-    /*
-    |--------------------------------------------------------------------------
-    | REACT NATIVE
-    |--------------------------------------------------------------------------
-    */
-
-    const sent =
-      sendToReactNative(result);
-
-    /*
-    |--------------------------------------------------------------------------
-    | NORMAL REACT WEB
-    |--------------------------------------------------------------------------
-    */
-
-    if (
-      !sent &&
-      onConfirm
-    ) {
-
-      onConfirm({
-
-        type:
-          locationType,
-
-        latitude,
-
-        longitude,
-
-        address:
-          address || "",
-
-        serviceAvailable:
-          true,
-
-        serviceArea:
-          serviceAvailability.serviceArea ||
-          null,
-
-      });
-
-    }
+    serviceArea:
+      locationType === "user" ||
+      locationType === "pickup"
+        ? serviceAvailability?.serviceArea ||
+          null
+        : null,
   };
+
+  console.log(
+    "📍 Final location:",
+    result
+  );
+
+  // --------------------------------
+  // REACT NATIVE
+  // --------------------------------
+
+  const sent =
+    sendToReactNative(result);
+
+  // --------------------------------
+  // NORMAL REACT
+  // --------------------------------
+
+  if (!sent && onConfirm) {
+    onConfirm(result);
+  }
+};
 
   /*
   |--------------------------------------------------------------------------
