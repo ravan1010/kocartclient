@@ -383,21 +383,11 @@ export default function Home() {
 
             {services.length === 0 &&
               category.length === 0 && (
-                <div className="flex flex-col items-center justify-center py-16">
 <NoServices
   onRetry={() => {
     console.log("Checking services...");
   }}
 />
-                  <div className="text-5xl mb-4">
-                    📍
-                  </div>
-
-                  <p className="text-lg font-semibold text-gray-400 text-center">
-                    No services available nearby.
-                  </p>
-
-                </div>
               )}
 
           </section>
