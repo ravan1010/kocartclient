@@ -5,6 +5,7 @@ import MainNavbar from "./navbar.jsx";
 import FullScreenLocationPicker from "../hooks/AppFullScreenLocationPicker.jsx";
 import Footer from "./Footer.jsx";
 import NoServices from "../om/NoServices.jsx";
+import GoodsAutoBookingGuide from "./guide.jsx";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -359,7 +360,8 @@ export default function Home() {
                 type="goods3"
                 onPress={() => navigate("/goodsAuto/goods_auto")}
               />
-            )}
+            )
+          }
 
 
             {/* =====================================================
@@ -375,6 +377,17 @@ export default function Home() {
                 onPress={() => navigate("/goodsAuto/4_wheel_goods_auto")}
               />
             )}
+
+
+            {(
+              services.includes("4_wheel_goods_auto") ||
+              services.includes("goods_auto")
+            ) && (
+              <GoodsAutoBookingGuide />
+            )}
+
+
+
 
             {/* =====================================================
               EMPTY STATE
