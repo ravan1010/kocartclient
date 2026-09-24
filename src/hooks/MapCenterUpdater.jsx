@@ -3,7 +3,7 @@ import { useMapEvents } from "react-leaflet";
 const MapCenterUpdater = ({
   onLocationChange,
 }) => {
-  useMapEvents({
+  useMapEvents({ 
     moveend(event) {
       const map = event.target;
 

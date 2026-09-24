@@ -383,11 +383,11 @@ export default function Home() {
 
             {services.length === 0 &&
               category.length === 0 && (
-<NoServices
-  onRetry={() => {
-    window.location.reload();
-  }}
-/>
+              <NoServices
+                onRetry={() => {
+                  window.location.reload();
+                }}
+              />
               )}
 
           </section>
