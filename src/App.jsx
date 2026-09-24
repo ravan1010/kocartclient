@@ -16,8 +16,6 @@ import ContactInformationPolicy from './footer/ContactInformationPolicy';
 
 import ProtectedClient from './signup/auth/authroute';
 
-import ServerTypes from './componets/servicetypes';
-
 
 import GoodsAuto from './componets/goodsauto';
 import GoodsAutoOrders from './componets/goodsautoOrdes';
