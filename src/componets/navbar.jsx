@@ -19,7 +19,7 @@ const Navbar = () => {
 
           {/* LOGO */}
           <Link to="/" className="text-2xl font-bold text-gray-800">
-            GoodsAuto
+            
           </Link>
 
           {/* DESKTOP NAV */}
