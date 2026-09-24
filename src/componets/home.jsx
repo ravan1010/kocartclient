@@ -116,8 +116,8 @@ export default function Home() {
 
       setLocationError(
         error?.response?.data?.message ||
-          error?.message ||
-          "Unable to update location."
+        error?.message ||
+        "Unable to update location."
       );
     } finally {
       setLoadingLoc(false);
@@ -196,10 +196,9 @@ export default function Home() {
               font-semibold
               text-gray-700
               transition
-              ${
-                loadingLoc
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-gray-50 active:scale-95"
+              ${loadingLoc
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:bg-gray-50 active:scale-95"
               }
             `}
           >
@@ -260,52 +259,52 @@ export default function Home() {
 
   return (
     <>
-    <MainNavbar />
-    <div className="min-h-screen bg-white pb-24">
+      <MainNavbar />
+      <div className="min-h-screen bg-white pb-24">
 
-      <main className="max-w-5xl mx-auto px-4 pt-7 pb-10">
+        <main className="max-w-5xl mx-auto px-4 pt-7 pb-10">
 
-        {/* =====================================================
+          {/* =====================================================
             HEADER
         ===================================================== */}
 
-        <header className="mb-5">
+          <header className="mb-5">
 
-          {/* LOCATION */}
-          <div className="flex items-center mb-5">
+            {/* LOCATION */}
+            <div className="flex items-center mb-5">
 
-            <div className="text-3xl mr-3">
-              📍
+              <div className="text-3xl mr-3">
+                📍
+              </div>
+
+              <div>
+                <p className="text-[11px] text-gray-500 font-bold tracking-widest">
+                  YOUR LOCATION
+                </p>
+
+                <p className="text-sm font-semibold text-gray-800 max-w-[500px] break-words">
+                  {city || "Select Location"} ▼
+                </p>
+              </div>
+
             </div>
 
-            <div>
-              <p className="text-[11px] text-gray-500 font-bold tracking-widest">
-                YOUR LOCATION
-              </p>
+            {/* LOGO + CHANGE LOCATION */}
+            <div className="border-t border-gray-200 pt-3 flex items-center justify-between gap-4">
 
-              <p className="text-sm font-semibold text-gray-800 max-w-[500px] break-words">
-                {city || "Select Location"} ▼
-              </p>
-            </div>
+              <div className="text-2xl md:text-3xl font-black tracking-[3px] text-blue-950">
+                KO
+                <span className="text-orange-600">
+                  CA
+                </span>
+                RT
+              </div>
 
-          </div>
-
-          {/* LOGO + CHANGE LOCATION */}
-          <div className="border-t border-gray-200 pt-3 flex items-center justify-between gap-4">
-
-            <div className="text-2xl md:text-3xl font-black tracking-[3px] text-blue-950">
-              KO
-              <span className="text-orange-600">
-                CA
-              </span>
-              RT
-            </div>
-
-            <button
-              type="button"
-              onClick={openLocationPicker}
-              disabled={loadingLoc}
-              className={`
+              <button
+                type="button"
+                onClick={openLocationPicker}
+                disabled={loadingLoc}
+                className={`
                 px-4 py-2.5
                 rounded-xl
                 border border-gray-300
@@ -315,112 +314,100 @@ export default function Home() {
                 shadow-sm
                 transition
                 whitespace-nowrap
-                ${
-                  loadingLoc
+                ${loadingLoc
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:bg-gray-50 active:scale-95"
-                }
+                  }
               `}
-            >
-              {loadingLoc ? (
-                <span className="flex items-center gap-2">
-                  <span className="w-4 h-4 border-2 border-gray-300 border-t-gray-700 rounded-full animate-spin" />
-                  Updating...
-                </span>
-              ) : (
-                "📍 Change Location"
-              )}
-            </button>
+              >
+                {loadingLoc ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-gray-300 border-t-gray-700 rounded-full animate-spin" />
+                    Updating...
+                  </span>
+                ) : (
+                  "📍 Change Location"
+                )}
+              </button>
 
-          </div>
-        </header>
+            </div>
+          </header>
 
-        {/* =====================================================
+          {/* =====================================================
             LOCATION ERROR
         ===================================================== */}
 
-        {locationError && (
-          <div className="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3">
-            <p className="text-sm text-red-600">
-              {locationError}
-            </p>
-          </div>
-        )}
+          {locationError && (
+            <div className="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3">
+              <p className="text-sm text-red-600">
+                {locationError}
+              </p>
+            </div>
+          )}
 
-        {/* =====================================================
+          {/* =====================================================
             SERVICES
         ===================================================== */}
 
-        <section className="space-y-4">
+          <section className="space-y-4">
 
-          {/* =====================================================
-              3 WHEEL GOODS AUTO
-          ===================================================== */}
+            {/* =====================================================
+                    3 WHEEL GOODS AUTO
+                ===================================================== */}
 
-          {services.includes("goods_auto") && (
-            <ServiceCard
-              title="3 wheel Goods Auto"
-              description="Transport items & shipments"
-              icon="🚚"
-              type="goods"
-              onPress={() =>
-                navigate("/goods-auto", {
-                  state: {
-                    type: "goods_auto",
-                  },
-                })
-              }
-            />
-          )}
+            {services.includes("goods_auto") && (
+              <ServiceCard
+                title="3 Wheel Goods Auto"
+                description="Transport items & shipments"
+                icon="🚚"
+                type="goods"
+                onPress={() => navigate("/goodsauto/goods_auto")}
+              />
+            )}
 
-          {/* =====================================================
-              4 WHEEL GOODS AUTO
-          ===================================================== */}
 
-          {services.includes("4_wheel_goods_auto") && (
-            <ServiceCard
-              title="4 wheel Goods Auto"
-              description="Transport items & shipments"
-              icon="🚚"
-              type="goods"
-              onPress={() =>
-                navigate("/goods-auto", {
-                  state: {
-                    type: "4_wheel_goods_auto",
-                  },
-                })
-              }
-            />
-          )}
+            {/* =====================================================
+                  4 WHEEL GOODS AUTO
+              ===================================================== */}
 
-          {/* =====================================================
+            {services.includes("4_wheel_goods_auto") && (
+              <ServiceCard
+                title="4 Wheel Goods Auto"
+                description="Transport items & shipments"
+                icon="🚚"
+                type="goods"
+                onPress={() => navigate("/goodsauto/4_wheel_goods_auto")}
+              />
+            )}
+
+            {/* =====================================================
               EMPTY STATE
           ===================================================== */}
 
-          {services.length === 0 &&
-            category.length === 0 && (
-              <div className="flex flex-col items-center justify-center py-16">
+            {services.length === 0 &&
+              category.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-16">
 
-                <div className="text-5xl mb-4">
-                  📍
+                  <div className="text-5xl mb-4">
+                    📍
+                  </div>
+
+                  <p className="text-lg font-semibold text-gray-400 text-center">
+                    No services available nearby.
+                  </p>
+
                 </div>
+              )}
 
-                <p className="text-lg font-semibold text-gray-400 text-center">
-                  No services available nearby.
-                </p>
+          </section>
+        </main>
 
-              </div>
-            )}
-
-        </section>
-      </main>
-
-      {/* =====================================================
+        {/* =====================================================
           BOTTOM NAVBAR
       ===================================================== */}
 
-    </div>
-    <Footer />
+      </div>
+      <Footer />
     </>
   );
 }
