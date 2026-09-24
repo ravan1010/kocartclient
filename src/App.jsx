@@ -45,10 +45,10 @@ function App() {
           <Route path='/client-auth-success' element={<Clientverify />} />
 
           <Route element={<ProtectedClient />}>
-           <Route path='/' element={<Home />} />
+           {/* <Route path='/' element={<Home />} /> */}
   
 
-          {/* <Route path='/' element={<ServerTypes />} /> */}
+          <Route path='/' element={<ServerTypes />} />
 
           <Route path='/goodsAuto/:type' element={ <GoodsAuto /> } />
           <Route path='/goodsAuto/order/:orderId' element={< GoodsAutoOrders /> } />
