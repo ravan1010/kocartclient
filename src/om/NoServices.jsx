@@ -1,18 +1,18 @@
 import React from "react";
-
+import NoServicesImage from "../../assets/NoServices.png"
 const NoServices = ({ onRetry }) => {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-5 py-10 bg-white">
       <div className="w-full max-w-md text-center">
 
         {/* Illustration */}
-   <div className="flex justify-center mb-7">
-  <img
-    src="../../assets/NoServices.png"
-    alt="No services available nearby"
-    className="w-44 h-40 object-contain"
-  />
-</div>
+        <div className="flex justify-center mb-7">
+            <img
+                src={NoServicesImage}
+                alt="No services available nearby"
+                className="w-44 h-40 object-contain"
+            />
+        </div>
 
         {/* Title */}
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
