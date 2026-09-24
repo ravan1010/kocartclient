@@ -19,7 +19,13 @@ const Navbar = () => {
 
           {/* LOGO */}
           <Link to="/" className="text-2xl font-bold text-gray-800">
-            
+            <div className="text-2xl md:text-3xl font-black tracking-[3px] text-blue-950">
+                KO
+                <span className="text-orange-600">
+                  CA
+                </span>
+                RT
+              </div>
           </Link>
 
           {/* DESKTOP NAV */}

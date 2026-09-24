@@ -270,8 +270,33 @@ export default function Home() {
 
           <header className="mb-5">
 
-            {/* LOCATION */}
-            <div className="flex items-center mb-5">
+            <button
+                type="button"
+                onClick={openLocationPicker}
+                disabled={loadingLoc}
+                className={`
+                px-4 py-2.5
+                rounded-xl
+                border border-gray-300
+                bg-white
+                text-sm font-semibold
+                text-gray-700
+                shadow-sm
+                transition
+                whitespace-nowrap
+                ${loadingLoc
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-gray-50 active:scale-95"
+                  }
+              `}
+              >
+                {loadingLoc ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-gray-300 border-t-gray-700 rounded-full animate-spin" />
+                    Updating...
+                  </span>
+                ) : (
+                  <div className="flex items-center mb-5">
 
               <div className="text-3xl mr-3">
                 📍
@@ -288,6 +313,11 @@ export default function Home() {
               </div>
 
             </div>
+                )}
+              </button>
+
+            {/* LOCATION */}
+            
 
             {/* LOGO + CHANGE LOCATION */}
             <div className="border-t border-gray-200 pt-3 flex items-center justify-between gap-4">
@@ -326,7 +356,7 @@ export default function Home() {
                     Updating...
                   </span>
                 ) : (
-                  "📍 Change Location"
+                  "📍 "
                 )}
               </button>
 
