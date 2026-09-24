@@ -3,7 +3,6 @@ import api from "../api";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import axios from "axios";
-import Navbar from "./navbar"
 
 
 export default function ServerTypes() {
@@ -122,12 +121,12 @@ export default function ServerTypes() {
     }
   };
 
-if(user === false ){
+if(user === false){
   return(
     <div className="flex justify-between border-t w-full p-2">
-            <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
-              KO<span className="text-orange-600">CA</span>RT
-            </div>
+        <div className="text-2xl font-black tracking-wider text-blue-900 uppercase">
+          KO<span className="text-orange-600">CA</span>RT
+        </div>
             <div>
               <button
                 onClick={changeLocation}
@@ -138,7 +137,7 @@ if(user === false ){
               </button>
             </div>
           </div>
-  )
+        )
 }
 
   if (loading) {
@@ -151,8 +150,7 @@ if(user === false ){
 
   return (
     <>
-            <Navbar />
-
+    <Navbar />
     <div className="max-w-7xl mx-auto px-4 py-6">
       {/* Header Container */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2">
@@ -193,52 +191,6 @@ if(user === false ){
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Food Card */}
-        {category.includes("foodANDbeverages") && (
-          <button
-            onClick={() => navigate("/resturant")}
-            className="group relative bg-gradient-to-br from-amber-50 to-orange-50 border border-orange-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-orange-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden"
-          >
-            <div>
-              <h2 className="text-2xl font-extrabold text-orange-900 group-hover:text-orange-600 transition-colors">
-                Food
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Delicious food delivered fast
-              </p>
-            </div>
-            <div className="flex items-end justify-between mt-6">
-              <div className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
-                →
-              </div>
-              <div className="text-5xl select-none">🍲</div>
-            </div>
-          </button>
-        )}
-
-        {/* Grocery Card */}
-        {category.includes("groceryFruitsANDvegetables") && (
-          <button
-            onClick={() => navigate("/mart")}
-            className="group relative bg-gradient-to-br from-emerald-50 to-green-50 border border-green-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-green-300 transition-all duration-300 text-left flex flex-col justify-between overflow-hidden"
-          >
-            <div>
-              <h2 className="text-2xl font-extrabold text-emerald-900 group-hover:text-green-600 transition-colors">
-                Grocery
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Fresh groceries at your doorstep
-              </p>
-            </div>
-            <div className="flex items-end justify-between mt-6">
-              <div className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-green-500 group-hover:bg-green-500 group-hover:text-white transition-all duration-300">
-                →
-              </div>
-              <div className="text-5xl select-none">🛍️</div>
-            </div>
-          </button>
-        )}
-        
 
         {/* Empty State */}
         {services.length === 0 && category.length === 0 && (
@@ -247,7 +199,6 @@ if(user === false ){
           </div>
         )}
       </div>
-
       <Footer />
     </div>
     </>

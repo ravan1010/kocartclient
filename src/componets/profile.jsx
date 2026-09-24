@@ -1,12 +1,9 @@
 import api from "../api";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "./navbar";
 import Footer from "./Footer";
-import useAdminauth from "../admin/auth/adminotpauth";
 
 const Profile = () => {
-  const { isAdmin } = useAdminauth();
 
   const [number, setNumber] = useState("");
   const [toadmin, setToadmin] = useState("");

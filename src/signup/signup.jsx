@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 function Signup() {
   const handleGoogleLogin = () => {
     window.open("https://serverside.kocart.online/auth/google/client", "_self");
+    //  window.open("http://localhost:5001/auth/google/client", "_self");
   }; 
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-  <div className="bg-white p-8 rounded-2xl shadow-md text-center w-80">
+  <div className="bg-white p-8 rounded-2xl shadow-md text-center w-80"> 
     <Link to="/" className="text-left text-black mb-6">
         <FcLeft size={25} />
       </Link>
