@@ -358,10 +358,10 @@ export default function Home() {
             {services.includes("goods_auto") && (
               <ServiceCard
                 title="3 Wheel Goods Auto"
-                description="Transport items & shipments"
-                icon="🚚"
-                type="goods"
-                onPress={() => navigate("/goodsauto/goods_auto")}
+                description="Transport goods, parcels & shipments"
+                icon="🛺"
+                type="goods3"
+                onPress={() => navigate("/goodsAuto/goods_auto")}
               />
             )}
 
@@ -373,10 +373,10 @@ export default function Home() {
             {services.includes("4_wheel_goods_auto") && (
               <ServiceCard
                 title="4 Wheel Goods Auto"
-                description="Transport items & shipments"
+                description="Transport heavy goods & shipments"
                 icon="🚚"
-                type="goods"
-                onPress={() => navigate("/goodsauto/4_wheel_goods_auto")}
+                type="goods4"
+                onPress={() => navigate("/goodsAuto/4_wheel_goods_auto")}
               />
             )}
 
@@ -425,35 +425,20 @@ function ServiceCard({
 }) {
   const getCardStyle = () => {
     switch (type) {
-      case "food":
+      case "goods3":
         return {
-          card: "bg-orange-50 border-orange-200",
-          title: "text-orange-900",
+          card: "bg-teal-50 border-teal-200",
+          title: "text-teal-900",
           arrow: "bg-white",
         };
 
-      case "grocery":
+      case "goods4":
         return {
-          card: "bg-green-50 border-green-200",
-          title: "text-emerald-900",
+          card: "bg-cyan-50 border-cyan-200",
+          title: "text-cyan-900",
           arrow: "bg-white",
         };
 
-      case "parcel":
-        return {
-          card: "bg-blue-50 border-blue-200",
-          title: "text-blue-900",
-          arrow: "bg-white",
-        };
-
-      case "passenger":
-        return {
-          card: "bg-yellow-50 border-yellow-200",
-          title: "text-yellow-900",
-          arrow: "bg-white",
-        };
-
-      case "goods":
       default:
         return {
           card: "bg-teal-50 border-teal-200",
@@ -486,12 +471,8 @@ function ServiceCard({
         ${style.card}
       `}
     >
-
-      {/* TOP */}
       <div className="flex">
-
         <div className="flex-1">
-
           <h2
             className={`
               text-2xl
@@ -505,15 +486,10 @@ function ServiceCard({
           <p className="text-sm text-gray-600 mt-2 leading-5">
             {description}
           </p>
-
         </div>
-
       </div>
 
-      {/* BOTTOM */}
       <div className="flex justify-between items-end mt-6">
-
-        {/* ARROW */}
         <div
           className={`
             w-11
@@ -525,18 +501,13 @@ function ServiceCard({
             ${style.arrow}
           `}
         >
-          <span className="text-xl font-bold">
-            →
-          </span>
+          <span className="text-xl font-bold">→</span>
         </div>
 
-        {/* ICON */}
         <div className="text-5xl">
           {icon}
         </div>
-
       </div>
-
     </button>
   );
 }
