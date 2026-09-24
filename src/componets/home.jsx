@@ -36,7 +36,7 @@ export default function Home() {
 
   const load = async () => {
     try {
-      const res = await api.get("/api/app/services");
+      const res = await api.get("/api/services");
 
       setServices(res.data.category || []);
       setCategory(res.data.category || []);
@@ -84,7 +84,7 @@ export default function Home() {
 
       // Save location to backend
       await api.put(
-        "/api/app/user/location",
+        "/api/user/location",
         {
           latitude: latitude.toFixed(6),
           longitude: longitude.toFixed(6),
