@@ -10,7 +10,6 @@ export default function Home() {
   const navigate = useNavigate();
 
   const [services, setServices] = useState([]);
-  const [category, setCategory] = useState([]);
   const [city, setCity] = useState("");
   const [user, setUser] = useState("");
   const [loading, setLoading] = useState(true);
@@ -40,12 +39,12 @@ export default function Home() {
     try {
       const res = await api.get("/api/services");
 
-      setServices(res.data.category || []);
-      setCategory(res.data.category || []);
+      setServices(res.data.serviceTypes || []);
       setCity(res.data.city || "");
       setUpdate(res.data.update || 0);
       setLink(res.data.link || "");
       setUser(res.data.user || "");
+
     } catch (err) {
       console.log("Load services error:", err);
     } finally {
@@ -382,7 +381,7 @@ export default function Home() {
           ===================================================== */}
 
             {services.length === 0 &&
-              category.length === 0 && (
+             (
               <NoServices
                 onRetry={() => {
                   window.location.reload();
