@@ -42,9 +42,7 @@ function App() {
           <Route path='/signup' element={<SignupOne />} />
           <Route path='/client-auth-success' element={<Clientverify />} />
 
-          <Route element={<ProtectedClient />}>
-           {/* <Route path='/' element={<Home />} /> */}
-  
+          <Route element={<ProtectedClient />}>  
 
           <Route path='/' element={<Home />} />
 
