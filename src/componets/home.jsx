@@ -1,163 +1,104 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "./Footer";
-import api from "../api";
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const [merchants, setMerchants] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchMerchant = async () => {
-    try {
-      const res = await api.get("/api/home", {
-        withCredentials: true,
-      });
-
-      setMerchants(res.data.merchants || []);
-      setPosts(res.data.posts || []);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchMerchant();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <div className="flex justify-center items-center h-64 text-xl font-medium text-gray-500">
-          Loading...
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-between">
-      <div>
-        <Navbar />
+    <div className="min-h-screen bg-gray-50">
 
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <h2 className="text-2xl font-extrabold text-gray-900 mb-6">
-            Nearby Merchants
-          </h2>
+      {/* Header */}
+      <header className="bg-white border-b px-4 py-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
 
-          {merchants.length > 0 ? (
-            <div className="space-y-6">
-              {merchants.map((merchant) => {
-                // Filter posts/products specific to this merchant using flexible identifier matching
-                const merchantPosts = posts.filter(
-                  (p) => 
-                    p.author === merchant._id || 
-                    p.merchant === merchant._id ||
-                    p.merchantId === merchant._id ||
-                    p.author?._id === merchant._id ||
-                    p.merchant?._id === merchant._id
-                );
+          <h1 className="text-2xl font-black text-blue-900">
+            Goods<span className="text-orange-600">Auto</span>
+          </h1>
 
-                return (
-                  <div
-                    key={merchant._id}
-                    className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all"
-                  >
-                    {/* Merchant Header Info */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-100">
-                      <div className="flex items-center gap-4">
-                        <img
-                          src={merchant.logo ||"https://lh3.googleusercontent.com/d/1T2A0yapEsIyuvBZl73w3h7v4g58k8V0E"}
-                          alt={merchant.companyName}
-                          className="w-16 h-16 rounded-full object-cover border-2 border-gray-100 shadow-sm"
-                        />
-                        <div>
-                          <div className="flex items-center gap-1.5">
-                            <h3 className="text-lg font-bold text-gray-900">
-                              {merchant.companyName}
-                            </h3>
-                            {/* Verified Badge */}
-                            <svg
-                              className="w-5 h-5 text-blue-500 flex-shrink-0"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                            >
-                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                            </svg>
-                          </div>
-                          <p className="text-sm text-gray-500 mt-0.5">
-                            {merchant.tagline || "Premium Quality Products"}
-                          </p>
-                        </div>
-                      </div>
+          <button
+            onClick={() => console.log("Change location")}
+            className="border px-4 py-2 rounded-xl"
+          >
+            📍 Change Location
+          </button>
 
-                      {/* Action Buttons */}
-                      <div className="flex items-center gap-3">
-                        <button
-                          onClick={() => navigate(`/merchant?id=${merchant._id}`)}
-                          className="px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 flex items-center gap-2 transition-all shadow-sm"
-                        >
-                          <span>🏪</span> Visit Store <span className="text-gray-400">›</span>
-                        </button>
-                        <button
-                          onClick={() => navigate(`/merchant?id=${merchant._id}`)}
-                          className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 flex items-center gap-2 transition-all shadow-sm"
-                        >
-                          Visit More <span className="text-blue-200">›</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Product / Post Previews */}
-                    {merchantPosts.length > 0 && (
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
-                        {merchantPosts.slice(0, 2).map((postItem, idx) => {
-                          // Safely resolve image regardless of whether it's an array, string, or named differently
-                          const rawImg = postItem.image || postItem.imageUrl || postItem.photos;
-                          const imageUrl = Array.isArray(rawImg) ? rawImg[0] : rawImg;
-
-                          return (
-                            <div
-                              key={idx}
-                              onClick={() => navigate(`/merchant?id=${merchant._id}`)}
-                              className="group relative bg-gray-100 rounded-xl overflow-hidden aspect-square cursor-pointer border border-gray-100"
-                            >
-                              {imageUrl && (
-                                <img
-                                  src={imageUrl}
-                                  alt={postItem.title || "Product"}
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="text-center py-16 bg-white rounded-2xl border border-gray-200">
-              <div className="text-4xl mb-3">🛒</div>
-              <h3 className="text-lg font-bold text-gray-800">
-                No Nearby Merchants
-              </h3>
-              <p className="text-gray-500 mt-1 text-sm">
-                We are not available in your area right now.
-              </p>
-            </div>
-          )}
         </div>
-      </div>
+      </header>
 
-      <Footer />
+      {/* Services */}
+      <main className="max-w-6xl mx-auto px-4 py-8">
+
+        <h2 className="text-2xl font-bold mb-6">
+          Choose your vehicle
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-5">
+
+          {/* 3 Wheeler */}
+          <button
+            onClick={() =>
+              navigate("/goods-auto", {
+                state: { type: "goods_auto" },
+              })
+            }
+            className="text-left min-h-[200px] p-6 rounded-3xl
+                       bg-teal-50 border border-teal-200
+                       hover:shadow-lg transition"
+          >
+            <h3 className="text-2xl font-extrabold text-teal-900">
+              3 Wheel Goods Auto
+            </h3>
+
+            <p className="mt-2 text-gray-600">
+              Transport items & shipments
+            </p>
+
+            <div className="flex justify-between items-end mt-10">
+              <span className="w-11 h-11 rounded-full bg-white
+                               flex items-center justify-center text-xl">
+                →
+              </span>
+
+              <span className="text-5xl">
+                🚚
+              </span>
+            </div>
+          </button>
+
+          {/* 4 Wheeler */}
+          <button
+            onClick={() =>
+              navigate("/goods-auto", {
+                state: { type: "4_wheel_goods_auto" },
+              })
+            }
+            className="text-left min-h-[200px] p-6 rounded-3xl
+                       bg-blue-50 border border-blue-200
+                       hover:shadow-lg transition"
+          >
+            <h3 className="text-2xl font-extrabold text-blue-900">
+              4 Wheel Goods Auto
+            </h3>
+
+            <p className="mt-2 text-gray-600">
+              Transport items & shipments
+            </p>
+
+            <div className="flex justify-between items-end mt-10">
+              <span className="w-11 h-11 rounded-full bg-white
+                               flex items-center justify-center text-xl">
+                →
+              </span>
+
+              <span className="text-5xl">
+                🚚
+              </span>
+            </div>
+          </button>
+
+        </div>
+      </main>
+
     </div>
   );
 };

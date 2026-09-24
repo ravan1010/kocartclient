@@ -48,7 +48,7 @@ function App() {
            {/* <Route path='/' element={<Home />} /> */}
   
 
-          <Route path='/' element={<ServerTypes />} />
+          <Route path='/' element={<Home />} />
 
           <Route path='/goodsAuto/:type' element={ <GoodsAuto /> } />
           <Route path='/goodsAuto/order/:orderId' element={< GoodsAutoOrders /> } />

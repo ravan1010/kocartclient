@@ -42,7 +42,7 @@ const Footer = () => {
 
               <li>
                 <Link
-                  to="/orders"
+                  to="/auto/all/orders"
                   className="text-gray-400 hover:text-white"
                 >
                   My Bookings
@@ -51,7 +51,7 @@ const Footer = () => {
 
               <li>
                 <Link
-                  to="/contact"
+                  to="/contact-information-policy"
                   className="text-gray-400 hover:text-white"
                 >
                   Contact Support
@@ -69,7 +69,7 @@ const Footer = () => {
             <ul className="mt-4 space-y-2">
               <li>
                 <Link
-                  to="/partner"
+                  to="https://parcelandtransport.kocart.online"
                   className="text-gray-400 hover:text-white"
                 >
                   Become a Driver Partner
@@ -78,21 +78,21 @@ const Footer = () => {
 
               <li>
                 <Link
-                  to="/partner/login"
+                  to="https://parcelandtransport.kocart.online/login"
                   className="text-gray-400 hover:text-white"
                 >
                   Partner Login
                 </Link>
               </li>
 
-              <li>
+              {/* <li>
                 <Link
                   to="/partner/earnings"
                   className="text-gray-400 hover:text-white"
                 >
                   Partner Earnings
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -142,7 +142,7 @@ const Footer = () => {
 
             <div className="mt-4">
               <a
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/kocart___/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white"

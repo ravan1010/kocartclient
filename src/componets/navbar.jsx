@@ -29,7 +29,7 @@ const Navbar = () => {
               Home
             </NavLink>
 
-            <NavLink to="/bookings" className={navLinkClasses}>
+            <NavLink to="/auto/all/orders" className={navLinkClasses}>
               My Bookings
             </NavLink>
 
@@ -37,7 +37,7 @@ const Navbar = () => {
               Profile
             </NavLink>
 
-            <NavLink to="/partner" className={navLinkClasses}>
+            <NavLink to="https://parcelandtransport.kocart.online" className={navLinkClasses}>
               Become a Partner
             </NavLink>
 
@@ -65,7 +65,7 @@ const Navbar = () => {
 
           {/* BOOKINGS */}
           <NavLink
-            to="/bookings"
+            to="/auto/all/orders"
             className={({ isActive }) =>
               `flex flex-col items-center text-xs ${
                 isActive ? "text-indigo-600" : "text-gray-500"

@@ -2,6 +2,7 @@ import api from "../api";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
+import Navbar from "./navbar";
 
 const Profile = () => {
 
