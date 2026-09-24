@@ -258,6 +258,8 @@ export default function Home() {
   // =====================================================
 
   return (
+    <>
+          <MainNavbar />
     <div className="min-h-screen bg-white pb-24">
 
       <main className="max-w-5xl mx-auto px-4 pt-7 pb-10">
@@ -416,8 +418,9 @@ export default function Home() {
           BOTTOM NAVBAR
       ===================================================== */}
 
-      <MainNavbar active="Home" />
     </div>
+
+    </>
   );
 }
 
