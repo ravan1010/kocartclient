@@ -10,7 +10,7 @@ const NoServices = ({ onRetry }) => {
             <img
                 src={NoServicesImage}
                 alt="No services available nearby"
-                className="w-44 h-40 object-contain"
+                className="w-55 h-56 object-contain"
             />
         </div>
 
