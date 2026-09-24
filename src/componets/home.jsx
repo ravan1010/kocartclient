@@ -385,7 +385,7 @@ export default function Home() {
               category.length === 0 && (
 <NoServices
   onRetry={() => {
-    console.log("Checking services...");
+    window.location.reload();
   }}
 />
               )}
