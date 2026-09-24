@@ -4,6 +4,7 @@ import api from "../api.js";
 import MainNavbar from "./navbar.jsx";
 import FullScreenLocationPicker from "../hooks/AppFullScreenLocationPicker.jsx";
 import Footer from "./Footer.jsx";
+import NoServices from "../om/NoServices.jsx";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -383,7 +384,11 @@ export default function Home() {
             {services.length === 0 &&
               category.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-16">
-
+<NoServices
+  onRetry={() => {
+    console.log("Checking services...");
+  }}
+/>
                   <div className="text-5xl mb-4">
                     📍
                   </div>
