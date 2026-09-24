@@ -21,7 +21,7 @@ const NoServices = ({ onRetry }) => {
 
         {/* Description */}
         <p className="mt-4 text-base sm:text-lg leading-7 text-slate-500">
-          We couldn’t find any stores or delivery services near your current
+          We couldn’t find any services near your current
           location.
         </p>
 
@@ -103,7 +103,7 @@ const NoServices = ({ onRetry }) => {
           <span className="hidden sm:block w-14 h-px bg-slate-300" />
 
           <span>
-            We’re working to bring more stores near you{" "}
+            We’re working{" "}
             <span className="text-red-500">♥</span>
           </span>
 
