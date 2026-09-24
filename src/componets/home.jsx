@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api.js";
 import MainNavbar from "./navbar.jsx";
 import FullScreenLocationPicker from "../hooks/AppFullScreenLocationPicker.jsx";
+import Footer from "./Footer.jsx";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -419,6 +420,7 @@ export default function Home() {
       ===================================================== */}
 
     </div>
+    <Footer />
     </>
   );
 }

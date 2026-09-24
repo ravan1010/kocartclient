@@ -50,52 +50,15 @@ const Profile = () => {
         </div>
 
         <div className="px-5 mt-6 space-y-3">
-          <Link
-            to="/address-list"
-            className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
-          >
-            📍 Address List
-          </Link>
-          {order !== 0 && (
-            <Link
-              to="/order"
-              className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
-            >
-              order
-            </Link>
-          )}
 
           {auto !== 0 && (
             <Link
               to="/auto/all/orders"
               className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
             >
-              auto bookings
+              Bookings
             </Link>
           )}
-          <a
-            href="https://expo.dev/artifacts/eas/qJiqLQB6fTNh6sAIzXZuo-r2m9EPT0RHHPE1AfTCQJc.apk"
-            className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
-          >
-            Download
-          </a>
-{/* 
-          {isAdmin ? (
-            <Link
-              to={`/adminlandmark/dashboard`}
-              className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
-            >
-              🧑‍💼 Partner Dashboard
-            </Link>
-
-          ) : (
-            <Link
-              to="/admin"
-              className="block bg-white rounded-xl shadow-sm p-4 text-gray-700 font-medium hover:shadow-md transition"
-            >
-              🤝 Become a Partner
-            </Link>
-          )} */}
         </div>
 
         <Footer />
