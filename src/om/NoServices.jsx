@@ -102,7 +102,8 @@ const NoServices = ({ onRetry }) => {
         <div className="mt-8 flex items-center justify-center gap-3 text-sm text-slate-500">
           <span className="hidden sm:block w-14 h-px bg-slate-300" />
 
-          <span>
+          <span>  
+            
             We’re working{" "}
             <span className="text-red-500">♥</span>
           </span>
