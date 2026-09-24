@@ -404,7 +404,7 @@ const AppFullScreenLocationPicker = ({
     */
 
     setSearchText(
-      selectedAddress
+      ""
     );
 
     /*
