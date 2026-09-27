@@ -11,9 +11,9 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import api from "../api";
 
-// --------------------------------------------------
+// ==================================================
 // FIX LEAFLET DEFAULT MARKER
-// --------------------------------------------------
+// ==================================================
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -28,9 +28,9 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
 });
 
-// --------------------------------------------------
-// ACTIVE DRIVER STATUSES
-// --------------------------------------------------
+// ==================================================
+// ACTIVE STATUSES
+// ==================================================
 
 const ACTIVE_STATUSES = [
   "driver_assigned",
@@ -39,9 +39,9 @@ const ACTIVE_STATUSES = [
   "in_transit",
 ];
 
-// --------------------------------------------------
+// ==================================================
 // STATUS TEXT
-// --------------------------------------------------
+// ==================================================
 
 const getStatusText = (status) => {
   switch (status) {
@@ -60,14 +60,20 @@ const getStatusText = (status) => {
     case "in_transit":
       return "Goods are on the way";
 
+    case "completed":
+      return "Booking completed";
+
+    case "cancelled":
+      return "Booking cancelled";
+
     default:
       return "Order status";
   }
 };
 
-// --------------------------------------------------
+// ==================================================
 // DRIVER ICON
-// --------------------------------------------------
+// ==================================================
 
 const driverIcon = new L.DivIcon({
   className: "driver-marker",
@@ -93,9 +99,9 @@ const driverIcon = new L.DivIcon({
   iconAnchor: [21, 21],
 });
 
-// --------------------------------------------------
-// MAP RECENTER
-// --------------------------------------------------
+// ==================================================
+// RECENTER MAP WHEN DRIVER MOVES
+// ==================================================
 
 const RecenterMap = ({ location }) => {
   const map = useMap();
@@ -122,70 +128,100 @@ const RecenterMap = ({ location }) => {
   return null;
 };
 
-// --------------------------------------------------
+// ==================================================
 // MAIN COMPONENT
-// --------------------------------------------------
+// ==================================================
 
-const GoodsAutoTracking = ({ userId }) => {
+const GoodsAutoTracking = () => {
   const [booking, setBooking] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   const [userId, setUserId] = useState(null);
 
-  // ------------------------------------------------
-  // GET USER ID
-  // ------------------------------------------------
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
+  // ==================================================
+  // GET LOGGED-IN USER
+  // ==================================================
 
-useEffect(() => {
-  const loadUser = async () => {
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const response = await api.get("/api/setting", {
+          withCredentials: true,
+        });
+
+        const id = response.data?.user?._id;
+
+        if (!id) {
+          setError("User not found");
+          setLoading(false);
+          return;
+        }
+
+        setUserId(id);
+      } catch (error) {
+        console.error("Get user error:", error);
+
+        setError("Unable to load user");
+        setLoading(false);
+      }
+    };
+
+    loadUser();
+  }, []);
+
+  // ==================================================
+  // GET ACTIVE BOOKING + DRIVER LOCATION
+  // ==================================================
+
+  const getDriverLocation = async () => {
+    if (!userId) return;
+
     try {
-      const response = await api.get("/api/setting", {
-        withCredentials: true,
-      });
+      const response = await api.get(
+        `/api/goods-auto/booking/driver-location/${userId}`,
+        {
+          withCredentials: true,
+        }
+      );
 
-      setUserId(response.data?.user?._id);
+      // No active booking
+      if (!response.data.success) {
+        setBooking(null);
+        setError("");
+        return;
+      }
+
+      const bookings = response.data.bookings || [];
+
+      if (!bookings.length) {
+        setBooking(null);
+        setError("");
+        return;
+      }
+
+      // Backend sorts newest first
+      setBooking(bookings[0]);
+
+      setError("");
     } catch (error) {
-      console.error("Get user error:", error);
+      console.error(
+        "Get driver location error:",
+        error
+      );
+
+      setError(
+        error.response?.data?.message ||
+        "Unable to load booking"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
-  loadUser();
-}, []);
-
-  // ------------------------------------------------
-  // GET ACTIVE BOOKING + DRIVER LOCATION
-  // ------------------------------------------------
-
-  const getDriverLocation = async () => {
-  if (!userId) return;
-
-  try {
-    const response = await api.get(
-      `/api/goods-auto/booking/driver-location/${userId}`,
-      {
-        withCredentials: true,
-      }
-    );
-
-    if (!response.data.success) {
-      setBooking(null);
-      return;
-    }
-
-    const bookings = response.data.bookings || [];
-
-    setBooking(bookings[0] || null);
-  } catch (error) {
-    console.error("Get driver location error:", error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-  // ------------------------------------------------
-  // INITIAL LOAD
-  // ------------------------------------------------
+  // ==================================================
+  // FIRST BOOKING LOAD
+  // ==================================================
 
   useEffect(() => {
     if (!userId) return;
@@ -193,25 +229,26 @@ useEffect(() => {
     getDriverLocation();
   }, [userId]);
 
-  // ------------------------------------------------
-  // LIVE POLLING
-  // ------------------------------------------------
+  // ==================================================
+  // LIVE DRIVER LOCATION
+  // EVERY 5 SECONDS
+  // ==================================================
 
   useEffect(() => {
     if (!userId) return;
 
     const interval = setInterval(() => {
       getDriverLocation();
-    }, 20000);
+    }, 5000);
 
     return () => {
       clearInterval(interval);
     };
   }, [userId]);
 
-  // ------------------------------------------------
+  // ==================================================
   // LOADING
-  // ------------------------------------------------
+  // ==================================================
 
   if (loading) {
     return (
@@ -237,9 +274,9 @@ useEffect(() => {
     );
   }
 
-  // ------------------------------------------------
+  // ==================================================
   // ERROR
-  // ------------------------------------------------
+  // ==================================================
 
   if (error) {
     return (
@@ -257,9 +294,9 @@ useEffect(() => {
     );
   }
 
-  // ------------------------------------------------
+  // ==================================================
   // NO ACTIVE BOOKING
-  // ------------------------------------------------
+  // ==================================================
 
   if (!booking) {
     return (
@@ -283,9 +320,9 @@ useEffect(() => {
 
   const status = booking.status;
 
-  // ------------------------------------------------
+  // ==================================================
   // PENDING
-  // ------------------------------------------------
+  // ==================================================
 
   if (status === "pending") {
     return (
@@ -384,9 +421,9 @@ useEffect(() => {
     );
   }
 
-  // ------------------------------------------------
+  // ==================================================
   // ACTIVE DRIVER TRACKING
-  // ------------------------------------------------
+  // ==================================================
 
   if (ACTIVE_STATUSES.includes(status)) {
 
@@ -403,9 +440,9 @@ useEffect(() => {
       Number.isFinite(driverLat) &&
       Number.isFinite(driverLng);
 
-    // ------------------------------------------------
-    // DRIVER LOCATION NOT AVAILABLE YET
-    // ------------------------------------------------
+    // ==================================================
+    // DRIVER LOCATION NOT AVAILABLE
+    // ==================================================
 
     if (!hasDriverLocation) {
       return (
@@ -453,14 +490,18 @@ useEffect(() => {
       );
     }
 
+    // ==================================================
+    // DRIVER POSITION
+    // ==================================================
+
     const driverPosition = [
       driverLat,
       driverLng,
     ];
 
-    // ------------------------------------------------
+    // ==================================================
     // PICKUP LOCATION
-    // ------------------------------------------------
+    // ==================================================
 
     const pickup = booking.pickupLocation;
 
@@ -474,9 +515,9 @@ useEffect(() => {
       Number.isFinite(pickupLat) &&
       Number.isFinite(pickupLng);
 
-    // ------------------------------------------------
+    // ==================================================
     // MAP
-    // ------------------------------------------------
+    // ==================================================
 
     return (
       <div
@@ -501,7 +542,7 @@ useEffect(() => {
             attribution="© OpenStreetMap contributors"
           />
 
-          {/* Automatically move map when driver moves */}
+          {/* RECENTER MAP WHEN DRIVER MOVES */}
 
           <RecenterMap
             location={driverLocation}
@@ -557,9 +598,9 @@ useEffect(() => {
 
         </MapContainer>
 
-        {/* ------------------------------------------------
+        {/* ==================================================
             TOP STATUS
-        ------------------------------------------------ */}
+        ================================================== */}
 
         <div
           className="
@@ -625,9 +666,9 @@ useEffect(() => {
 
         </div>
 
-        {/* ------------------------------------------------
+        {/* ==================================================
             DRIVER INFO
-        ------------------------------------------------ */}
+        ================================================== */}
 
         <div
           className="
@@ -712,9 +753,9 @@ useEffect(() => {
     );
   }
 
-  // ------------------------------------------------
+  // ==================================================
   // OTHER STATUS
-  // ------------------------------------------------
+  // ==================================================
 
   return (
     <div className="p-4">
