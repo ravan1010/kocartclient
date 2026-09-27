@@ -187,7 +187,6 @@ const GoodsAutoTracking = () => {
       );
 
 
-      console.log(response.data)
       // No active booking
       if (!response.data.success) {
         setBooking(null);
@@ -435,7 +434,7 @@ const GoodsAutoTracking = () => {
   if (ACTIVE_STATUSES.includes(status)) {
 
     const driverLocation =
-      booking.driver?.currentLocation || null;
+      booking.driver?.currentLocation.coordinates || null;
 
     const driverLat =
       Number(driverLocation?.latitude);
