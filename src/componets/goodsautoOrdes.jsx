@@ -164,7 +164,7 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
 
   return (
     <>
-    
+
     <div className="space-y-4">
       {order.status === "pending" && (
         <>
@@ -1487,7 +1487,7 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
       )}
   
     </div>
-
+    <Navbar />
     </>
   );
 }
