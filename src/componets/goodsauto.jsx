@@ -54,6 +54,18 @@ export default function GoodsAuto() {
   const isDisabled =
     oneclick !== 1;
 
+    const handleNoSpecialCharacters = (e, section, field) => {
+  const value = e.target.value.replace(/[^a-zA-Z0-9 ]/g, "");
+
+  setForm((prev) => ({
+    ...prev,
+    [section]: {
+      ...prev[section],
+      [field]: value,
+    },
+  }));
+};
+
   // ---------------------------------
   //      active orders check
   // ---------------------------------
@@ -494,13 +506,7 @@ export default function GoodsAuto() {
                 placeholder="Sender Name"
                 value={form.pickup.name}
                 onChange={(e) =>
-                  setForm({
-                    ...form,
-                    pickup: {
-                      ...form.pickup,
-                      name: e.target.value,
-                    },
-                  })
+                  handleNoSpecialCharacters (e, "pickup", "name")
                 }
               />
 
@@ -512,13 +518,7 @@ export default function GoodsAuto() {
                 minLength={10}
                 maxLength={10}
                 onChange={(e) =>
-                  setForm({
-                    ...form,
-                    pickup: {
-                      ...form.pickup,
-                      phone: e.target.value,
-                    },
-                  })
+                  handleNoSpecialCharacters (e, "pickup", "phone")
                 }
               />
             </div>
@@ -530,14 +530,8 @@ export default function GoodsAuto() {
                 placeholder="Receiver Name"
                 value={form.drop.name}
                 onChange={(e) =>
-                  setForm({
-                    ...form,
-                    drop: {
-                      ...form.drop,
-                      name: e.target.value,
-                    },
-                  })
-                }
+    handleNoSpecialCharacters (e, "drop", "name")
+  }
               />
 
               <input
@@ -548,14 +542,8 @@ export default function GoodsAuto() {
                 minLength={10}
                 maxLength={10}
                 onChange={(e) =>
-                  setForm({
-                    ...form,
-                    drop: {
-                      ...form.drop,
-                      phone: e.target.value,
-                    },
-                  })
-                }
+    handleNoSpecialCharacters (e, "drop", "phone")
+  }
               />
             </div>
 
@@ -604,14 +592,13 @@ export default function GoodsAuto() {
                 placeholder="Example: 120"
                 value={form.goods.estimatedWeight}
                 onChange={(e) =>
-                  setForm({
-                    ...form,
-                    goods: {
-                      ...form.goods,
-                      estimatedWeight: e.target.value,
-                    },
-                  })
-                }
+    handleNoSpecialCharacters (
+      e,
+      "goods",
+      "estimatedWeight"
+    )
+  }
+
               />
             </div>
 
@@ -690,15 +677,13 @@ export default function GoodsAuto() {
                 className="w-full border rounded-lg p-3"
                 placeholder="Any special instructions..."
                 value={form.goods.instructions}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    goods: {
-                      ...form.goods,
-                      instructions: e.target.value,
-                    },
-                  })
-                }
+                 onChange={(e) =>
+    handleNoSpecialCharacters (
+      e,
+      "goods",
+      "instructions"
+    )
+  }
               />
             </div>
           </div>
