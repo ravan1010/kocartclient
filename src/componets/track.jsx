@@ -130,46 +130,58 @@ const GoodsAutoTracking = ({ userId }) => {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [userId, setUserId] = useState(null);
+
+  // ------------------------------------------------
+  // GET USER ID
+  // ------------------------------------------------
+
+
+useEffect(() => {
+  const loadUser = async () => {
+    try {
+      const response = await api.get("/api/setting", {
+        withCredentials: true,
+      });
+
+      setUserId(response.data?.user?._id);
+    } catch (error) {
+      console.error("Get user error:", error);
+    }
+  };
+
+  loadUser();
+}, []);
 
   // ------------------------------------------------
   // GET ACTIVE BOOKING + DRIVER LOCATION
   // ------------------------------------------------
 
   const getDriverLocation = async () => {
-    try {
-      const response = await api.get(
-        `/api/goods-auto/booking/driver-location/${userId}`
-      );
+  if (!userId) return;
 
-      if (!response.data.success) {
-        setBooking(null);
-        setError("");
-        return;
+  try {
+    const response = await api.get(
+      `/api/goods-auto/booking/driver-location/${userId}`,
+      {
+        withCredentials: true,
       }
+    );
 
-      const bookings = response.data.bookings || [];
-
-      if (!bookings.length) {
-        setBooking(null);
-        setError("");
-        return;
-      }
-
-      // Latest booking because backend sorts createdAt desc
-      setBooking(bookings[0]);
-
-      setError("");
-    } catch (error) {
-      console.error(
-        "Get driver location error:",
-        error
-      );
-
-      setError("Unable to load booking");
-    } finally {
-      setLoading(false);
+    if (!response.data.success) {
+      setBooking(null);
+      return;
     }
-  };
+
+    const bookings = response.data.bookings || [];
+
+    setBooking(bookings[0] || null);
+  } catch (error) {
+    console.error("Get driver location error:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // ------------------------------------------------
   // INITIAL LOAD
