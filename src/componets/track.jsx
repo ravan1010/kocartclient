@@ -439,12 +439,13 @@ const GoodsAutoTracking = () => {
   const driverLocation =
     booking.driver?.currentLocation?.coordinates || null;
 
-  const driverLat = Number(driverLocation?.latitude);
-  const driverLng = Number(driverLocation?.longitude);
+  const driverLat = Number(driverLocation?.[1]);
+  const driverLng = Number(driverLocation?.[0]);
 
   const hasDriverLocation =
     Number.isFinite(driverLat) &&
-    Number.isFinite(driverLng);
+    Number.isFinite(driverLng) &&
+  !(driverLat === 0 && driverLng === 0);
 
   // ==================================================
   // DRIVER LOCATION NOT AVAILABLE
