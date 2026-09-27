@@ -186,6 +186,8 @@ const GoodsAutoTracking = () => {
         }
       );
 
+
+      console.log(response.data)
       // No active booking
       if (!response.data.success) {
         setBooking(null);
@@ -315,7 +317,7 @@ const GoodsAutoTracking = () => {
         </h2>
 
         <p className="text-sm text-gray-500 mt-2">
-          You don't have an active goods-auto booking.
+          You don't have an active booking.
         </p>
 
       </div>
