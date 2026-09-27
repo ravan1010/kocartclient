@@ -10,6 +10,7 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import api from "../api";
+import Navbar from "./navbar";
 
 // ==================================================
 // FIX LEAFLET DEFAULT MARKER
@@ -252,6 +253,7 @@ const GoodsAutoTracking = () => {
 
   if (loading) {
     return (
+      <>
       <div className="p-6 text-center">
 
         <div
@@ -271,6 +273,7 @@ const GoodsAutoTracking = () => {
         </p>
 
       </div>
+      </>
     );
   }
 
@@ -300,6 +303,7 @@ const GoodsAutoTracking = () => {
 
   if (!booking) {
     return (
+      <>
       <div className="p-6 text-center">
 
         <div className="text-4xl">
@@ -315,6 +319,7 @@ const GoodsAutoTracking = () => {
         </p>
 
       </div>
+      </>
     );
   }
 
@@ -758,6 +763,7 @@ const GoodsAutoTracking = () => {
   // ==================================================
 
   return (
+    <>
     <div className="p-4">
 
       <div
@@ -783,6 +789,7 @@ const GoodsAutoTracking = () => {
       </div>
 
     </div>
+    </>
   );
 };
 
