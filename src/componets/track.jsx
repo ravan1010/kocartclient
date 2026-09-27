@@ -432,332 +432,290 @@ const GoodsAutoTracking = () => {
   // ==================================================
 
   if (ACTIVE_STATUSES.includes(status)) {
+  // ==================================================
+  // DRIVER LOCATION
+  // ==================================================
 
-    const driverLocation =
-      booking.driver?.currentLocation.coordinates || null;
+  const driverLocation =
+    booking.driver?.currentLocation?.coordinates || null;
 
-    const driverLat =
-      Number(driverLocation?.latitude);
+  const driverLat = Number(driverLocation?.latitude);
+  const driverLng = Number(driverLocation?.longitude);
 
-    const driverLng =
-      Number(driverLocation?.longitude);
+  const hasDriverLocation =
+    Number.isFinite(driverLat) &&
+    Number.isFinite(driverLng);
 
-    const hasDriverLocation =
-      Number.isFinite(driverLat) &&
-      Number.isFinite(driverLng);
+  // ==================================================
+  // DRIVER LOCATION NOT AVAILABLE
+  // ==================================================
 
-    // ==================================================
-    // DRIVER LOCATION NOT AVAILABLE
-    // ==================================================
+  if (!hasDriverLocation) {
+    return (
+      <div className="p-4">
+        <div className="
+          bg-white
+          rounded-3xl
+          border
+          border-gray-100
+          shadow-sm
+          p-6
+          text-center
+        ">
+          <div className="text-4xl">
+            🛺
+          </div>
 
-    if (!hasDriverLocation) {
-      return (
-        <div className="p-4">
+          <h2 className="
+            font-bold
+            text-gray-900
+            mt-3
+          ">
+            {getStatusText(status)}
+          </h2>
 
-          <div
-            className="
-              bg-white
-              rounded-3xl
-              border
-              border-gray-100
-              shadow-sm
-              p-6
-              text-center
-            "
+          <p className="
+            text-sm
+            text-gray-500
+            mt-2
+          ">
+            Waiting for driver's live location...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // ==================================================
+  // DRIVER POSITION
+  // ==================================================
+
+  const driverPosition = [
+    driverLat,
+    driverLng,
+  ];
+
+  // ==================================================
+  // PICKUP LOCATION
+  // ==================================================
+
+  const pickup = booking.pickupLocation;
+
+  const pickupLat = Number(pickup?.latitude);
+  const pickupLng = Number(pickup?.longitude);
+
+  const hasPickup =
+    Number.isFinite(pickupLat) &&
+    Number.isFinite(pickupLng);
+
+  // ==================================================
+  // MAP
+  // ==================================================
+
+  return (
+    <div className="fixed inset-0 bg-white">
+
+      <MapContainer
+        center={driverPosition}
+        zoom={15}
+        scrollWheelZoom={true}
+        className="w-full h-full"
+      >
+
+        <TileLayer
+          url={`https://maps.geoapify.com/v1/tile/osm-bright-smooth/{z}/{x}/{y}.png?apiKey=${
+            import.meta.env.VITE_GEOAPIFY_KEY
+          }`}
+          attribution="© OpenStreetMap contributors"
+        />
+
+        {/* RECENTER WHEN DRIVER MOVES */}
+
+        <RecenterMap
+          location={driverPosition}
+        />
+
+        {/* DRIVER */}
+
+        <Marker
+          position={driverPosition}
+          icon={driverIcon}
+        >
+          <Popup>
+            🛺 Goods Auto
+          </Popup>
+        </Marker>
+
+        {/* PICKUP */}
+
+        {hasPickup && (
+          <Marker
+            position={[
+              pickupLat,
+              pickupLng,
+            ]}
           >
+            <Popup>
+              📍 Pickup location
+            </Popup>
+          </Marker>
+        )}
 
-            <div className="text-4xl">
+        {/* DRIVER → PICKUP */}
+
+        {hasPickup && (
+          <Polyline
+            positions={[
+              driverPosition,
+              [
+                pickupLat,
+                pickupLng,
+              ],
+            ]}
+            pathOptions={{
+              color: "#4f46e5",
+              weight: 5,
+            }}
+          />
+        )}
+
+      </MapContainer>
+
+      {/* ==================================================
+          TOP STATUS
+      ================================================== */}
+
+      <div className="
+        absolute
+        top-4
+        left-4
+        right-4
+        z-[1000]
+      ">
+        <div className="
+          bg-white
+          rounded-2xl
+          shadow-lg
+          p-4
+        ">
+
+          <div className="flex items-center gap-3">
+
+            <div className="
+              w-11
+              h-11
+              rounded-full
+              bg-indigo-100
+              flex
+              items-center
+              justify-center
+              text-2xl
+            ">
               🛺
             </div>
 
-            <h2
-              className="
-                font-bold
-                text-gray-900
-                mt-3
-              "
-            >
-              {getStatusText(status)}
-            </h2>
+            <div className="flex-1">
 
-            <p
-              className="
-                text-sm
-                text-gray-500
-                mt-2
-              "
-            >
-              Waiting for driver's live location...
-            </p>
+              <p className="text-xs text-gray-500">
+                Booking status
+              </p>
+
+              <h2 className="font-bold text-gray-900">
+                {getStatusText(status)}
+              </h2>
+
+            </div>
+
+            <div className="
+              w-3
+              h-3
+              bg-green-500
+              rounded-full
+              animate-pulse
+            " />
 
           </div>
-
         </div>
-      );
-    }
+      </div>
 
-    // ==================================================
-    // DRIVER POSITION
-    // ==================================================
+      {/* ==================================================
+          DRIVER INFO
+      ================================================== */}
 
-    const driverPosition = [
-      driverLat,
-      driverLng,
-    ];
+      <div className="
+        absolute
+        bottom-4
+        left-4
+        right-4
+        z-[1000]
+      ">
 
-    // ==================================================
-    // PICKUP LOCATION
-    // ==================================================
-
-    const pickup = booking.pickupLocation;
-
-    const pickupLat =
-      Number(pickup?.latitude);
-
-    const pickupLng =
-      Number(pickup?.longitude);
-
-    const hasPickup =
-      Number.isFinite(pickupLat) &&
-      Number.isFinite(pickupLng);
-
-    // ==================================================
-    // MAP
-    // ==================================================
-
-    return (
-      <div
-        className="
-          fixed
-          inset-0
+        <div className="
           bg-white
-        "
-      >
+          rounded-3xl
+          shadow-2xl
+          p-5
+        ">
 
-        <MapContainer
-          center={driverPosition}
-          zoom={15}
-          scrollWheelZoom={true}
-          className="w-full h-full"
-        >
+          <div className="flex items-center gap-3">
 
-          <TileLayer
-            url={`https://maps.geoapify.com/v1/tile/osm-bright-smooth/{z}/{x}/{y}.png?apiKey=${
-              import.meta.env.VITE_GEOAPIFY_KEY
-            }`}
-            attribution="© OpenStreetMap contributors"
-          />
+            <div className="
+              w-12
+              h-12
+              rounded-full
+              bg-gray-100
+              flex
+              items-center
+              justify-center
+              text-2xl
+            ">
+              👨‍✈️
+            </div>
 
-          {/* RECENTER MAP WHEN DRIVER MOVES */}
+            <div className="flex-1">
 
-          <RecenterMap
-            location={driverLocation}
-          />
+              <p className="text-xs text-gray-500">
+                Your driver
+              </p>
 
-          {/* DRIVER */}
+              <p className="font-bold text-gray-900">
+                {booking.driver?.name ||
+                  "Goods Auto Driver"}
+              </p>
 
-          <Marker
-            position={driverPosition}
-            icon={driverIcon}
-          >
-
-            <Popup>
-              🛺 Goods Auto
-            </Popup>
-
-          </Marker>
-
-          {/* PICKUP */}
-
-          {hasPickup && (
-            <Marker
-              position={[
-                pickupLat,
-                pickupLng,
-              ]}
-            >
-
-              <Popup>
-                Pickup location
-              </Popup>
-
-            </Marker>
-          )}
-
-          {/* DRIVER → PICKUP */}
-
-          {hasPickup && (
-            <Polyline
-              positions={[
-                driverPosition,
-                [
-                  pickupLat,
-                  pickupLng,
-                ],
-              ]}
-              pathOptions={{
-                color: "#4f46e5",
-                weight: 5,
-              }}
-            />
-          )}
-
-        </MapContainer>
-
-        {/* ==================================================
-            TOP STATUS
-        ================================================== */}
-
-        <div
-          className="
-            absolute
-            top-4
-            left-4
-            right-4
-            z-[1000]
-          "
-        >
-
-          <div
-            className="
-              bg-white
-              rounded-2xl
-              shadow-lg
-              p-4
-            "
-          >
-
-            <div className="flex items-center gap-3">
-
-              <div
-                className="
-                  w-11
-                  h-11
-                  rounded-full
-                  bg-indigo-100
-                  flex
-                  items-center
-                  justify-center
-                  text-2xl
-                "
-              >
-                🛺
-              </div>
-
-              <div className="flex-1">
-
-                <p className="text-xs text-gray-500">
-                  Booking status
-                </p>
-
-                <h2 className="font-bold text-gray-900">
-                  {getStatusText(status)}
-                </h2>
-
-              </div>
-
-              <div
-                className="
-                  w-3
-                  h-3
-                  bg-green-500
-                  rounded-full
-                  animate-pulse
-                "
-              />
+              <p className="text-xs text-gray-500 mt-1">
+                🛺{" "}
+                {booking.driver?.vehicalNO ||
+                  booking.driver?.vehicalName ||
+                  "Goods Auto"}
+              </p>
 
             </div>
 
           </div>
 
-        </div>
-
-        {/* ==================================================
-            DRIVER INFO
-        ================================================== */}
-
-        <div
-          className="
-            absolute
-            bottom-4
-            left-4
-            right-4
-            z-[1000]
-          "
-        >
-
-          <div
-            className="
-              bg-white
-              rounded-3xl
-              shadow-2xl
-              p-5
-            "
-          >
-
-            <div className="flex items-center gap-3">
-
-              <div
-                className="
-                  w-12
-                  h-12
-                  rounded-full
-                  bg-gray-100
-                  flex
-                  items-center
-                  justify-center
-                  text-2xl
-                "
-              >
-                👨‍✈️
-              </div>
-
-              <div className="flex-1">
-
-                <p className="text-xs text-gray-500">
-                  Your driver
-                </p>
-
-                <p className="font-bold text-gray-900">
-                  {booking.driver?.name ||
-                    "Goods Auto Driver"}
-                </p>
-
-                <p className="text-xs text-gray-500 mt-1">
-                  🛺{" "}
-                  {booking.driver?.vehicalNO ||
-                    booking.driver?.vehicalName ||
-                    "Goods Auto"}
-                </p>
-
-              </div>
-
-            </div>
-
-            <div
-              className="
-                mt-4
-                bg-green-50
-                border
-                border-green-100
-                rounded-xl
-                px-3
-                py-2
-                text-sm
-                text-green-700
-                font-medium
-              "
-            >
-              📍 Live location updating
-            </div>
-
+          <div className="
+            mt-4
+            bg-green-50
+            border
+            border-green-100
+            rounded-xl
+            px-3
+            py-2
+            text-sm
+            text-green-700
+            font-medium
+          ">
+            📍 Live location updating
           </div>
 
         </div>
 
       </div>
-    );
-  }
+
+    </div>
+  );
+}
 
   // ==================================================
   // OTHER STATUS
