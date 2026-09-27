@@ -4,6 +4,7 @@ import api from "../api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Navigation } from "lucide-react";
 import FullScreenLocationPicker from "../hooks/FullScreenLocationPicker";
+import Navbar from "./navbar";
 
 
 export default function GoodsAuto() {
@@ -261,6 +262,8 @@ export default function GoodsAuto() {
   };
 
   return (
+  <>
+  <Navbar />
     <div className="max-w-4xl mx-auto p-5">
 
       {/* =========================
@@ -885,5 +888,6 @@ export default function GoodsAuto() {
         </div>
       )}
     </div>
+    </>
   );
 } 

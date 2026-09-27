@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate, useParams } from "react-router-dom";
+import Navbar from "./navbar";
 
 
 export default function GoodsAutoOrders() {
@@ -162,6 +163,8 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
   }
 
   return (
+    <>
+    <Navbar />
     <div className="space-y-4">
       {order.status === "pending" && (
         <>
@@ -1484,5 +1487,6 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
       )}
   
     </div>
+    </>
   );
 }
