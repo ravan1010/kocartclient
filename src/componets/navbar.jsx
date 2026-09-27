@@ -35,8 +35,8 @@ const Navbar = () => {
               Home
             </NavLink>
 
-            <NavLink to="/auto/all/orders" className={navLinkClasses}>
-              My Bookings
+            <NavLink to="/track" className={navLinkClasses}>
+              Track Bookings
             </NavLink>
 
             <NavLink to="/profile" className={navLinkClasses}>
@@ -71,7 +71,7 @@ const Navbar = () => {
 
           {/* BOOKINGS */}
           <NavLink
-            to="/auto/all/orders"
+            to="/track"
             className={({ isActive }) =>
               `flex flex-col items-center text-xs ${
                 isActive ? "text-indigo-600" : "text-gray-500"
@@ -79,7 +79,7 @@ const Navbar = () => {
             }
           >
             <ClipboardList size={22} />
-            <span>Bookings</span>
+            <span>Track Bookings</span>
           </NavLink>
 
           {/* PROFILE */}

@@ -7,28 +7,20 @@ import Navbar from "./navbar";
 const Profile = () => {
 
   const [number, setNumber] = useState("");
-  const [toadmin, setToadmin] = useState("");
-  const [order, setorder] = useState();
   const [auto, setauto] = useState();
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [settingRes, adminRes] = await Promise.all([
-          api.get("/api/setting", { withCredentials: true }),
-          api.get("/api/toadmin", { withCredentials: true }),
-        ]);
+        const settingRes = await api.get("/api/setting", { withCredentials: true })
 
+        console.log(settingRes.data)
         setNumber(settingRes.data.number || "");
-        setorder(settingRes.data.order || 0);
         setauto(settingRes.data.autobooking || 0);
 
 
-        if (adminRes.data.success) {
-          setToadmin(adminRes.data.slug || "adminlandmark");
-          console.log(toadmin)
-        }
+
       } catch (error) {
         console.error(error);
       }

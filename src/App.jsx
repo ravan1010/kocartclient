@@ -20,6 +20,7 @@ import ReturnRefundPolicy from "./footer/Return_and_Refund_Policy";
 import PrivacyPolicy from "./footer/PrivacyPolicy";
 import TermsConditions from "./footer/TermsConditions";
 import ContactInformationPolicy from "./footer/ContactInformationPolicy";
+import GoodsAutoTracking from "./componets/track";
 
 
 function App() {
@@ -98,6 +99,16 @@ function App() {
             path="/goodsauto/order/:orderId"
             element={<GoodsAutoOrders />}
           />
+
+           {/* =================================================
+              TRACK ORDER
+          ================================================= */}
+
+          <Route
+            path="/track"
+            element={<GoodsAutoTracking />}
+          />
+
 
           {/* =================================================
               AUTO ORDERS
