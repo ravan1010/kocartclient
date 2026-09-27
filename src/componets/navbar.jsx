@@ -1,12 +1,13 @@
 
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Home, ClipboardList, User } from "lucide-react";
+import { Home, ClipboardList, User, Package } from "lucide-react";
 import useActivePassengerAuto from "../hooks/useActivePassengerAuto";
 
 const Navbar = () => {
   const {
     hasActiveOrder,
+    order,
   } = useActivePassengerAuto(5000);
 
   const navLinkClasses = ({ isActive }) =>
@@ -34,18 +35,30 @@ const Navbar = () => {
           {/* DESKTOP NAV */}
           <div className="hidden md:flex items-center space-x-8">
 
-            <NavLink to="/" className={navLinkClasses}>
+            <NavLink
+              to="/"
+              className={navLinkClasses}
+            >
               Home
             </NavLink>
 
-            {/* ONLY SHOW WHEN ACTIVE BOOKING EXISTS */}
-            {hasActiveOrder && (
-              <NavLink
-                to="/track"
-                className={navLinkClasses}
-              >
-                Track Booking
-              </NavLink>
+            {/* ACTIVE BOOKING LINKS */}
+            {hasActiveOrder && order?._id && (
+              <>
+                <NavLink
+                  to="/track"
+                  className={navLinkClasses}
+                >
+                  Track Booking
+                </NavLink>
+
+                <NavLink
+                  to={`/goodsauto/order/${order._id}`}
+                  className={navLinkClasses}
+                >
+                  Booking
+                </NavLink>
+              </>
             )}
 
             <NavLink
@@ -59,7 +72,11 @@ const Navbar = () => {
               href="https://parcelandtransport.kocart.online"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-indigo-600 transition-colors"
+              className="
+                text-gray-600
+                hover:text-indigo-600
+                transition-colors
+              "
             >
               Become a Partner
             </a>
@@ -69,8 +86,19 @@ const Navbar = () => {
       </nav>
 
       {/* MOBILE BOTTOM NAV */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-50">
-
+      <div
+        className="
+          md:hidden
+          fixed
+          bottom-0
+          left-0
+          right-0
+          bg-white
+          border-t
+          shadow-lg
+          z-50
+        "
+      >
         <div className="flex justify-around items-center h-16">
 
           {/* HOME */}
@@ -88,21 +116,39 @@ const Navbar = () => {
             <span>Home</span>
           </NavLink>
 
-          {/* ONLY SHOW TRACK WHEN ACTIVE */}
-          {hasActiveOrder && (
-            <NavLink
-              to="/track"
-              className={({ isActive }) =>
-                `flex flex-col items-center text-xs ${
-                  isActive
-                    ? "text-indigo-600"
-                    : "text-gray-500"
-                }`
-              }
-            >
-              <ClipboardList size={22} />
-              <span>Track</span>
-            </NavLink>
+          {/* ACTIVE BOOKING */}
+          {hasActiveOrder && order?._id && (
+            <>
+              {/* TRACK */}
+              <NavLink
+                to="/track"
+                className={({ isActive }) =>
+                  `flex flex-col items-center text-xs ${
+                    isActive
+                      ? "text-indigo-600"
+                      : "text-gray-500"
+                  }`
+                }
+              >
+                <ClipboardList size={22} />
+                <span>Track</span>
+              </NavLink>
+
+              {/* BOOKING */}
+              <NavLink
+                to={`/goodsauto/order/${order._id}`}
+                className={({ isActive }) =>
+                  `flex flex-col items-center text-xs ${
+                    isActive
+                      ? "text-indigo-600"
+                      : "text-gray-500"
+                  }`
+                }
+              >
+                <Package size={22} />
+                <span>Booking</span>
+              </NavLink>
+            </>
           )}
 
           {/* PROFILE */}
@@ -127,4 +173,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
