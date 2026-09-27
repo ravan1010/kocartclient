@@ -15,7 +15,6 @@ const Profile = () => {
       try {
         const settingRes = await api.get("/api/setting", { withCredentials: true })
 
-        console.log(settingRes.data)
         setNumber(settingRes.data.number || "");
         setauto(settingRes.data.autobooking || 0);
 

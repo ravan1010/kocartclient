@@ -27,7 +27,6 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
       }
 
       setOrder(res.data.order);
-      console.log(res.data.order)
 
     } catch (err) {
       console.log(err);
@@ -132,7 +131,7 @@ const [ratingSubmitted, setRatingSubmitted] = useState(false);
       }
     );
 
-    console.log("Rating response:", res.data);
+    // console.log("Rating response:", res.data);
 
     if (res.data.success) {
       setRatingSubmitted(true);
