@@ -1,10 +1,13 @@
 
 import React from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Home, ClipboardList, User } from "lucide-react";
+import useActivePassengerAuto from "../hooks/useActivePassengerAuto";
 
 const Navbar = () => {
-  const { pathname } = useLocation();
+  const {
+    hasActiveOrder,
+  } = useActivePassengerAuto(5000);
 
   const navLinkClasses = ({ isActive }) =>
     isActive
@@ -20,12 +23,12 @@ const Navbar = () => {
           {/* LOGO */}
           <Link to="/" className="text-2xl font-bold text-gray-800">
             <div className="text-2xl md:text-3xl font-black tracking-[3px] text-blue-950">
-                KO
-                <span className="text-orange-600">
-                  CA
-                </span>
-                RT
-              </div>
+              KO
+              <span className="text-orange-600">
+                CA
+              </span>
+              RT
+            </div>
           </Link>
 
           {/* DESKTOP NAV */}
@@ -35,17 +38,31 @@ const Navbar = () => {
               Home
             </NavLink>
 
-            <NavLink to="/track" className={navLinkClasses}>
-              Track Bookings
-            </NavLink>
+            {/* ONLY SHOW WHEN ACTIVE BOOKING EXISTS */}
+            {hasActiveOrder && (
+              <NavLink
+                to="/track"
+                className={navLinkClasses}
+              >
+                Track Booking
+              </NavLink>
+            )}
 
-            <NavLink to="/profile" className={navLinkClasses}>
+            <NavLink
+              to="/profile"
+              className={navLinkClasses}
+            >
               Profile
             </NavLink>
 
-            <NavLink to="https://parcelandtransport.kocart.online" className={navLinkClasses}>
+            <a
+              href="https://parcelandtransport.kocart.online"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-indigo-600 transition-colors"
+            >
               Become a Partner
-            </NavLink>
+            </a>
 
           </div>
         </div>
@@ -61,7 +78,9 @@ const Navbar = () => {
             to="/"
             className={({ isActive }) =>
               `flex flex-col items-center text-xs ${
-                isActive ? "text-indigo-600" : "text-gray-500"
+                isActive
+                  ? "text-indigo-600"
+                  : "text-gray-500"
               }`
             }
           >
@@ -69,25 +88,31 @@ const Navbar = () => {
             <span>Home</span>
           </NavLink>
 
-          {/* BOOKINGS */}
-          <NavLink
-            to="/track"
-            className={({ isActive }) =>
-              `flex flex-col items-center text-xs ${
-                isActive ? "text-indigo-600" : "text-gray-500"
-              }`
-            }
-          >
-            <ClipboardList size={22} />
-            <span>Track Bookings</span>
-          </NavLink>
+          {/* ONLY SHOW TRACK WHEN ACTIVE */}
+          {hasActiveOrder && (
+            <NavLink
+              to="/track"
+              className={({ isActive }) =>
+                `flex flex-col items-center text-xs ${
+                  isActive
+                    ? "text-indigo-600"
+                    : "text-gray-500"
+                }`
+              }
+            >
+              <ClipboardList size={22} />
+              <span>Track</span>
+            </NavLink>
+          )}
 
           {/* PROFILE */}
           <NavLink
             to="/profile"
             className={({ isActive }) =>
               `flex flex-col items-center text-xs ${
-                isActive ? "text-indigo-600" : "text-gray-500"
+                isActive
+                  ? "text-indigo-600"
+                  : "text-gray-500"
               }`
             }
           >

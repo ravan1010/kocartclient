@@ -872,7 +872,6 @@ export default function GoodsAuto() {
         </div>
       )}
     </div>
-    <Navbar />
     </>
   );
 } 
