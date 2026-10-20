@@ -21,6 +21,8 @@ import PrivacyPolicy from "./footer/PrivacyPolicy";
 import TermsConditions from "./footer/TermsConditions";
 import ContactInformationPolicy from "./footer/ContactInformationPolicy";
 import GoodsAutoTracking from "./componets/track";
+import BusDriverSearch from "./pages/BusDriverSearch";
+import BusDriverTracking from "./pages/BusDriverTracking";
 
 
 function App() {
@@ -31,7 +33,16 @@ function App() {
         {/* =====================================================
             PUBLIC ROUTES
         ===================================================== */}
+         <Route
+            path="/"
+            element={<BusDriverSearch />}
+          />
 
+          <Route
+          path="/track-driver/:driverId"
+          element={<BusDriverTracking />}
+        />
+        
         {/* Policies */}
         <Route
           path="/return-refund-policy"
@@ -79,10 +90,7 @@ function App() {
         <Route element={<ProtectedClient />}>
 
           {/* Home */}
-          <Route
-            path="/"
-            element={<Home />}
-          />
+         
 
           {/* =================================================
               GOODS AUTO
