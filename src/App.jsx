@@ -184,7 +184,7 @@ import { Download, Store } from "lucide-react";
 import "./App.css";
 
 export default function App() {
-  const apkUrl = "../public/downloads/kocart.apk";
+  const apkUrl = "/downloads/kocart.apk";
   const merchantUrl = "https://parcelandtransport.kocart.online";
 
   return (
