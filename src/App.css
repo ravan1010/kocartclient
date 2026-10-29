@@ -1,0 +1,119 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #fff7ed, #f3f4f6, #ffedd5);
+}
+
+.action-card {
+  width: 100%;
+  max-width: 460px;
+  padding: 42px 30px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #f3e8dc;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(40, 30, 20, 0.1);
+}
+
+.app-logo {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+}
+
+.action-card h1 {
+  margin: 0 0 12px;
+  color: #171717;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.subtitle {
+  margin: 0 auto 28px;
+  max-width: 330px;
+  color: #737373;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.action-btn {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 20px;
+  border-radius: 13px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-3px);
+}
+
+.download-btn {
+  color: white;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  box-shadow: 0 7px 16px rgba(234, 88, 12, 0.2);
+}
+
+.download-btn:hover {
+  box-shadow: 0 12px 24px rgba(234, 88, 12, 0.3);
+}
+
+.merchant-btn {
+  color: #ea580c;
+  background: white;
+  border: 2px solid #fed7aa;
+}
+
+.merchant-btn:hover {
+  background: #fff7ed;
+  box-shadow: 0 8px 18px rgba(234, 88, 12, 0.1);
+}
+
+.footer-text {
+  margin: 25px 0 0;
+  color: #a3a3a3;
+  font-size: 12px;
+}
+
+@media (max-width: 480px) {
+  .action-card {
+    padding: 32px 22px;
+  }
+
+  .action-card h1 {
+    font-size: 24px;
+  }
+}
